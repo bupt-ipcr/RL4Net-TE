@@ -1,0 +1,19 @@
+{
+    "headers.source": [
+        "helper/ipv4-rl-routing-helper.h",
+        "model/ipv4-rl-routing.h",
+        "model/rl-route-manager-impl.h",
+        "model/rl-route-manager.h",
+        "model/rl-router-interface.h"
+    ],
+    "obj.source": [
+        "helper/ipv4-rl-routing-helper.cc",
+        "model/ipv4-rl-routing.cc",
+        "model/rl-route-manager-impl.cc",
+        "model/rl-route-manager.cc",
+        "model/rl-router-interface.cc"
+    ],
+    "internet_test.source": [
+        "test/rl-route-manager-impl-test-suite.cc"
+    ]
+}
