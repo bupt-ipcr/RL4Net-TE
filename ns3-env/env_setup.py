@@ -27,7 +27,7 @@ def create_conf():
     conf = {'waf_path': str(waf_path)}
 
     # 获取conf path
-    conf_path = cur_path / 'ns3gym' / 'ns3gym' / 'wafconf.py'
+    conf_path = cur_path / 'ns3-python-connector' / 'ns3gym' / 'wafconf.py'
     with conf_path.open('w') as f:
         f.write(f'conf = {conf}')
 
@@ -42,9 +42,9 @@ def file_copy():
 
     # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     src_path = ns3_path / 'src'
-    opengym_path = cur_path / 'opengym'
+    interface_path = cur_path / 'env-interface'
 
-    os.system(f"cp -r {opengym_path.resolve()} {src_path.resolve()}")
+    os.system(f"cp -r {interface_path.resolve()} {src_path.resolve()}")
     print('文件复制完成')
 
 
