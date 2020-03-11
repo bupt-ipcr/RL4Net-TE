@@ -54,15 +54,25 @@ def file_copy():
 
     # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     src_path = ns3_path / 'src'
-    ns3src_path = cur_path / 'ns3src'
+    ns3src_path = cur_path / 'ns3-src'
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
-        # 每个module都要被复制到 ns3_path/src 下
-        os.system(f"cp -r {module_path.resolve()} {src_path.resolve()}")
+        # 每个module都要被复制到 ns3_path/src 下的对应目录
+        dir_dict = {
+            'action-executor': 'internet',
+            'metric-executor': 'flow-monitor'
+        }
+        # 创建文件夹
+        mapped_path = ns3src_path / dir_dict[module_path.parts[-1]]
+        os.system(f'cp -r {module_path.resolve()} {mapped_path.resolve()}')
+        # 拷贝文件夹
+        os.system(f"cp -r {mapped_path.resolve()} {src_path.resolve()}")
+        # 删除临时文件夹
+        os.system(f'rm -r {mapped_path.resolve()}')
 
     # 将scratch文件夹下cpp部分复制到对应目录下
-    simulator_path = cur_path / 'simulator'
     scratch_path = ns3_path / 'scratch'
+    ns3scratch_path = cur_path / 'ns3-scratch'
 
     for program_path in simulator_path.iterdir():     # 遍历所有要被复制的模拟器
         # 每个program都要被复制到 ns3_path/scratch 下
