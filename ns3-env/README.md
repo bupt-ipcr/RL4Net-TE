@@ -57,7 +57,7 @@ Installation
 4. 安装python库：ns3gym
 
    ```bash
-   pip install ./ns3gym
+   pip install ./ns3-python-connector
    ```
 
    **注意：**这一步应该按照你的python环境选择 pip/pip3；如果你使用conda，应该先activate相应环境
