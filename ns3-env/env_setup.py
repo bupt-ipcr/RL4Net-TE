@@ -43,8 +43,13 @@ def file_copy():
     # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     src_path = ns3_path / 'src'
     interface_path = cur_path / 'env-interface'
-
-    os.system(f"cp -r {interface_path.resolve()} {src_path.resolve()}")
+    opengym_path = cur_path / 'opengym'
+    # 创建临时文件夹
+    os.system(f'cp -r {interface_path.resolve()} {opengym_path.resolve()}')
+    # 文件拷贝
+    os.system(f"cp -r {opengym_path.resolve()} {src_path.resolve()}")
+    # 删除临时文件夹
+    os.system(f'rm -r {opengym_path.resolve()}')
     print('文件复制完成')
 
 
