@@ -1,4 +1,0 @@
-pyzmq
-numpy
-protobuf
-gym
