@@ -34,6 +34,10 @@ args = parser.parse_args()
 
 cur_path = Path().resolve()
 ns3_path = (cur_path / args.wafdir).resolve()
+dir_dict = {
+            'action-executor': 'internet',
+            'metric-extractor': 'flow-monitor'
+        }
 
 
 def env_confirm():
@@ -58,10 +62,6 @@ def file_copy():
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         # 每个module都要被复制到 ns3_path/src 下的对应目录
-        dir_dict = {
-            'action-executor': 'internet',
-            'metric-executor': 'flow-monitor'
-        }
         # 创建文件夹
         mapped_path = ns3src_path / dir_dict[module_path.parts[-1]]
         os.system(f'cp -r {module_path.resolve()} {mapped_path.resolve()}')
@@ -74,7 +74,7 @@ def file_copy():
     scratch_path = ns3_path / 'scratch'
     ns3scratch_path = cur_path / 'ns3-scratch'
 
-    for program_path in simulator_path.iterdir():     # 遍历所有要被复制的模拟器
+    for program_path in ns3scratch_path.iterdir():     # 遍历所有要被复制的模拟器
         # 每个program都要被复制到 ns3_path/scratch 下
         os.system(f'cp -r {program_path.resolve()} {scratch_path.resolve()}')
 
@@ -124,14 +124,14 @@ def wscript_rewrite():
 
     # 修改对应的wafscript
     src_path = ns3_path / 'src'
-    ns3src_path = cur_path / 'ns3src'
+    ns3src_path = cur_path / 'ns3-src'
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
 
         # 对于不是opengym的文件夹而言，还需要修改对应wafscript文件
         if module_path != ns3src_path / 'opengym':
 
-            relative_path = module_path.relative_to(ns3src_path)    # 获取module的相对路径
+            relative_path = dir_dict[module_path.parts[-1]]         # 获取module的相对路径
             wscript_path = src_path / relative_path / 'wscript'     # 获取wscript在ns3_path下的对应路径
 
             # 先读取这个文件的内容
