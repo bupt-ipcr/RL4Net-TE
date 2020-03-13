@@ -9,7 +9,7 @@ from pprint import pprint
 import re
 from typing import List
 from RLAgent import DDPG
-from ns3gym import ns3env
+from pyns3 import ns3env
 from torch.utils.tensorboard import SummaryWriter
 from utils import create_adjacencymatrix_from_map, create_tms, save_tms, get_reachablematrix
 
