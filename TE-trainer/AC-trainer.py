@@ -89,7 +89,11 @@ def rl_loop(agent, need_load=True):
 
                 cum_reward += reward
                 # print('cur_state_str: ', traffic_matrix_str_list[cur_index])
-                print(f''' 'cur_state': {cur_state}, 'action': {action}, 'next_state': {next_state}, 'reward': {reward}, 'done': {done}''')
+                info = {
+                    "cur_state": list(cur_state), "action": list(action),
+                    "next_state": list(next_state), "reward": reward, "done": done
+                }
+                print(json.dumps(info))
                 
                 agent.add_step(np.array(cur_state), action, reward, done, np.array(next_state))  # 添加到经验回放池
                 
@@ -122,7 +126,7 @@ if __name__ == '__main__':
         "--adjacencyMatrix": '[' + ','.join([str(m) for m in adjacencyMatrix]) + ']'
     })
     # traffic_matrix_str_list, traffic_matrix_state_list = create_tms(adjacencyMatrix, total_rate=4, max_tms=1)
-    traffic_matrix_str_list = ['''[{/src/:0,/dst/:3,/rate/:5}]''']
+    traffic_matrix_str_list = ['''[{/src/:0,/dst/:3,/rate/:2}]''']
     traffic_matrix_state_list = [[0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     save_tms(traffic_matrix_str_list)
     print(f'create an agent as inputs {len(adjacencyMatrix),}, outputs {adjacencyMatrix.count(1)}.')
