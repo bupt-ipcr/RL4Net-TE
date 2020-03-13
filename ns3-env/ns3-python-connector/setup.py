@@ -3,9 +3,9 @@ import sys
 import os.path
 import os
 import re
-import ns3gym
+import pyns3
 cwd = os.getcwd()
-protobufFile = cwd + '/ns3gym/messages_pb2.py'
+protobufFile = cwd + '/pyns3/messages_pb2.py'
 
 if not os.path.isfile(protobufFile):
     # 如果没有protocbuf文件，则尝试产生
@@ -26,11 +26,11 @@ if not os.path.isfile(protobufFile):
             break
     # 如果没有找到protoc，则需要报错
     if protoc is None:
-        print("File: ", "ns3-gym/src/opengym/model/ns3gym/ns3gym/messages_pb2.py", " was not found.")
+        print("File: ", "ns3-gym/src/opengym/model/pyns3/pyns3/messages_pb2.py", " was not found.")
         sys.exit('Protocol Buffer messages are missing. Please run ./waf configure to generate the file')
     # 如果有，则尝试产生文件
     print('generate proto file')
-    os.system(f'{protoc} --python_out=./ns3gym -I=./ns3gym messages.proto')
+    os.system(f'{protoc} --python_out=./pyns3 -I=./pyns3 messages.proto')
 
 def readme():
     with open('README.md') as f:
@@ -38,7 +38,7 @@ def readme():
 
 
 setup(
-    name='ns3gym',
+    name='pyns3',
     version='0.1.0',
     packages=find_packages(),
     scripts=[],
