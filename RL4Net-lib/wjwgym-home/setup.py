@@ -29,6 +29,6 @@ setup(
     description='Reinforcement Learning Tools',
     long_description='Agent(Q-Learning, DQN, DDPG..) base classes; Simple pytorch models; simple openai gym envs; and examples.',
     keywords=['Reinforcement Learning', 'OpenAI gym', 'Tools'],
-    install_requires=['numpy', 'gym', 'torch', 'pandas'],
+    install_requires=['numpy', 'gym', 'torch', 'pandas', 'tensorboard>=1.14.0'],
     extras_require={},
 )
