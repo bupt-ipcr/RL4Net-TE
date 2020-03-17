@@ -21,11 +21,11 @@
 
 #include <math.h>
 #include <algorithm>
-#include "mygym.h"
+#include "myenv.h"
 #include "mynetwork.h"
 #include "ns3/log.h"
 #include "../rapidjson/document.h"
-#include "ns3/opengym-module.h"
+#include "ns3/openenv-module.h"
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/internet-module.h"
@@ -41,16 +41,16 @@ NS_LOG_COMPONENT_DEFINE ("UdpTMSim");
 int
 main (int argc, char *argv[])
 {
-  // LogComponentEnable ("OpenGym", LOG_LEVEL_DEBUG);
+  // LogComponentEnable ("OpenEnv", LOG_LEVEL_DEBUG);
   //  只有需要利用输出信息调试的时候才开启下方输出
   ns3::LogLevel level = (enum ns3::LogLevel) (LOG_LEVEL_LOGIC | LOG_PREFIX_FUNC);
   LogComponentEnable ("UdpTMSim", level);
-  // LogComponentEnable ("MyGymEnv", level);
+  // LogComponentEnable ("MyOpenEnv", level);
   // LogComponentEnable ("Ipv4RLRouting", level);
   // LogComponentEnable ("RLRouteManagerImpl", level);
 
   // 仿真默认参数设置
-  uint32_t openGymPort = 5555; // 与zmpBridge交互使用的端口
+  uint32_t openEnvPort = 5555; // 与zmpBridge交互使用的端口
   uint32_t simSeed = 1;
 
   // 仿真时长设置
@@ -63,8 +63,8 @@ main (int argc, char *argv[])
   std::string trafficMatrixStr = "[{/src/:0,/rate/:4,/dst/:1}]"; // TM
 
   CommandLine cmd;
-  // required parameters for OpenGym interface
-  cmd.AddValue ("openGymPort", "Port number for OpenGym env. Default: 5555", openGymPort);
+  // required parameters for OpenEnv interface
+  cmd.AddValue ("openEnvPort", "Port number for OpenEnv env. Default: 5555", openEnvPort);
   cmd.AddValue ("simSeed", "Seed for random generator. Default: 1", simSeed);
   cmd.AddValue ("maxStep", "Simulation max steps. Default: 10", maxStep);
   // optional parameters
@@ -86,7 +86,7 @@ main (int argc, char *argv[])
 
   // 打印参数信息
   NS_LOG_UNCOND ("Ns3Env parameters:");
-  NS_LOG_UNCOND ("--openGymPort: " << openGymPort);
+  NS_LOG_UNCOND ("--openEnvPort: " << openEnvPort);
   NS_LOG_UNCOND ("--envStepTime: " << envStepTime);
   NS_LOG_UNCOND ("--maxStep: " << maxStep);
   NS_LOG_UNCOND ("--simulationTime: " << simulationTime);
@@ -149,14 +149,14 @@ main (int argc, char *argv[])
       Ipv4GlobalRoutingHelper::PopulateRoutingTables ();
     }
 
-  // OpenGym Env
-  Ptr<OpenGymInterface> openGymInterface = CreateObject<OpenGymInterface> (openGymPort);
-  Ptr<MyGymEnv> myGymEnv = CreateObject<MyGymEnv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
-  myGymEnv->SetFlowMonitor (flowMonitor);
-  myGymEnv->SetFlowClassifier (flowClassifier);
-  myGymEnv->SetAdjacencyVec(adjacencyVec);
-  myGymEnv->SetFlowVec (myNetwork->GetFlowVec ());
-  myGymEnv->SetOpenGymInterface (openGymInterface);
+  // OpenEnv Env
+  Ptr<OpenEnvInterface> openEnvInterface = CreateObject<OpenEnvInterface> (openEnvPort);
+  Ptr<MyOpenEnv> myOpenEnv = CreateObject<MyOpenEnv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
+  myOpenEnv->SetFlowMonitor (flowMonitor);
+  myOpenEnv->SetFlowClassifier (flowClassifier);
+  myOpenEnv->SetAdjacencyVec(adjacencyVec);
+  myOpenEnv->SetFlowVec (myNetwork->GetFlowVec ());
+  myOpenEnv->SetOpenEnvInterface (openEnvInterface);
 
   // 从client启动开始计时
   NS_LOG_UNCOND ("Simulation start");
@@ -164,6 +164,6 @@ main (int argc, char *argv[])
   Simulator::Run ();
 
   NS_LOG_UNCOND ("Simulation stop");
-  openGymInterface->NotifySimulationEnd ();
+  openEnvInterface->NotifySimulationEnd ();
   Simulator::Destroy ();
 }

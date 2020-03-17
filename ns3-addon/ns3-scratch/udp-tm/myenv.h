@@ -2,7 +2,7 @@
  * @author: Jiawei Wu
  * @create time: 1970-01-01 08:00
  * @edit time: 2020-03-02 16:18
- * @FilePath: /simulator/udp-tm/mygym.h
+ * @FilePath: /simulator/udp-tm/myenv.h
  */
 /* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
 /*
@@ -24,10 +24,10 @@
  * Author: Piotr Gawlowicz <gawlowicz@tkn.tu-berlin.de>
  */
 
-#ifndef MY_GYM_ENTITY_H
-#define MY_GYM_ENTITY_H
+#ifndef MY_ENV_ENTITY_H
+#define MY_ENV_ENTITY_H
 
-#include "ns3/opengym-module.h"
+#include "ns3/openenv-module.h"
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/internet-module.h"
@@ -35,25 +35,25 @@
 
 namespace ns3 {
 
-class MyGymEnv : public OpenGymEnv
+class MyOpenEnv : public OpenEnvAbstract
 {
 public:
   typedef std::pair<uint32_t, uint32_t> NodePair; //!< 两个node（由index确定）可以确定一条有向边
   typedef std::vector<NodePair> FlowVec; //!< 记录FlowId和对应的node的关系的Vector
 
-  MyGymEnv ();
-  MyGymEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep);
-  virtual ~MyGymEnv ();
+  MyOpenEnv ();
+  MyOpenEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep);
+  virtual ~MyOpenEnv ();
   static TypeId GetTypeId (void);
   virtual void DoDispose ();
 
-  Ptr<OpenGymSpace> GetActionSpace ();
-  Ptr<OpenGymSpace> GetObservationSpace ();
+  Ptr<OpenEnvSpace> GetActionSpace ();
+  Ptr<OpenEnvSpace> GetObservationSpace ();
   bool GetGameOver ();
-  Ptr<OpenGymDataContainer> GetObservation ();
+  Ptr<OpenEnvDataContainer> GetObservation ();
   float GetReward ();
   std::string GetExtraInfo ();
-  bool ExecuteActions (Ptr<OpenGymDataContainer> action);
+  bool ExecuteActions (Ptr<OpenEnvDataContainer> action);
 
   void SetAdjacencyVec (std::vector<int> adjacencyVec);
   void SetFlowMonitor (Ptr<FlowMonitor> flowMonitor);
@@ -77,4 +77,4 @@ private:
 
 } // namespace ns3
 
-#endif // MY_GYM_ENTITY_H
+#endif // MY_ENV_ENTITY_H
