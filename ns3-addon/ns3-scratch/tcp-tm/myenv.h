@@ -24,10 +24,10 @@
  * Author: Piotr Gawlowicz <gawlowicz@tkn.tu-berlin.de>
  */
 
-#ifndef MY_GYM_ENTITY_H
-#define MY_GYM_ENTITY_H
+#ifndef MY_ENV_ENTITY_H
+#define MY_ENV_ENTITY_H
 
-#include "ns3/opengym-module.h"
+#include "ns3/openenv-module.h"
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
 #include "ns3/internet-module.h"
@@ -35,15 +35,15 @@
 
 namespace ns3 {
 
-class MyGymEnv : public OpenGymEnv
+class MyOpenEnv : public OpenEnvAbstract
 {
 public:
   typedef std::pair<uint32_t, uint32_t> NodePair; //!< 两个node（由index确定）可以确定一条有向边
   typedef std::vector<NodePair> FlowVec; //!< 记录FlowId和对应的node的关系的Vector
 
-  MyGymEnv ();
-  MyGymEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep);
-  virtual ~MyGymEnv ();
+  MyOpenEnv ();
+  MyOpenEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep);
+  virtual ~MyOpenEnv ();
   static TypeId GetTypeId (void);
   virtual void DoDispose ();
 
