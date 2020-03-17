@@ -19,29 +19,29 @@
  */
 
 
-#ifndef MY_GYM_ENTITY_H
-#define MY_GYM_ENTITY_H
+#ifndef MY_ENV_ENTITY_H
+#define MY_ENV_ENTITY_H
 
-#include "ns3/opengym-module.h"
+#include "ns3/openenv-module.h"
 
 namespace ns3 {
 
-class MyGymEnv : public OpenGymEnv
+class MyOpenEnv : public OpenEnvAbstract
 {
 public:
-  MyGymEnv ();
-  MyGymEnv (Time stepTime);
-  virtual ~MyGymEnv ();
+  MyOpenEnv ();
+  MyOpenEnv (Time stepTime);
+  virtual ~MyOpenEnv ();
   static TypeId GetTypeId (void);
   virtual void DoDispose ();
 
-  Ptr<OpenGymSpace> GetActionSpace();
-  Ptr<OpenGymSpace> GetObservationSpace();
+  Ptr<OpenEnvSpace> GetActionSpace();
+  Ptr<OpenEnvSpace> GetObservationSpace();
   bool GetGameOver();
-  Ptr<OpenGymDataContainer> GetObservation();
+  Ptr<OpenEnvDataContainer> GetObservation();
   float GetReward();
   std::string GetExtraInfo();
-  bool ExecuteActions(Ptr<OpenGymDataContainer> action);
+  bool ExecuteActions(Ptr<OpenEnvDataContainer> action);
 
 private:
   void ScheduleNextStateRead();
@@ -52,4 +52,4 @@ private:
 }
 
 
-#endif // MY_GYM_ENTITY_H
+#endif // MY_ENV_ENTITY_H

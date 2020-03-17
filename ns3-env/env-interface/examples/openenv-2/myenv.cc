@@ -18,7 +18,7 @@
  * Author: Piotr Gawlowicz <gawlowicz@tkn.tu-berlin.de>
  */
 
-#include "mygym.h"
+#include "myenv.h"
 #include "ns3/object.h"
 #include "ns3/core-module.h"
 #include "ns3/wifi-module.h"
@@ -29,52 +29,52 @@
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("MyGymEnv");
+NS_LOG_COMPONENT_DEFINE ("MyOpenEnv");
 
-NS_OBJECT_ENSURE_REGISTERED (MyGymEnv);
+NS_OBJECT_ENSURE_REGISTERED (MyOpenEnv);
 
-MyGymEnv::MyGymEnv ()
+MyOpenEnv::MyOpenEnv ()
 {
   NS_LOG_FUNCTION (this);
   m_interval = Seconds(0.1);
 
-  Simulator::Schedule (Seconds(0.0), &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (Seconds(0.0), &MyOpenEnv::ScheduleNextStateRead, this);
 }
 
-MyGymEnv::MyGymEnv (Time stepTime)
+MyOpenEnv::MyOpenEnv (Time stepTime)
 {
   NS_LOG_FUNCTION (this);
   m_interval = stepTime;
 
-  Simulator::Schedule (Seconds(0.0), &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (Seconds(0.0), &MyOpenEnv::ScheduleNextStateRead, this);
 }
 
 void
-MyGymEnv::ScheduleNextStateRead ()
+MyOpenEnv::ScheduleNextStateRead ()
 {
   NS_LOG_FUNCTION (this);
-  Simulator::Schedule (m_interval, &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (m_interval, &MyOpenEnv::ScheduleNextStateRead, this);
   Notify();
 }
 
-MyGymEnv::~MyGymEnv ()
+MyOpenEnv::~MyOpenEnv ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 TypeId
-MyGymEnv::GetTypeId (void)
+MyOpenEnv::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("MyGymEnv")
-    .SetParent<OpenGymEnv> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<MyGymEnv> ()
+  static TypeId tid = TypeId ("MyOpenEnv")
+    .SetParent<OpenEnvAbstract> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<MyOpenEnv> ()
   ;
   return tid;
 }
 
 void
-MyGymEnv::DoDispose ()
+MyOpenEnv::DoDispose ()
 {
   NS_LOG_FUNCTION (this);
 }
@@ -82,8 +82,8 @@ MyGymEnv::DoDispose ()
 /*
 Define observation space
 */
-Ptr<OpenGymSpace>
-MyGymEnv::GetObservationSpace()
+Ptr<OpenEnvSpace>
+MyOpenEnv::GetObservationSpace()
 {
   uint32_t nodeNum = 5;
   float low = 0.0;
@@ -91,10 +91,10 @@ MyGymEnv::GetObservationSpace()
   std::vector<uint32_t> shape = {nodeNum,};
   std::string dtype = TypeNameGet<uint32_t> ();
 
-  Ptr<OpenGymDiscreteSpace> discrete = CreateObject<OpenGymDiscreteSpace> (nodeNum);
-  Ptr<OpenGymBoxSpace> box = CreateObject<OpenGymBoxSpace> (low, high, shape, dtype);
+  Ptr<OpenEnvDiscreteSpace> discrete = CreateObject<OpenEnvDiscreteSpace> (nodeNum);
+  Ptr<OpenEnvBoxSpace> box = CreateObject<OpenEnvBoxSpace> (low, high, shape, dtype);
 
-  Ptr<OpenGymDictSpace> space = CreateObject<OpenGymDictSpace> ();
+  Ptr<OpenEnvDictSpace> space = CreateObject<OpenEnvDictSpace> ();
   space->Add("box", box);
   space->Add("discrete", discrete);
 
@@ -105,8 +105,8 @@ MyGymEnv::GetObservationSpace()
 /*
 Define action space
 */
-Ptr<OpenGymSpace>
-MyGymEnv::GetActionSpace()
+Ptr<OpenEnvSpace>
+MyOpenEnv::GetActionSpace()
 {
   uint32_t nodeNum = 5;
   float low = 0.0;
@@ -114,10 +114,10 @@ MyGymEnv::GetActionSpace()
   std::vector<uint32_t> shape = {nodeNum,};
   std::string dtype = TypeNameGet<uint32_t> ();
 
-  Ptr<OpenGymDiscreteSpace> discrete = CreateObject<OpenGymDiscreteSpace> (nodeNum);
-  Ptr<OpenGymBoxSpace> box = CreateObject<OpenGymBoxSpace> (low, high, shape, dtype);
+  Ptr<OpenEnvDiscreteSpace> discrete = CreateObject<OpenEnvDiscreteSpace> (nodeNum);
+  Ptr<OpenEnvBoxSpace> box = CreateObject<OpenEnvBoxSpace> (low, high, shape, dtype);
 
-  Ptr<OpenGymDictSpace> space = CreateObject<OpenGymDictSpace> ();
+  Ptr<OpenEnvDictSpace> space = CreateObject<OpenEnvDictSpace> ();
   space->Add("box", box);
   space->Add("discrete", discrete);
 
@@ -129,7 +129,7 @@ MyGymEnv::GetActionSpace()
 Define game over condition
 */
 bool
-MyGymEnv::GetGameOver()
+MyOpenEnv::GetGameOver()
 {
   bool isGameOver = false;
   bool test = false;
@@ -145,8 +145,8 @@ MyGymEnv::GetGameOver()
 /*
 Collect observations
 */
-Ptr<OpenGymDataContainer>
-MyGymEnv::GetObservation()
+Ptr<OpenEnvDataContainer>
+MyOpenEnv::GetObservation()
 {
   uint32_t nodeNum = 5;
   uint32_t low = 0.0;
@@ -154,7 +154,7 @@ MyGymEnv::GetObservation()
   Ptr<UniformRandomVariable> rngInt = CreateObject<UniformRandomVariable> ();
 
   std::vector<uint32_t> shape = {nodeNum,};
-  Ptr<OpenGymBoxContainer<uint32_t> > box = CreateObject<OpenGymBoxContainer<uint32_t> >(shape);
+  Ptr<OpenEnvBoxContainer<uint32_t> > box = CreateObject<OpenEnvBoxContainer<uint32_t> >(shape);
 
   // generate random data
   for (uint32_t i = 0; i<nodeNum; i++){
@@ -162,17 +162,17 @@ MyGymEnv::GetObservation()
     box->AddValue(value);
   }
 
-  Ptr<OpenGymDiscreteContainer> discrete = CreateObject<OpenGymDiscreteContainer>(nodeNum);
+  Ptr<OpenEnvDiscreteContainer> discrete = CreateObject<OpenEnvDiscreteContainer>(nodeNum);
   uint32_t value = rngInt->GetInteger(low, high);
   discrete->SetValue(value);
 
-  Ptr<OpenGymTupleContainer> data = CreateObject<OpenGymTupleContainer> ();
+  Ptr<OpenEnvTupleContainer> data = CreateObject<OpenEnvTupleContainer> ();
   data->Add(box);
   data->Add(discrete);
 
   // Print data from tuple
-  Ptr<OpenGymBoxContainer<uint32_t> > mbox = DynamicCast<OpenGymBoxContainer<uint32_t> >(data->Get(0));
-  Ptr<OpenGymDiscreteContainer> mdiscrete = DynamicCast<OpenGymDiscreteContainer>(data->Get(1));
+  Ptr<OpenEnvBoxContainer<uint32_t> > mbox = DynamicCast<OpenEnvBoxContainer<uint32_t> >(data->Get(0));
+  Ptr<OpenEnvDiscreteContainer> mdiscrete = DynamicCast<OpenEnvDiscreteContainer>(data->Get(1));
   NS_LOG_UNCOND ("MyGetObservation: " << data);
   NS_LOG_UNCOND ("---" << mbox);
   NS_LOG_UNCOND ("---" << mdiscrete);
@@ -184,7 +184,7 @@ MyGymEnv::GetObservation()
 Define reward function
 */
 float
-MyGymEnv::GetReward()
+MyOpenEnv::GetReward()
 {
   static float reward = 0.0;
   reward += 1;
@@ -195,7 +195,7 @@ MyGymEnv::GetReward()
 Define extra info. Optional
 */
 std::string
-MyGymEnv::GetExtraInfo()
+MyOpenEnv::GetExtraInfo()
 {
   std::string myInfo = "testInfo";
   myInfo += "|123";
@@ -207,11 +207,11 @@ MyGymEnv::GetExtraInfo()
 Execute received actions
 */
 bool
-MyGymEnv::ExecuteActions(Ptr<OpenGymDataContainer> action)
+MyOpenEnv::ExecuteActions(Ptr<OpenEnvDataContainer> action)
 {
-  Ptr<OpenGymDictContainer> dict = DynamicCast<OpenGymDictContainer>(action);
-  Ptr<OpenGymBoxContainer<uint32_t> > box = DynamicCast<OpenGymBoxContainer<uint32_t> >(dict->Get("box"));
-  Ptr<OpenGymDiscreteContainer> discrete = DynamicCast<OpenGymDiscreteContainer>(dict->Get("discrete"));
+  Ptr<OpenEnvDictContainer> dict = DynamicCast<OpenEnvDictContainer>(action);
+  Ptr<OpenEnvBoxContainer<uint32_t> > box = DynamicCast<OpenEnvBoxContainer<uint32_t> >(dict->Get("box"));
+  Ptr<OpenEnvDiscreteContainer> discrete = DynamicCast<OpenEnvDiscreteContainer>(dict->Get("discrete"));
 
   NS_LOG_UNCOND ("MyExecuteActions: " << action);
   NS_LOG_UNCOND ("---" << box);
