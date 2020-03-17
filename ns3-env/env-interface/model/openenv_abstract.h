@@ -19,36 +19,36 @@
  *
  */
 
-#ifndef OPENGYM_ENV_H
-#define OPENGYM_ENV_H
+#ifndef OPENENV_ENV_H
+#define OPENENV_ENV_H
 
 #include "ns3/object.h"
 
 namespace ns3 {
 
-class OpenGymSpace;
-class OpenGymDataContainer;
-class OpenGymInterface;
+class OpenEnvSpace;
+class OpenEnvDataContainer;
+class OpenEnvInterface;
 
-class OpenGymEnv : public Object
+class OpenEnvAbstract : public Object
 {
 public:
-  OpenGymEnv ();
-  virtual ~OpenGymEnv ();
+  OpenEnvAbstract ();
+  virtual ~OpenEnvAbstract ();
 
   static TypeId GetTypeId ();
 
-  virtual Ptr<OpenGymSpace> GetActionSpace() = 0;
-  virtual Ptr<OpenGymSpace> GetObservationSpace() = 0;
+  virtual Ptr<OpenEnvSpace> GetActionSpace() = 0;
+  virtual Ptr<OpenEnvSpace> GetObservationSpace() = 0;
   // TODO:  get all in one function like below, do we need it?
-  //virtual void GetEnvState(Ptr<OpenGymDataContainer>  &obs, float &reward, bool &done, std::string &info) = 0;
+  //virtual void GetEnvState(Ptr<OpenEnvDataContainer>  &obs, float &reward, bool &done, std::string &info) = 0;
   virtual bool GetGameOver() = 0;
-  virtual Ptr<OpenGymDataContainer> GetObservation() = 0;
+  virtual Ptr<OpenEnvDataContainer> GetObservation() = 0;
   virtual float GetReward() = 0;
   virtual std::string GetExtraInfo() = 0;
-  virtual bool ExecuteActions(Ptr<OpenGymDataContainer> action) = 0;
+  virtual bool ExecuteActions(Ptr<OpenEnvDataContainer> action) = 0;
 
-  void SetOpenGymInterface(Ptr<OpenGymInterface> openGymInterface);
+  void SetOpenEnvInterface(Ptr<OpenEnvInterface> openEnvInterface);
   void Notify();
   void NotifySimulationEnd();
 
@@ -58,11 +58,11 @@ protected:
   virtual void DoInitialize (void);
   virtual void DoDispose (void);
 
-  Ptr<OpenGymInterface> m_openGymInterface;
+  Ptr<OpenEnvInterface> m_openEnvInterface;
 private:
 
 };
 
 } // end of namespace ns3
 
-#endif /* OPENGYM_ENV_H */
+#endif /* OPENENV_ENV_H */
