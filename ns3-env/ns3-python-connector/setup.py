@@ -26,7 +26,7 @@ if not os.path.isfile(protobufFile):
             break
     # 如果没有找到protoc，则需要报错
     if protoc is None:
-        print("File: ", "ns3-gym/src/opengym/model/pyns3/pyns3/messages_pb2.py", " was not found.")
+        print("File: ", "messages_pb2.py", " was not found.")
         sys.exit('Protocol Buffer messages are missing. Please run ./waf configure to generate the file')
     # 如果有，则尝试产生文件
     print('generate proto file')
@@ -46,9 +46,9 @@ setup(
     license='MIT',
     author='Piotr Gawlowicz',
     author_email='gawlowicz.p@gmail.com',
-    description='OpenAI Gym meets ns-3',
-    long_description='OpenAI Gym meets ns-3',
-    keywords='openAI gym, ML, RL, ns-3',
+    description='Python meets ns-3',
+    long_description='Python meets ns-3',
+    keywords='Python, ML, RL, ns-3',
     install_requires=['pyzmq', 'numpy', 'protobuf', 'gym'],
     extras_require={},
 )
