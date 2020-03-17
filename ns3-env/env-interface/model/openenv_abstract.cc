@@ -21,80 +21,80 @@
 
 #include "ns3/log.h"
 #include "ns3/object.h"
-#include "opengym_env.h"
+#include "openenv_env.h"
 #include "container.h"
 #include "spaces.h"
-#include "opengym_interface.h"
+#include "openenv_interface.h"
 
 namespace ns3 {
 
-NS_OBJECT_ENSURE_REGISTERED (OpenGymEnv);
+NS_OBJECT_ENSURE_REGISTERED (OpenEnvAbstract);
 
-NS_LOG_COMPONENT_DEFINE ("OpenGymEnv");
+NS_LOG_COMPONENT_DEFINE ("OpenEnvAbstract");
 
 TypeId
-OpenGymEnv::GetTypeId (void)
+OpenEnvAbstract::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::OpenGymEnv")
+  static TypeId tid = TypeId ("ns3::OpenEnvAbstract")
     .SetParent<Object> ()
-    .SetGroupName ("OpenGym")
+    .SetGroupName ("OpenEnv")
     ;
   return tid;
 }
 
-OpenGymEnv::OpenGymEnv()
+OpenEnvAbstract::OpenEnvAbstract()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymEnv::~OpenGymEnv ()
-{
-  NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymEnv::DoDispose (void)
+OpenEnvAbstract::~OpenEnvAbstract ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymEnv::DoInitialize (void)
+OpenEnvAbstract::DoDispose (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymEnv::SetOpenGymInterface(Ptr<OpenGymInterface> openGymInterface)
+OpenEnvAbstract::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
-  m_openGymInterface = openGymInterface;
-  openGymInterface->SetGetActionSpaceCb( MakeCallback (&OpenGymEnv::GetActionSpace, this) );
-  openGymInterface->SetGetObservationSpaceCb( MakeCallback (&OpenGymEnv::GetObservationSpace, this) );
-  openGymInterface->SetGetGameOverCb( MakeCallback (&OpenGymEnv::GetGameOver, this) );
-  openGymInterface->SetGetObservationCb( MakeCallback (&OpenGymEnv::GetObservation, this) );
-  openGymInterface->SetGetRewardCb( MakeCallback (&OpenGymEnv::GetReward, this) );
-  openGymInterface->SetGetExtraInfoCb( MakeCallback (&OpenGymEnv::GetExtraInfo, this) );
-  openGymInterface->SetExecuteActionsCb( MakeCallback (&OpenGymEnv::ExecuteActions, this) );
 }
 
 void
-OpenGymEnv::Notify()
+OpenEnvAbstract::SetOpenEnvInterface(Ptr<OpenEnvInterface> openEnvInterface)
 {
   NS_LOG_FUNCTION (this);
-  if (m_openGymInterface)
+  m_openEnvInterface = openEnvInterface;
+  openEnvInterface->SetGetActionSpaceCb( MakeCallback (&OpenEnvAbstract::GetActionSpace, this) );
+  openEnvInterface->SetGetObservationSpaceCb( MakeCallback (&OpenEnvAbstract::GetObservationSpace, this) );
+  openEnvInterface->SetGetGameOverCb( MakeCallback (&OpenEnvAbstract::GetGameOver, this) );
+  openEnvInterface->SetGetObservationCb( MakeCallback (&OpenEnvAbstract::GetObservation, this) );
+  openEnvInterface->SetGetRewardCb( MakeCallback (&OpenEnvAbstract::GetReward, this) );
+  openEnvInterface->SetGetExtraInfoCb( MakeCallback (&OpenEnvAbstract::GetExtraInfo, this) );
+  openEnvInterface->SetExecuteActionsCb( MakeCallback (&OpenEnvAbstract::ExecuteActions, this) );
+}
+
+void
+OpenEnvAbstract::Notify()
+{
+  NS_LOG_FUNCTION (this);
+  if (m_openEnvInterface)
   {
-    m_openGymInterface->Notify(this);
+    m_openEnvInterface->Notify(this);
   }
 }
 
 void
-OpenGymEnv::NotifySimulationEnd()
+OpenEnvAbstract::NotifySimulationEnd()
 {
   NS_LOG_FUNCTION (this);
-  if (m_openGymInterface)
+  if (m_openEnvInterface)
   {
-    m_openGymInterface->NotifySimulationEnd();
+    m_openEnvInterface->NotifySimulationEnd();
   }
 }
 
