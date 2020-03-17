@@ -24,131 +24,131 @@
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("OpenGymDataContainer");
+NS_LOG_COMPONENT_DEFINE ("OpenEnvDataContainer");
 
-NS_OBJECT_ENSURE_REGISTERED (OpenGymDataContainer);
+NS_OBJECT_ENSURE_REGISTERED (OpenEnvDataContainer);
 
 
 TypeId
-OpenGymDataContainer::GetTypeId (void)
+OpenEnvDataContainer::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::OpenGymDataContainer")
+  static TypeId tid = TypeId ("ns3::OpenEnvDataContainer")
     .SetParent<Object> ()
-    .SetGroupName ("OpenGym")
+    .SetGroupName ("OpenEnv")
     ;
   return tid;
 }
 
-OpenGymDataContainer::OpenGymDataContainer()
+OpenEnvDataContainer::OpenEnvDataContainer()
 {
   //NS_LOG_FUNCTION (this);
 }
 
-OpenGymDataContainer::~OpenGymDataContainer ()
-{
-  //NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymDataContainer::DoDispose (void)
+OpenEnvDataContainer::~OpenEnvDataContainer ()
 {
   //NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDataContainer::DoInitialize (void)
+OpenEnvDataContainer::DoDispose (void)
 {
   //NS_LOG_FUNCTION (this);
 }
 
-Ptr<OpenGymDataContainer>
-OpenGymDataContainer::CreateFromDataContainerPbMsg(ns3opengym::DataContainer &dataContainerPbMsg)
+void
+OpenEnvDataContainer::DoInitialize (void)
 {
-  Ptr<OpenGymDataContainer> actDataContainer;
+  //NS_LOG_FUNCTION (this);
+}
 
-  if (dataContainerPbMsg.type() == ns3opengym::Discrete)
+Ptr<OpenEnvDataContainer>
+OpenEnvDataContainer::CreateFromDataContainerPbMsg(ns3openenv::DataContainer &dataContainerPbMsg)
+{
+  Ptr<OpenEnvDataContainer> actDataContainer;
+
+  if (dataContainerPbMsg.type() == ns3openenv::Discrete)
   {
-    ns3opengym::DiscreteDataContainer discreteContainerPbMsg;
+    ns3openenv::DiscreteDataContainer discreteContainerPbMsg;
     dataContainerPbMsg.data().UnpackTo(&discreteContainerPbMsg);
 
-    Ptr<OpenGymDiscreteContainer> discrete = CreateObject<OpenGymDiscreteContainer>();
+    Ptr<OpenEnvDiscreteContainer> discrete = CreateObject<OpenEnvDiscreteContainer>();
     discrete->SetValue(discreteContainerPbMsg.data());
     actDataContainer = discrete;
   }
-  else if (dataContainerPbMsg.type() == ns3opengym::Box)
+  else if (dataContainerPbMsg.type() == ns3openenv::Box)
   {
-    ns3opengym::BoxDataContainer boxContainerPbMsg;
+    ns3openenv::BoxDataContainer boxContainerPbMsg;
     dataContainerPbMsg.data().UnpackTo(&boxContainerPbMsg);
 
-    if (boxContainerPbMsg.dtype() == ns3opengym::INT) {
-      Ptr<OpenGymBoxContainer<int32_t> > box = CreateObject<OpenGymBoxContainer<int32_t> >();
+    if (boxContainerPbMsg.dtype() == ns3openenv::INT) {
+      Ptr<OpenEnvBoxContainer<int32_t> > box = CreateObject<OpenEnvBoxContainer<int32_t> >();
       std::vector<int32_t> myData;
       myData.assign(boxContainerPbMsg.intdata().begin(), boxContainerPbMsg.intdata().end());
       box->SetData(myData);
       actDataContainer = box;
 
-    } else if (boxContainerPbMsg.dtype() == ns3opengym::UINT) {
-      Ptr<OpenGymBoxContainer<uint32_t> > box = CreateObject<OpenGymBoxContainer<uint32_t> >();
+    } else if (boxContainerPbMsg.dtype() == ns3openenv::UINT) {
+      Ptr<OpenEnvBoxContainer<uint32_t> > box = CreateObject<OpenEnvBoxContainer<uint32_t> >();
       std::vector<uint32_t> myData;
       myData.assign(boxContainerPbMsg.uintdata().begin(), boxContainerPbMsg.uintdata().end());
       box->SetData(myData);
       actDataContainer = box;
 
-    } else if (boxContainerPbMsg.dtype() == ns3opengym::FLOAT) {
-      Ptr<OpenGymBoxContainer<float> > box = CreateObject<OpenGymBoxContainer<float> >();
+    } else if (boxContainerPbMsg.dtype() == ns3openenv::FLOAT) {
+      Ptr<OpenEnvBoxContainer<float> > box = CreateObject<OpenEnvBoxContainer<float> >();
       std::vector<float> myData;
       myData.assign(boxContainerPbMsg.floatdata().begin(), boxContainerPbMsg.floatdata().end());
       box->SetData(myData);
       actDataContainer = box;
 
-    } else if (boxContainerPbMsg.dtype() == ns3opengym::DOUBLE) {
-      Ptr<OpenGymBoxContainer<double> > box = CreateObject<OpenGymBoxContainer<double> >();
+    } else if (boxContainerPbMsg.dtype() == ns3openenv::DOUBLE) {
+      Ptr<OpenEnvBoxContainer<double> > box = CreateObject<OpenEnvBoxContainer<double> >();
       std::vector<double> myData;
       myData.assign(boxContainerPbMsg.doubledata().begin(), boxContainerPbMsg.doubledata().end());
       box->SetData(myData);
       actDataContainer = box;
 
     } else {
-      Ptr<OpenGymBoxContainer<float> > box = CreateObject<OpenGymBoxContainer<float> >();
+      Ptr<OpenEnvBoxContainer<float> > box = CreateObject<OpenEnvBoxContainer<float> >();
       std::vector<float> myData;
       myData.assign(boxContainerPbMsg.floatdata().begin(), boxContainerPbMsg.floatdata().end());
       box->SetData(myData);
       actDataContainer = box;
     }
   }
-  else if (dataContainerPbMsg.type() == ns3opengym::Tuple)
+  else if (dataContainerPbMsg.type() == ns3openenv::Tuple)
   {
-    Ptr<OpenGymTupleContainer> tupleData = CreateObject<OpenGymTupleContainer> ();
+    Ptr<OpenEnvTupleContainer> tupleData = CreateObject<OpenEnvTupleContainer> ();
 
-    ns3opengym::TupleDataContainer tupleContainerPbMsg;
+    ns3openenv::TupleDataContainer tupleContainerPbMsg;
     dataContainerPbMsg.data().UnpackTo(&tupleContainerPbMsg);
 
-    std::vector< ns3opengym::DataContainer > elements;
+    std::vector< ns3openenv::DataContainer > elements;
     elements.assign(tupleContainerPbMsg.element().begin(), tupleContainerPbMsg.element().end());
 
-    std::vector< ns3opengym::DataContainer >::iterator it;
+    std::vector< ns3openenv::DataContainer >::iterator it;
     for(it=elements.begin();it!=elements.end();++it)
     {
-      Ptr<OpenGymDataContainer> subData = OpenGymDataContainer::CreateFromDataContainerPbMsg(*it);
+      Ptr<OpenEnvDataContainer> subData = OpenEnvDataContainer::CreateFromDataContainerPbMsg(*it);
       tupleData->Add(subData);
     }
 
     actDataContainer = tupleData;
   }
-  else if (dataContainerPbMsg.type() == ns3opengym::Dict)
+  else if (dataContainerPbMsg.type() == ns3openenv::Dict)
   {
-    Ptr<OpenGymDictContainer> dictData = CreateObject<OpenGymDictContainer> ();
+    Ptr<OpenEnvDictContainer> dictData = CreateObject<OpenEnvDictContainer> ();
 
-    ns3opengym::DictDataContainer dictContainerPbMsg;
+    ns3openenv::DictDataContainer dictContainerPbMsg;
     dataContainerPbMsg.data().UnpackTo(&dictContainerPbMsg);
 
-    std::vector< ns3opengym::DataContainer > elements;
+    std::vector< ns3openenv::DataContainer > elements;
     elements.assign(dictContainerPbMsg.element().begin(), dictContainerPbMsg.element().end());
 
-    std::vector< ns3opengym::DataContainer >::iterator it;
+    std::vector< ns3openenv::DataContainer >::iterator it;
     for(it=elements.begin();it!=elements.end();++it)
     {
-      Ptr<OpenGymDataContainer> subSpace = OpenGymDataContainer::CreateFromDataContainerPbMsg(*it);
+      Ptr<OpenEnvDataContainer> subSpace = OpenEnvDataContainer::CreateFromDataContainerPbMsg(*it);
       dictData->Add((*it).name(), subSpace);
     }
 
@@ -159,122 +159,122 @@ OpenGymDataContainer::CreateFromDataContainerPbMsg(ns3opengym::DataContainer &da
 
 
 TypeId
-OpenGymDiscreteContainer::GetTypeId (void)
+OpenEnvDiscreteContainer::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::OpenGymDiscreteContainer")
-    .SetParent<OpenGymDataContainer> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymDiscreteContainer> ()
+  static TypeId tid = TypeId ("ns3::OpenEnvDiscreteContainer")
+    .SetParent<OpenEnvDataContainer> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvDiscreteContainer> ()
     ;
   return tid;
 }
 
-OpenGymDiscreteContainer::OpenGymDiscreteContainer()
+OpenEnvDiscreteContainer::OpenEnvDiscreteContainer()
 {
   //NS_LOG_FUNCTION (this);
   m_n = 0;
 }
 
-OpenGymDiscreteContainer::OpenGymDiscreteContainer(uint32_t n)
+OpenEnvDiscreteContainer::OpenEnvDiscreteContainer(uint32_t n)
 {
   //NS_LOG_FUNCTION (this);
   m_n = n;
 }
 
-OpenGymDiscreteContainer::~OpenGymDiscreteContainer ()
+OpenEnvDiscreteContainer::~OpenEnvDiscreteContainer ()
 {
   //NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDiscreteContainer::DoDispose (void)
+OpenEnvDiscreteContainer::DoDispose (void)
 {
   //NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDiscreteContainer::DoInitialize (void)
+OpenEnvDiscreteContainer::DoInitialize (void)
 {
   //NS_LOG_FUNCTION (this);
 }
 
-ns3opengym::DataContainer
-OpenGymDiscreteContainer::GetDataContainerPbMsg()
+ns3openenv::DataContainer
+OpenEnvDiscreteContainer::GetDataContainerPbMsg()
 {
-  ns3opengym::DataContainer dataContainerPbMsg;
-  ns3opengym::DiscreteDataContainer discreteContainerPbMsg;
+  ns3openenv::DataContainer dataContainerPbMsg;
+  ns3openenv::DiscreteDataContainer discreteContainerPbMsg;
   discreteContainerPbMsg.set_data(GetValue());
 
-  dataContainerPbMsg.set_type(ns3opengym::Discrete);
+  dataContainerPbMsg.set_type(ns3openenv::Discrete);
   dataContainerPbMsg.mutable_data()->PackFrom(discreteContainerPbMsg);
   return dataContainerPbMsg;
 }
 
 bool
-OpenGymDiscreteContainer::SetValue(uint32_t value)
+OpenEnvDiscreteContainer::SetValue(uint32_t value)
 {
   m_value = value;
   return true;
 }
 
 uint32_t
-OpenGymDiscreteContainer::GetValue()
+OpenEnvDiscreteContainer::GetValue()
 {
   return m_value;
 }
 
 void
-OpenGymDiscreteContainer::Print(std::ostream& where) const
+OpenEnvDiscreteContainer::Print(std::ostream& where) const
 {
   where << std::to_string(m_value);
 }
 
 TypeId
-OpenGymTupleContainer::GetTypeId (void)
+OpenEnvTupleContainer::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::OpenGymTupleContainer")
-    .SetParent<OpenGymDataContainer> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymTupleContainer> ()
+  static TypeId tid = TypeId ("ns3::OpenEnvTupleContainer")
+    .SetParent<OpenEnvDataContainer> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvTupleContainer> ()
     ;
   return tid;
 }
 
-OpenGymTupleContainer::OpenGymTupleContainer()
+OpenEnvTupleContainer::OpenEnvTupleContainer()
 {
   //NS_LOG_FUNCTION (this);
 }
 
-OpenGymTupleContainer::~OpenGymTupleContainer ()
-{
-  //NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymTupleContainer::DoDispose (void)
+OpenEnvTupleContainer::~OpenEnvTupleContainer ()
 {
   //NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymTupleContainer::DoInitialize (void)
+OpenEnvTupleContainer::DoDispose (void)
 {
   //NS_LOG_FUNCTION (this);
 }
 
-ns3opengym::DataContainer
-OpenGymTupleContainer::GetDataContainerPbMsg()
+void
+OpenEnvTupleContainer::DoInitialize (void)
 {
-  ns3opengym::DataContainer dataContainerPbMsg;
-  dataContainerPbMsg.set_type(ns3opengym::Tuple);
+  //NS_LOG_FUNCTION (this);
+}
 
-  ns3opengym::TupleDataContainer tupleContainerPbMsg;
+ns3openenv::DataContainer
+OpenEnvTupleContainer::GetDataContainerPbMsg()
+{
+  ns3openenv::DataContainer dataContainerPbMsg;
+  dataContainerPbMsg.set_type(ns3openenv::Tuple);
 
-  std::vector< Ptr<OpenGymDataContainer> >::iterator it;
+  ns3openenv::TupleDataContainer tupleContainerPbMsg;
+
+  std::vector< Ptr<OpenEnvDataContainer> >::iterator it;
   for (it=m_tuple.begin(); it!=m_tuple.end(); ++it)
   {
-    Ptr<OpenGymDataContainer> subSpace = *it;
-    ns3opengym::DataContainer subDataContainer = subSpace->GetDataContainerPbMsg();
+    Ptr<OpenEnvDataContainer> subSpace = *it;
+    ns3openenv::DataContainer subDataContainer = subSpace->GetDataContainerPbMsg();
 
     tupleContainerPbMsg.add_element()->CopyFrom(subDataContainer);
   }
@@ -284,17 +284,17 @@ OpenGymTupleContainer::GetDataContainerPbMsg()
 }
 
 bool
-OpenGymTupleContainer::Add(Ptr<OpenGymDataContainer> space)
+OpenEnvTupleContainer::Add(Ptr<OpenEnvDataContainer> space)
 {
   NS_LOG_FUNCTION (this);
   m_tuple.push_back(space);
   return true;
 }
 
-Ptr<OpenGymDataContainer>
-OpenGymTupleContainer::Get(uint32_t idx)
+Ptr<OpenEnvDataContainer>
+OpenEnvTupleContainer::Get(uint32_t idx)
 {
-  Ptr<OpenGymDataContainer> data;
+  Ptr<OpenEnvDataContainer> data;
 
   if (idx < m_tuple.size())
   {
@@ -305,15 +305,15 @@ OpenGymTupleContainer::Get(uint32_t idx)
 }
 
 void
-OpenGymTupleContainer::Print(std::ostream& where) const
+OpenEnvTupleContainer::Print(std::ostream& where) const
 {
   where << "Tuple(";
 
-  std::vector< Ptr<OpenGymDataContainer> >::const_iterator it;
-  std::vector< Ptr<OpenGymDataContainer> >::const_iterator it2;
+  std::vector< Ptr<OpenEnvDataContainer> >::const_iterator it;
+  std::vector< Ptr<OpenEnvDataContainer> >::const_iterator it2;
   for (it=m_tuple.cbegin(); it!=m_tuple.cend(); ++it)
   {
-    Ptr<OpenGymDataContainer> subSpace = *it;
+    Ptr<OpenEnvDataContainer> subSpace = *it;
     subSpace->Print(where);
 
     it2 = it;
@@ -326,53 +326,53 @@ OpenGymTupleContainer::Print(std::ostream& where) const
 
 
 TypeId
-OpenGymDictContainer::GetTypeId (void)
+OpenEnvDictContainer::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("ns3::OpenGymDictContainer")
-    .SetParent<OpenGymDataContainer> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymDictContainer> ()
+  static TypeId tid = TypeId ("ns3::OpenEnvDictContainer")
+    .SetParent<OpenEnvDataContainer> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvDictContainer> ()
     ;
   return tid;
 }
 
-OpenGymDictContainer::OpenGymDictContainer()
+OpenEnvDictContainer::OpenEnvDictContainer()
 {
   //NS_LOG_FUNCTION (this);
 }
 
-OpenGymDictContainer::~OpenGymDictContainer ()
-{
-  //NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymDictContainer::DoDispose (void)
+OpenEnvDictContainer::~OpenEnvDictContainer ()
 {
   //NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDictContainer::DoInitialize (void)
+OpenEnvDictContainer::DoDispose (void)
 {
   //NS_LOG_FUNCTION (this);
 }
 
-ns3opengym::DataContainer
-OpenGymDictContainer::GetDataContainerPbMsg()
+void
+OpenEnvDictContainer::DoInitialize (void)
 {
-  ns3opengym::DataContainer dataContainerPbMsg;
-  dataContainerPbMsg.set_type(ns3opengym::Dict);
+  //NS_LOG_FUNCTION (this);
+}
 
-  ns3opengym::DictDataContainer dictContainerPbMsg;
+ns3openenv::DataContainer
+OpenEnvDictContainer::GetDataContainerPbMsg()
+{
+  ns3openenv::DataContainer dataContainerPbMsg;
+  dataContainerPbMsg.set_type(ns3openenv::Dict);
 
-  std::map< std::string, Ptr<OpenGymDataContainer> >::iterator it;
+  ns3openenv::DictDataContainer dictContainerPbMsg;
+
+  std::map< std::string, Ptr<OpenEnvDataContainer> >::iterator it;
   for (it=m_dict.begin(); it!=m_dict.end(); ++it)
   {
     std::string name = it->first;
-    Ptr<OpenGymDataContainer> subSpace = it->second;
+    Ptr<OpenEnvDataContainer> subSpace = it->second;
 
-    ns3opengym::DataContainer subDataContainer = subSpace->GetDataContainerPbMsg();
+    ns3openenv::DataContainer subDataContainer = subSpace->GetDataContainerPbMsg();
     subDataContainer.set_name(name);
 
     dictContainerPbMsg.add_element()->CopyFrom(subDataContainer);
@@ -383,18 +383,18 @@ OpenGymDictContainer::GetDataContainerPbMsg()
 }
 
 bool
-OpenGymDictContainer::Add(std::string key, Ptr<OpenGymDataContainer> data)
+OpenEnvDictContainer::Add(std::string key, Ptr<OpenEnvDataContainer> data)
 {
   NS_LOG_FUNCTION (this);
-  m_dict.insert(std::pair<std::string, Ptr<OpenGymDataContainer> > (key, data));
+  m_dict.insert(std::pair<std::string, Ptr<OpenEnvDataContainer> > (key, data));
   return true;
 }
 
-Ptr<OpenGymDataContainer>
-OpenGymDictContainer::Get(std::string key)
+Ptr<OpenEnvDataContainer>
+OpenEnvDictContainer::Get(std::string key)
 {
-  Ptr<OpenGymDataContainer> data;
-  std::map< std::string, Ptr<OpenGymDataContainer> >::iterator it = m_dict.find(key);
+  Ptr<OpenEnvDataContainer> data;
+  std::map< std::string, Ptr<OpenEnvDataContainer> >::iterator it = m_dict.find(key);
   if ( it != m_dict.end() ) {
     data = it->second;
   }
@@ -402,16 +402,16 @@ OpenGymDictContainer::Get(std::string key)
 }
 
 void
-OpenGymDictContainer::Print(std::ostream& where) const
+OpenEnvDictContainer::Print(std::ostream& where) const
 {
   where << "Dict(";
 
-  std::map< std::string, Ptr<OpenGymDataContainer> >::const_iterator it;
-  std::map< std::string, Ptr<OpenGymDataContainer> >::const_iterator it2;
+  std::map< std::string, Ptr<OpenEnvDataContainer> >::const_iterator it;
+  std::map< std::string, Ptr<OpenEnvDataContainer> >::const_iterator it2;
   for (it=m_dict.cbegin(); it!=m_dict.cend(); ++it)
   {
     std::string name = it->first;
-    Ptr<OpenGymDataContainer> subSpace = it->second;
+    Ptr<OpenEnvDataContainer> subSpace = it->second;
 
     where << name << "=";
     subSpace->Print(where);

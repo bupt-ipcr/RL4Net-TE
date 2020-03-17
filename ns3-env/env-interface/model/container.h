@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef OPENGYM_CONTAINER_H
-#define OPENGYM_CONTAINER_H
+#ifndef OPENENV_CONTAINER_H
+#define OPENENV_CONTAINER_H
 
 #include "ns3/object.h"
 #include "ns3/type-name.h"
@@ -28,19 +28,19 @@
 
 namespace ns3 {
 
-class OpenGymDataContainer : public Object
+class OpenEnvDataContainer : public Object
 {
 public:
-  OpenGymDataContainer ();
-  virtual ~OpenGymDataContainer ();
+  OpenEnvDataContainer ();
+  virtual ~OpenEnvDataContainer ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::DataContainer GetDataContainerPbMsg() = 0;
-  static Ptr<OpenGymDataContainer> CreateFromDataContainerPbMsg(ns3opengym::DataContainer &dataContainer);
+  virtual ns3openenv::DataContainer GetDataContainerPbMsg() = 0;
+  static Ptr<OpenEnvDataContainer> CreateFromDataContainerPbMsg(ns3openenv::DataContainer &dataContainer);
 
   virtual void Print(std::ostream& where) const = 0;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymDataContainer> container)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvDataContainer> container)
   {
     container->Print(os);
     return os;
@@ -53,19 +53,19 @@ protected:
 };
 
 
-class OpenGymDiscreteContainer : public OpenGymDataContainer
+class OpenEnvDiscreteContainer : public OpenEnvDataContainer
 {
 public:
-  OpenGymDiscreteContainer ();
-  OpenGymDiscreteContainer (uint32_t n);
-  virtual ~OpenGymDiscreteContainer ();
+  OpenEnvDiscreteContainer ();
+  OpenEnvDiscreteContainer (uint32_t n);
+  virtual ~OpenEnvDiscreteContainer ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::DataContainer GetDataContainerPbMsg();
+  virtual ns3openenv::DataContainer GetDataContainerPbMsg();
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymDiscreteContainer> container)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvDiscreteContainer> container)
   {
     container->Print(os);
     return os;
@@ -84,19 +84,19 @@ protected:
 };
 
 template <typename T = float>
-class OpenGymBoxContainer : public OpenGymDataContainer
+class OpenEnvBoxContainer : public OpenEnvDataContainer
 {
 public:
-  OpenGymBoxContainer ();
-  OpenGymBoxContainer (std::vector<uint32_t> shape);
-  virtual ~OpenGymBoxContainer ();
+  OpenEnvBoxContainer ();
+  OpenEnvBoxContainer (std::vector<uint32_t> shape);
+  virtual ~OpenEnvBoxContainer ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::DataContainer GetDataContainerPbMsg();
+  virtual ns3openenv::DataContainer GetDataContainerPbMsg();
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymBoxContainer> container)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvBoxContainer> container)
   {
     container->Print(os);
     return os;
@@ -118,76 +118,76 @@ protected:
 private:
   void SetDtype();
 	std::vector<uint32_t> m_shape;
-	ns3opengym::Dtype m_dtype;
+	ns3openenv::Dtype m_dtype;
 	std::vector<T> m_data;
 };
 
 template <typename T>
 TypeId
-OpenGymBoxContainer<T>::GetTypeId (void)
+OpenEnvBoxContainer<T>::GetTypeId (void)
 {
   std::string name = TypeNameGet<T> ();
-  static TypeId tid = TypeId (("ns3::OpenGymBoxContainer<" + name + ">").c_str ())
+  static TypeId tid = TypeId (("ns3::OpenEnvBoxContainer<" + name + ">").c_str ())
     .SetParent<Object> ()
-    .SetGroupName ("OpenGym")
-    .template AddConstructor<OpenGymBoxContainer<T> > ()
+    .SetGroupName ("OpenEnv")
+    .template AddConstructor<OpenEnvBoxContainer<T> > ()
     ;
   return tid;
 }
 
 template <typename T>
-OpenGymBoxContainer<T>::OpenGymBoxContainer()
+OpenEnvBoxContainer<T>::OpenEnvBoxContainer()
 {
  SetDtype();
 }
 
 template <typename T>
-OpenGymBoxContainer<T>::OpenGymBoxContainer(std::vector<uint32_t> shape):
+OpenEnvBoxContainer<T>::OpenEnvBoxContainer(std::vector<uint32_t> shape):
 	m_shape(shape)
 {
   SetDtype();
 }
 
 template <typename T>
-OpenGymBoxContainer<T>::~OpenGymBoxContainer ()
+OpenEnvBoxContainer<T>::~OpenEnvBoxContainer ()
 {
 }
 
 template <typename T>
 void
-OpenGymBoxContainer<T>::SetDtype ()
+OpenEnvBoxContainer<T>::SetDtype ()
 {
   std::string name = TypeNameGet<T> ();
   if (name == "int8_t" || name == "int16_t" || name == "int32_t" || name == "int64_t") 
-    m_dtype = ns3opengym::INT;
+    m_dtype = ns3openenv::INT;
   else if (name == "uint8_t" || name == "uint16_t" || name == "uint32_t" || name == "uint64_t") 
-    m_dtype = ns3opengym::UINT;
+    m_dtype = ns3openenv::UINT;
   else if (name == "float")
-    m_dtype = ns3opengym::FLOAT;
+    m_dtype = ns3openenv::FLOAT;
   else if (name == "double")
-    m_dtype = ns3opengym::DOUBLE;
+    m_dtype = ns3openenv::DOUBLE;
   else
-    m_dtype = ns3opengym::FLOAT;
+    m_dtype = ns3openenv::FLOAT;
 }
 
 template <typename T>
 void
-OpenGymBoxContainer<T>::DoDispose (void)
+OpenEnvBoxContainer<T>::DoDispose (void)
 {
 }
 
 template <typename T>
 void
-OpenGymBoxContainer<T>::DoInitialize (void)
+OpenEnvBoxContainer<T>::DoInitialize (void)
 {
 }
 
 template <typename T>
-ns3opengym::DataContainer
-OpenGymBoxContainer<T>::GetDataContainerPbMsg()
+ns3openenv::DataContainer
+OpenEnvBoxContainer<T>::GetDataContainerPbMsg()
 {
-  ns3opengym::DataContainer dataContainerPbMsg;
-  ns3opengym::BoxDataContainer boxContainerPbMsg;
+  ns3openenv::DataContainer dataContainerPbMsg;
+  ns3openenv::BoxDataContainer boxContainerPbMsg;
 
   std::vector<uint32_t> shape = GetShape();
   *boxContainerPbMsg.mutable_shape() = {shape.begin(), shape.end()};
@@ -196,30 +196,30 @@ OpenGymBoxContainer<T>::GetDataContainerPbMsg()
   boxContainerPbMsg.set_dtype(m_dtype);
   std::vector<T> data = GetData();
 
-  if (m_dtype == ns3opengym::INT) {
+  if (m_dtype == ns3openenv::INT) {
     *boxContainerPbMsg.mutable_intdata() = {data.begin(), data.end()};
 
-  } else if (m_dtype == ns3opengym::UINT) {
+  } else if (m_dtype == ns3openenv::UINT) {
     *boxContainerPbMsg.mutable_uintdata() = {data.begin(), data.end()};
 
-  } else if (m_dtype == ns3opengym::FLOAT) {
+  } else if (m_dtype == ns3openenv::FLOAT) {
     *boxContainerPbMsg.mutable_floatdata() = {data.begin(), data.end()};
 
-  } else if (m_dtype == ns3opengym::DOUBLE) {
+  } else if (m_dtype == ns3openenv::DOUBLE) {
     *boxContainerPbMsg.mutable_doubledata() = {data.begin(), data.end()};
 
   } else {
     *boxContainerPbMsg.mutable_floatdata() = {data.begin(), data.end()};
   }
 
-  dataContainerPbMsg.set_type(ns3opengym::Box);
+  dataContainerPbMsg.set_type(ns3openenv::Box);
   dataContainerPbMsg.mutable_data()->PackFrom(boxContainerPbMsg);
   return dataContainerPbMsg;
 }
 
 template <typename T>
 bool
-OpenGymBoxContainer<T>::AddValue(T value)
+OpenEnvBoxContainer<T>::AddValue(T value)
 {
   m_data.push_back(value);
   return true;
@@ -227,7 +227,7 @@ OpenGymBoxContainer<T>::AddValue(T value)
 
 template <typename T>
 T
-OpenGymBoxContainer<T>::GetValue(uint32_t idx)
+OpenEnvBoxContainer<T>::GetValue(uint32_t idx)
 {
   T data = 0;
   if (idx < m_data.size())
@@ -239,7 +239,7 @@ OpenGymBoxContainer<T>::GetValue(uint32_t idx)
 
 template <typename T>
 bool
-OpenGymBoxContainer<T>::SetData(std::vector<T> data)
+OpenEnvBoxContainer<T>::SetData(std::vector<T> data)
 {
   m_data = data;
   return true;
@@ -247,21 +247,21 @@ OpenGymBoxContainer<T>::SetData(std::vector<T> data)
 
 template <typename T>
 std::vector<uint32_t>
-OpenGymBoxContainer<T>::GetShape()
+OpenEnvBoxContainer<T>::GetShape()
 {
   return m_shape;
 }
 
 template <typename T>
 std::vector<T>
-OpenGymBoxContainer<T>::GetData()
+OpenEnvBoxContainer<T>::GetData()
 {
   return m_data;
 }
 
 template <typename T>
 void
-OpenGymBoxContainer<T>::Print(std::ostream& where) const
+OpenEnvBoxContainer<T>::Print(std::ostream& where) const
 {
   where << "[";
   for (auto i = m_data.begin(); i != m_data.end(); ++i)
@@ -276,64 +276,64 @@ OpenGymBoxContainer<T>::Print(std::ostream& where) const
 }
 
 
-class OpenGymTupleContainer : public OpenGymDataContainer
+class OpenEnvTupleContainer : public OpenEnvDataContainer
 {
 public:
-  OpenGymTupleContainer ();
-  virtual ~OpenGymTupleContainer ();
+  OpenEnvTupleContainer ();
+  virtual ~OpenEnvTupleContainer ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::DataContainer GetDataContainerPbMsg();
+  virtual ns3openenv::DataContainer GetDataContainerPbMsg();
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymTupleContainer> container)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvTupleContainer> container)
   {
     container->Print(os);
     return os;
   }
 
-  bool Add(Ptr<OpenGymDataContainer> space);
-  Ptr<OpenGymDataContainer> Get(uint32_t idx);
+  bool Add(Ptr<OpenEnvDataContainer> space);
+  Ptr<OpenEnvDataContainer> Get(uint32_t idx);
 
 protected:
   // Inherited
   virtual void DoInitialize (void);
   virtual void DoDispose (void);
 
-  std::vector< Ptr<OpenGymDataContainer> > m_tuple;
+  std::vector< Ptr<OpenEnvDataContainer> > m_tuple;
 };
 
 
-class OpenGymDictContainer : public OpenGymDataContainer
+class OpenEnvDictContainer : public OpenEnvDataContainer
 {
 public:
-  OpenGymDictContainer ();
-  virtual ~OpenGymDictContainer ();
+  OpenEnvDictContainer ();
+  virtual ~OpenEnvDictContainer ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::DataContainer GetDataContainerPbMsg();
+  virtual ns3openenv::DataContainer GetDataContainerPbMsg();
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< ( std::ostream& os, const Ptr<OpenGymDictContainer> container)
+  friend std::ostream& operator<< ( std::ostream& os, const Ptr<OpenEnvDictContainer> container)
   {
     container->Print(os);
     return os;
   }
 
-  bool Add(std::string key, Ptr<OpenGymDataContainer> value);
-  Ptr<OpenGymDataContainer> Get(std::string key);
+  bool Add(std::string key, Ptr<OpenEnvDataContainer> value);
+  Ptr<OpenEnvDataContainer> Get(std::string key);
 
 protected:
   // Inherited
   virtual void DoInitialize (void);
   virtual void DoDispose (void);
 
-  std::map< std::string, Ptr<OpenGymDataContainer> > m_dict;
+  std::map< std::string, Ptr<OpenEnvDataContainer> > m_dict;
 };
 
 } // end of namespace ns3
 
-#endif /* OPENGYM_CONTAINER_H */
+#endif /* OPENENV_CONTAINER_H */
 
