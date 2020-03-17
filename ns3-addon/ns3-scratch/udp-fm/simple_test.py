@@ -12,7 +12,7 @@ import argparse
 import random
 import numpy as np
 import json
-from ns3gym import ns3env
+from pyns3 import ns3env
 import numpy as np
 
 __author__ = "Jiawei Wu"
