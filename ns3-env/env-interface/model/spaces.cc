@@ -25,132 +25,132 @@
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("OpenGymSpace");
+NS_LOG_COMPONENT_DEFINE ("OpenEnvSpace");
 
-NS_OBJECT_ENSURE_REGISTERED (OpenGymSpace);
+NS_OBJECT_ENSURE_REGISTERED (OpenEnvSpace);
 
 
 TypeId
-OpenGymSpace::GetTypeId (void)
+OpenEnvSpace::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymSpace")
+  static TypeId tid = TypeId ("OpenEnvSpace")
     .SetParent<Object> ()
-    .SetGroupName ("OpenGym")
+    .SetGroupName ("OpenEnv")
     ;
   return tid;
 }
 
-OpenGymSpace::OpenGymSpace()
+OpenEnvSpace::OpenEnvSpace()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymSpace::~OpenGymSpace ()
-{
-  NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymSpace::DoDispose (void)
+OpenEnvSpace::~OpenEnvSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymSpace::DoInitialize (void)
+OpenEnvSpace::DoDispose (void)
+{
+  NS_LOG_FUNCTION (this);
+}
+
+void
+OpenEnvSpace::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 
 TypeId
-OpenGymDiscreteSpace::GetTypeId (void)
+OpenEnvDiscreteSpace::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymDiscreteSpace")
-    .SetParent<OpenGymSpace> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymDiscreteSpace> ()
+  static TypeId tid = TypeId ("OpenEnvDiscreteSpace")
+    .SetParent<OpenEnvSpace> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvDiscreteSpace> ()
     ;
   return tid;
 }
 
-OpenGymDiscreteSpace::OpenGymDiscreteSpace()
+OpenEnvDiscreteSpace::OpenEnvDiscreteSpace()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymDiscreteSpace::OpenGymDiscreteSpace(int n):
+OpenEnvDiscreteSpace::OpenEnvDiscreteSpace(int n):
   m_n(n)
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymDiscreteSpace::~OpenGymDiscreteSpace ()
+OpenEnvDiscreteSpace::~OpenEnvDiscreteSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDiscreteSpace::DoDispose (void)
+OpenEnvDiscreteSpace::DoDispose (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDiscreteSpace::DoInitialize (void)
+OpenEnvDiscreteSpace::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 int
-OpenGymDiscreteSpace::GetN (void)
+OpenEnvDiscreteSpace::GetN (void)
 {
   NS_LOG_FUNCTION (this);
   return m_n;
 }
 
-ns3opengym::SpaceDescription
-OpenGymDiscreteSpace::GetSpaceDescription()
+ns3openenv::SpaceDescription
+OpenEnvDiscreteSpace::GetSpaceDescription()
 {
   NS_LOG_FUNCTION (this);
-  ns3opengym::SpaceDescription desc;
-  desc.set_type(ns3opengym::Discrete);
-  ns3opengym::DiscreteSpace discreteSpace;
+  ns3openenv::SpaceDescription desc;
+  desc.set_type(ns3openenv::Discrete);
+  ns3openenv::DiscreteSpace discreteSpace;
   discreteSpace.set_n(GetN());
   desc.mutable_space()->PackFrom(discreteSpace);
   return desc;
 }
 
 void
-OpenGymDiscreteSpace::Print(std::ostream& where) const
+OpenEnvDiscreteSpace::Print(std::ostream& where) const
 {
   where << " DiscreteSpace N: " << m_n;
 }
 
 TypeId
-OpenGymBoxSpace::GetTypeId (void)
+OpenEnvBoxSpace::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymBoxSpace")
-    .SetParent<OpenGymSpace> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymBoxSpace> ()
+  static TypeId tid = TypeId ("OpenEnvBoxSpace")
+    .SetParent<OpenEnvSpace> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvBoxSpace> ()
     ;
   return tid;
 }
 
-OpenGymBoxSpace::OpenGymBoxSpace ()
+OpenEnvBoxSpace::OpenEnvBoxSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymBoxSpace::OpenGymBoxSpace (float low, float high, std::vector<uint32_t> shape, std::string dtype):
+OpenEnvBoxSpace::OpenEnvBoxSpace (float low, float high, std::vector<uint32_t> shape, std::string dtype):
   m_low(low), m_high(high), m_shape(shape), m_dtypeName(dtype)
 {
   NS_LOG_FUNCTION (this);
   SetDtype ();
 }
 
-OpenGymBoxSpace::OpenGymBoxSpace (std::vector<float> low, std::vector<float> high, std::vector<uint32_t> shape, std::string dtype):
+OpenEnvBoxSpace::OpenEnvBoxSpace (std::vector<float> low, std::vector<float> high, std::vector<uint32_t> shape, std::string dtype):
   m_low(0), m_high(0), m_shape(shape), m_dtypeName(dtype), m_lowVec(low), m_highVec(high)
 
 {
@@ -158,68 +158,68 @@ OpenGymBoxSpace::OpenGymBoxSpace (std::vector<float> low, std::vector<float> hig
   SetDtype ();
 } 
 
-OpenGymBoxSpace::~OpenGymBoxSpace ()
+OpenEnvBoxSpace::~OpenEnvBoxSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymBoxSpace::DoDispose (void)
+OpenEnvBoxSpace::DoDispose (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymBoxSpace::DoInitialize (void)
+OpenEnvBoxSpace::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymBoxSpace::SetDtype ()
+OpenEnvBoxSpace::SetDtype ()
 {
   std::string name = m_dtypeName;
   if (name == "int8_t" || name == "int16_t" || name == "int32_t" || name == "int64_t")
-    m_dtype = ns3opengym::INT;
+    m_dtype = ns3openenv::INT;
   else if (name == "uint8_t" || name == "uint16_t" || name == "uint32_t" || name == "uint64_t")
-    m_dtype = ns3opengym::UINT;
+    m_dtype = ns3openenv::UINT;
   else if (name == "float")
-    m_dtype = ns3opengym::FLOAT;
+    m_dtype = ns3openenv::FLOAT;
   else if (name == "double")
-    m_dtype = ns3opengym::DOUBLE;
+    m_dtype = ns3openenv::DOUBLE;
   else
-    m_dtype = ns3opengym::FLOAT;
+    m_dtype = ns3openenv::FLOAT;
 }
 
 float
-OpenGymBoxSpace::GetLow()
+OpenEnvBoxSpace::GetLow()
 {
   NS_LOG_FUNCTION (this);
   return m_low;
 }
 
 float
-OpenGymBoxSpace::GetHigh()
+OpenEnvBoxSpace::GetHigh()
 {
   NS_LOG_FUNCTION (this);
   return m_high;
 }
 
 std::vector<uint32_t>
-OpenGymBoxSpace::GetShape()
+OpenEnvBoxSpace::GetShape()
 {
   NS_LOG_FUNCTION (this);
   return m_shape;
 }
 
-ns3opengym::SpaceDescription
-OpenGymBoxSpace::GetSpaceDescription()
+ns3openenv::SpaceDescription
+OpenEnvBoxSpace::GetSpaceDescription()
 {
   NS_LOG_FUNCTION (this);
-  ns3opengym::SpaceDescription desc;
-  desc.set_type(ns3opengym::Box);
+  ns3openenv::SpaceDescription desc;
+  desc.set_type(ns3openenv::Box);
 
-  ns3opengym::BoxSpace boxSpacePb;
+  ns3openenv::BoxSpace boxSpacePb;
   boxSpacePb.set_low(GetLow());
   boxSpacePb.set_high(GetHigh());
 
@@ -235,7 +235,7 @@ OpenGymBoxSpace::GetSpaceDescription()
 }
 
 void
-OpenGymBoxSpace::Print(std::ostream& where) const
+OpenEnvBoxSpace::Print(std::ostream& where) const
 {
   where << " BoxSpace Low: " << m_low << " High: " << m_high << " Shape: (";
 
@@ -248,51 +248,51 @@ OpenGymBoxSpace::Print(std::ostream& where) const
 
 
 TypeId
-OpenGymTupleSpace::GetTypeId (void)
+OpenEnvTupleSpace::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymTupleSpace")
-    .SetParent<OpenGymSpace> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymTupleSpace> ()
+  static TypeId tid = TypeId ("OpenEnvTupleSpace")
+    .SetParent<OpenEnvSpace> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvTupleSpace> ()
     ;
   return tid;
 }
 
-OpenGymTupleSpace::OpenGymTupleSpace ()
+OpenEnvTupleSpace::OpenEnvTupleSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymTupleSpace::~OpenGymTupleSpace ()
-{
-  NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymTupleSpace::DoDispose (void)
+OpenEnvTupleSpace::~OpenEnvTupleSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymTupleSpace::DoInitialize (void)
+OpenEnvTupleSpace::DoDispose (void)
+{
+  NS_LOG_FUNCTION (this);
+}
+
+void
+OpenEnvTupleSpace::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 bool
-OpenGymTupleSpace::Add(Ptr<OpenGymSpace> space)
+OpenEnvTupleSpace::Add(Ptr<OpenEnvSpace> space)
 {
   NS_LOG_FUNCTION (this);
   m_tuple.push_back(space);
   return true;
 }
 
-Ptr<OpenGymSpace>
-OpenGymTupleSpace::Get(uint32_t idx)
+Ptr<OpenEnvSpace>
+OpenEnvTupleSpace::Get(uint32_t idx)
 {
   NS_LOG_FUNCTION (this);
-  Ptr<OpenGymSpace> space;
+  Ptr<OpenEnvSpace> space;
 
   if (idx < m_tuple.size())
   {
@@ -302,19 +302,19 @@ OpenGymTupleSpace::Get(uint32_t idx)
   return space;
 }
 
-ns3opengym::SpaceDescription
-OpenGymTupleSpace::GetSpaceDescription()
+ns3openenv::SpaceDescription
+OpenEnvTupleSpace::GetSpaceDescription()
 {
   NS_LOG_FUNCTION (this);
-  ns3opengym::SpaceDescription desc;
-  desc.set_type(ns3opengym::Tuple);
+  ns3openenv::SpaceDescription desc;
+  desc.set_type(ns3openenv::Tuple);
 
-  ns3opengym::TupleSpace tupleSpacePb;
+  ns3openenv::TupleSpace tupleSpacePb;
 
   for (auto i = m_tuple.begin(); i != m_tuple.end(); ++i)
   {
-    Ptr<OpenGymSpace> subSpace = *i;
-    ns3opengym::SpaceDescription subDesc = subSpace->GetSpaceDescription();
+    Ptr<OpenEnvSpace> subSpace = *i;
+    ns3openenv::SpaceDescription subDesc = subSpace->GetSpaceDescription();
     tupleSpacePb.add_element()->CopyFrom(subDesc);
   }
 
@@ -323,7 +323,7 @@ OpenGymTupleSpace::GetSpaceDescription()
 }
 
 void
-OpenGymTupleSpace::Print(std::ostream& where) const
+OpenEnvTupleSpace::Print(std::ostream& where) const
 {
   where << " TupleSpace: " << std::endl;
 
@@ -337,52 +337,52 @@ OpenGymTupleSpace::Print(std::ostream& where) const
 
 
 TypeId
-OpenGymDictSpace::GetTypeId (void)
+OpenEnvDictSpace::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymDictSpace")
-    .SetParent<OpenGymSpace> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymDictSpace> ()
+  static TypeId tid = TypeId ("OpenEnvDictSpace")
+    .SetParent<OpenEnvSpace> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvDictSpace> ()
     ;
   return tid;
 }
 
-OpenGymDictSpace::OpenGymDictSpace ()
+OpenEnvDictSpace::OpenEnvDictSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymDictSpace::~OpenGymDictSpace ()
-{
-  NS_LOG_FUNCTION (this);
-}
-
-void
-OpenGymDictSpace::DoDispose (void)
+OpenEnvDictSpace::~OpenEnvDictSpace ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymDictSpace::DoInitialize (void)
+OpenEnvDictSpace::DoDispose (void)
+{
+  NS_LOG_FUNCTION (this);
+}
+
+void
+OpenEnvDictSpace::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 bool
-OpenGymDictSpace::Add(std::string key, Ptr<OpenGymSpace> space)
+OpenEnvDictSpace::Add(std::string key, Ptr<OpenEnvSpace> space)
 {
   NS_LOG_FUNCTION (this);
-  m_dict.insert(std::pair<std::string, Ptr<OpenGymSpace> > (key, space));
+  m_dict.insert(std::pair<std::string, Ptr<OpenEnvSpace> > (key, space));
   return true;
 }
 
-Ptr<OpenGymSpace>
-OpenGymDictSpace::Get(std::string key)
+Ptr<OpenEnvSpace>
+OpenEnvDictSpace::Get(std::string key)
 {
   NS_LOG_FUNCTION (this);
-  Ptr<OpenGymSpace> space;
-  std::map< std::string, Ptr<OpenGymSpace> >::iterator it = m_dict.find(key);
+  Ptr<OpenEnvSpace> space;
+  std::map< std::string, Ptr<OpenEnvSpace> >::iterator it = m_dict.find(key);
   if ( it != m_dict.end() ) {
     space = it->second;
   }
@@ -390,22 +390,22 @@ OpenGymDictSpace::Get(std::string key)
   return space;
 }
 
-ns3opengym::SpaceDescription
-OpenGymDictSpace::GetSpaceDescription()
+ns3openenv::SpaceDescription
+OpenEnvDictSpace::GetSpaceDescription()
 {
   NS_LOG_FUNCTION (this);
-  ns3opengym::SpaceDescription desc;
-  desc.set_type(ns3opengym::Dict);
+  ns3openenv::SpaceDescription desc;
+  desc.set_type(ns3openenv::Dict);
 
-  ns3opengym::DictSpace dictSpacePb;
+  ns3openenv::DictSpace dictSpacePb;
 
-  std::map< std::string, Ptr<OpenGymSpace> >::iterator it;
+  std::map< std::string, Ptr<OpenEnvSpace> >::iterator it;
   for (it=m_dict.begin(); it!=m_dict.end(); ++it)
   {
     std::string name = it->first;
-    Ptr<OpenGymSpace> subSpace = it->second;
+    Ptr<OpenEnvSpace> subSpace = it->second;
 
-    ns3opengym::SpaceDescription subDesc = subSpace->GetSpaceDescription();
+    ns3openenv::SpaceDescription subDesc = subSpace->GetSpaceDescription();
     subDesc.set_name(name);
 
     dictSpacePb.add_element()->CopyFrom(subDesc);
@@ -416,12 +416,12 @@ OpenGymDictSpace::GetSpaceDescription()
 }
 
 void
-OpenGymDictSpace::Print(std::ostream& where) const
+OpenEnvDictSpace::Print(std::ostream& where) const
 {
   where << " DictSpace: " << std::endl;
 
-  std::map< std::string, Ptr<OpenGymSpace> > myMap = m_dict;
-  std::map< std::string, Ptr<OpenGymSpace> >::iterator it;
+  std::map< std::string, Ptr<OpenEnvSpace> > myMap = m_dict;
+  std::map< std::string, Ptr<OpenEnvSpace> >::iterator it;
   for (it=myMap.begin(); it!=myMap.end(); ++it)
   {
     where << "---" << it->first << ":";

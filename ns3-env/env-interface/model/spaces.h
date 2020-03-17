@@ -19,23 +19,23 @@
  *
  */
 
-#ifndef OPENGYM_SPACES_H
-#define OPENGYM_SPACES_H
+#ifndef OPENENV_SPACES_H
+#define OPENENV_SPACES_H
 
 #include "ns3/object.h"
 #include "messages.pb.h"
 
 namespace ns3 {
 
-class OpenGymSpace : public Object
+class OpenEnvSpace : public Object
 {
 public:
-  OpenGymSpace ();
-  virtual ~OpenGymSpace ();
+  OpenEnvSpace ();
+  virtual ~OpenEnvSpace ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::SpaceDescription GetSpaceDescription() = 0;
+  virtual ns3openenv::SpaceDescription GetSpaceDescription() = 0;
   virtual void Print(std::ostream& where) const = 0;
 protected:
   // Inherited
@@ -44,20 +44,20 @@ protected:
 };
 
 
-class OpenGymDiscreteSpace : public OpenGymSpace
+class OpenEnvDiscreteSpace : public OpenEnvSpace
 {
 public:
-  OpenGymDiscreteSpace ();
-  OpenGymDiscreteSpace (int n);
-  virtual ~OpenGymDiscreteSpace ();
+  OpenEnvDiscreteSpace ();
+  OpenEnvDiscreteSpace (int n);
+  virtual ~OpenEnvDiscreteSpace ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::SpaceDescription GetSpaceDescription();
+  virtual ns3openenv::SpaceDescription GetSpaceDescription();
 
   int GetN(void);
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymDiscreteSpace> space)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvDiscreteSpace> space)
   {
     space->Print(os);
     return os;
@@ -72,24 +72,24 @@ private:
 	int m_n;
 };
 
-class OpenGymBoxSpace : public OpenGymSpace
+class OpenEnvBoxSpace : public OpenEnvSpace
 {
 public:
-  OpenGymBoxSpace ();
-  OpenGymBoxSpace (float low, float high, std::vector<uint32_t> shape, std::string dtype);
-  OpenGymBoxSpace (std::vector<float> low, std::vector<float> high, std::vector<uint32_t> shape, std::string dtype);
-  virtual ~OpenGymBoxSpace ();
+  OpenEnvBoxSpace ();
+  OpenEnvBoxSpace (float low, float high, std::vector<uint32_t> shape, std::string dtype);
+  OpenEnvBoxSpace (std::vector<float> low, std::vector<float> high, std::vector<uint32_t> shape, std::string dtype);
+  virtual ~OpenEnvBoxSpace ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::SpaceDescription GetSpaceDescription();
+  virtual ns3openenv::SpaceDescription GetSpaceDescription();
 
   float GetLow();
   float GetHigh();
   std::vector<uint32_t> GetShape();
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymBoxSpace> space)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvBoxSpace> space)
   {
     space->Print(os);
     return os;
@@ -110,25 +110,25 @@ private:
   std::vector<float> m_lowVec;
   std::vector<float> m_highVec;
 
-  ns3opengym::Dtype m_dtype;
+  ns3openenv::Dtype m_dtype;
 };
 
 
-class OpenGymTupleSpace : public OpenGymSpace
+class OpenEnvTupleSpace : public OpenEnvSpace
 {
 public:
-  OpenGymTupleSpace ();
-  virtual ~OpenGymTupleSpace ();
+  OpenEnvTupleSpace ();
+  virtual ~OpenEnvTupleSpace ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::SpaceDescription GetSpaceDescription();
+  virtual ns3openenv::SpaceDescription GetSpaceDescription();
 
-  bool Add(Ptr<OpenGymSpace> space);
-  Ptr<OpenGymSpace> Get(uint32_t idx);
+  bool Add(Ptr<OpenEnvSpace> space);
+  Ptr<OpenEnvSpace> Get(uint32_t idx);
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymTupleSpace> space)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvTupleSpace> space)
   {
     space->Print(os);
     return os;
@@ -140,25 +140,25 @@ protected:
   virtual void DoDispose (void);
 
 private:
-  std::vector< Ptr<OpenGymSpace> > m_tuple;
+  std::vector< Ptr<OpenEnvSpace> > m_tuple;
 };
 
 
-class OpenGymDictSpace : public OpenGymSpace
+class OpenEnvDictSpace : public OpenEnvSpace
 {
 public:
-  OpenGymDictSpace ();
-  virtual ~OpenGymDictSpace ();
+  OpenEnvDictSpace ();
+  virtual ~OpenEnvDictSpace ();
 
   static TypeId GetTypeId ();
 
-  virtual ns3opengym::SpaceDescription GetSpaceDescription();
+  virtual ns3openenv::SpaceDescription GetSpaceDescription();
 
-  bool Add(std::string key, Ptr<OpenGymSpace> value);
-  Ptr<OpenGymSpace> Get(std::string key);
+  bool Add(std::string key, Ptr<OpenEnvSpace> value);
+  Ptr<OpenEnvSpace> Get(std::string key);
 
   virtual void Print(std::ostream& where) const;
-  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenGymDictSpace> space)
+  friend std::ostream& operator<< (std::ostream& os, const Ptr<OpenEnvDictSpace> space)
   {
     space->Print(os);
     return os;
@@ -170,10 +170,10 @@ protected:
   virtual void DoDispose (void);
 
 private:
-  std::map< std::string, Ptr<OpenGymSpace> > m_dict;
+  std::map< std::string, Ptr<OpenEnvSpace> > m_dict;
 };
 
 } // end of namespace ns3
 
-#endif /* OPENGYM_SPACES_H */
+#endif /* OPENENV_SPACES_H */
 
