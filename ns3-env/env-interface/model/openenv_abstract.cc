@@ -21,7 +21,7 @@
 
 #include "ns3/log.h"
 #include "ns3/object.h"
-#include "openenv_env.h"
+#include "openenv_abstract.h"
 #include "container.h"
 #include "spaces.h"
 #include "openenv_interface.h"
