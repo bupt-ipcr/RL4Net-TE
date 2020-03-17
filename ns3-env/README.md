@@ -54,7 +54,7 @@ Installation
    **注意：**执行该指令的时候请确保你已经安装了protoc，并且尽量不要在conda环境下，否则可能出现protoc版本混乱等问题。
 
 
-4. 安装python库：ns3gym
+4. 安装python库：pyns3
 
    ```bash
    pip install ./ns3-python-connector
