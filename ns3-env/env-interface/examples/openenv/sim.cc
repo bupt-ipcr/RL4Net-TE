@@ -20,23 +20,23 @@
  */
 
 #include "ns3/core-module.h"
-#include "ns3/opengym-module.h"
+#include "ns3/openenv-module.h"
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE ("OpenGym");
+NS_LOG_COMPONENT_DEFINE ("OpenEnv");
 
 /*
 Define observation space
 */
-Ptr<OpenGymSpace> MyGetObservationSpace(void)
+Ptr<OpenEnvSpace> MyGetObservationSpace(void)
 {
   uint32_t nodeNum = 5;
   float low = 0.0;
   float high = 10.0;
   std::vector<uint32_t> shape = {nodeNum,};
   std::string dtype = TypeNameGet<uint32_t> ();
-  Ptr<OpenGymBoxSpace> space = CreateObject<OpenGymBoxSpace> (low, high, shape, dtype);
+  Ptr<OpenEnvBoxSpace> space = CreateObject<OpenEnvBoxSpace> (low, high, shape, dtype);
   NS_LOG_UNCOND ("MyGetObservationSpace: " << space);
   return space;
 }
@@ -44,11 +44,11 @@ Ptr<OpenGymSpace> MyGetObservationSpace(void)
 /*
 Define action space
 */
-Ptr<OpenGymSpace> MyGetActionSpace(void)
+Ptr<OpenEnvSpace> MyGetActionSpace(void)
 {
   uint32_t nodeNum = 5;
 
-  Ptr<OpenGymDiscreteSpace> space = CreateObject<OpenGymDiscreteSpace> (nodeNum);
+  Ptr<OpenEnvDiscreteSpace> space = CreateObject<OpenEnvDiscreteSpace> (nodeNum);
   NS_LOG_UNCOND ("MyGetActionSpace: " << space);
   return space;
 }
@@ -73,7 +73,7 @@ bool MyGetGameOver(void)
 /*
 Collect observations
 */
-Ptr<OpenGymDataContainer> MyGetObservation(void)
+Ptr<OpenEnvDataContainer> MyGetObservation(void)
 {
   uint32_t nodeNum = 5;
   uint32_t low = 0.0;
@@ -81,7 +81,7 @@ Ptr<OpenGymDataContainer> MyGetObservation(void)
   Ptr<UniformRandomVariable> rngInt = CreateObject<UniformRandomVariable> ();
 
   std::vector<uint32_t> shape = {nodeNum,};
-  Ptr<OpenGymBoxContainer<uint32_t> > box = CreateObject<OpenGymBoxContainer<uint32_t> >(shape);
+  Ptr<OpenEnvBoxContainer<uint32_t> > box = CreateObject<OpenEnvBoxContainer<uint32_t> >(shape);
 
   // generate random data
   for (uint32_t i = 0; i<nodeNum; i++){
@@ -118,17 +118,17 @@ std::string MyGetExtraInfo(void)
 /*
 Execute received actions
 */
-bool MyExecuteActions(Ptr<OpenGymDataContainer> action)
+bool MyExecuteActions(Ptr<OpenEnvDataContainer> action)
 {
-  Ptr<OpenGymDiscreteContainer> discrete = DynamicCast<OpenGymDiscreteContainer>(action);
+  Ptr<OpenEnvDiscreteContainer> discrete = DynamicCast<OpenEnvDiscreteContainer>(action);
   NS_LOG_UNCOND ("MyExecuteActions: " << action);
   return true;
 }
 
-void ScheduleNextStateRead(double envStepTime, Ptr<OpenGymInterface> openGym)
+void ScheduleNextStateRead(double envStepTime, Ptr<OpenEnvInterface> openEnv)
 {
-  Simulator::Schedule (Seconds(envStepTime), &ScheduleNextStateRead, envStepTime, openGym);
-  openGym->NotifyCurrentState();
+  Simulator::Schedule (Seconds(envStepTime), &ScheduleNextStateRead, envStepTime, openEnv);
+  openEnv->NotifyCurrentState();
 }
 
 int
@@ -137,13 +137,13 @@ main (int argc, char *argv[])
   // Parameters of the scenario
   uint32_t simSeed = 1;
   double simulationTime = 1; //seconds
-  double envStepTime = 0.1; //seconds, ns3gym env step time interval
-  uint32_t openGymPort = 5555;
+  double envStepTime = 0.1; //seconds, ns3env env step time interval
+  uint32_t openEnvPort = 5555;
   uint32_t testArg = 0;
 
   CommandLine cmd;
-  // required parameters for OpenGym interface
-  cmd.AddValue ("openGymPort", "Port number for OpenGym env. Default: 5555", openGymPort);
+  // required parameters for OpenEnv interface
+  cmd.AddValue ("openEnvPort", "Port number for OpenEnv env. Default: 5555", openEnvPort);
   cmd.AddValue ("simSeed", "Seed for random generator. Default: 1", simSeed);
   // optional parameters
   cmd.AddValue ("simTime", "Simulation time in seconds. Default: 10s", simulationTime);
@@ -152,7 +152,7 @@ main (int argc, char *argv[])
 
   NS_LOG_UNCOND("Ns3Env parameters:");
   NS_LOG_UNCOND("--simulationTime: " << simulationTime);
-  NS_LOG_UNCOND("--openGymPort: " << openGymPort);
+  NS_LOG_UNCOND("--openEnvPort: " << openEnvPort);
   NS_LOG_UNCOND("--envStepTime: " << envStepTime);
   NS_LOG_UNCOND("--seed: " << simSeed);
   NS_LOG_UNCOND("--testArg: " << testArg);
@@ -160,23 +160,23 @@ main (int argc, char *argv[])
   RngSeedManager::SetSeed (1);
   RngSeedManager::SetRun (simSeed);
 
-  // OpenGym Env
-  Ptr<OpenGymInterface> openGym = CreateObject<OpenGymInterface> (openGymPort);
-  openGym->SetGetActionSpaceCb( MakeCallback (&MyGetActionSpace) );
-  openGym->SetGetObservationSpaceCb( MakeCallback (&MyGetObservationSpace) );
-  openGym->SetGetGameOverCb( MakeCallback (&MyGetGameOver) );
-  openGym->SetGetObservationCb( MakeCallback (&MyGetObservation) );
-  openGym->SetGetRewardCb( MakeCallback (&MyGetReward) );
-  openGym->SetGetExtraInfoCb( MakeCallback (&MyGetExtraInfo) );
-  openGym->SetExecuteActionsCb( MakeCallback (&MyExecuteActions) );
-  Simulator::Schedule (Seconds(0.0), &ScheduleNextStateRead, envStepTime, openGym);
+  // OpenEnv Env
+  Ptr<OpenEnvInterface> openEnv = CreateObject<OpenEnvInterface> (openEnvPort);
+  openEnv->SetGetActionSpaceCb( MakeCallback (&MyGetActionSpace) );
+  openEnv->SetGetObservationSpaceCb( MakeCallback (&MyGetObservationSpace) );
+  openEnv->SetGetGameOverCb( MakeCallback (&MyGetGameOver) );
+  openEnv->SetGetObservationCb( MakeCallback (&MyGetObservation) );
+  openEnv->SetGetRewardCb( MakeCallback (&MyGetReward) );
+  openEnv->SetGetExtraInfoCb( MakeCallback (&MyGetExtraInfo) );
+  openEnv->SetExecuteActionsCb( MakeCallback (&MyExecuteActions) );
+  Simulator::Schedule (Seconds(0.0), &ScheduleNextStateRead, envStepTime, openEnv);
 
   NS_LOG_UNCOND ("Simulation start");
   Simulator::Stop (Seconds (simulationTime));
   Simulator::Run ();
   NS_LOG_UNCOND ("Simulation stop");
 
-  openGym->NotifySimulationEnd();
+  openEnv->NotifySimulationEnd();
   Simulator::Destroy ();
 
 }

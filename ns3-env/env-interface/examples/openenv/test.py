@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-from ns3gym import ns3env
+from pyns3 import ns3env
 
 __author__ = "Piotr Gawlowicz"
 __copyright__ = "Copyright (c) 2018, Technische Universität Berlin"
