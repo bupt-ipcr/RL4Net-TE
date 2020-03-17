@@ -19,7 +19,7 @@ def create_conf():
     """
     产生查找waf路径使用的configure文件
     内容是waf路径
-    文件会被放置在ns3gym安装包文件夹下，随ns3gym包一起被安装
+    文件会被放置在pyns3安装包文件夹下，随pyns3包一起被安装
     """
 
     # 产生conf
@@ -27,7 +27,7 @@ def create_conf():
     conf = {'waf_path': str(waf_path)}
 
     # 获取conf path
-    conf_path = cur_path / 'ns3-python-connector' / 'ns3gym' / 'wafconf.py'
+    conf_path = cur_path / 'ns3-python-connector' / 'pyns3' / 'wafconf.py'
     with conf_path.open('w') as f:
         f.write(f'conf = {conf}')
 
@@ -38,18 +38,18 @@ def file_copy():
     """
     进行文件复制操作
     """
-    # 将opengym文件夹复制到 ns3path/src下
+    # 将openenv文件夹复制到 ns3path/src下
 
     # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     src_path = ns3_path / 'src'
     interface_path = cur_path / 'env-interface'
-    opengym_path = cur_path / 'opengym'
+    openenv_path = cur_path / 'openenv'
     # 创建临时文件夹
-    os.system(f'cp -r {interface_path.resolve()} {opengym_path.resolve()}')
+    os.system(f'cp -r {interface_path.resolve()} {openenv_path.resolve()}')
     # 文件拷贝
-    os.system(f"cp -r {opengym_path.resolve()} {src_path.resolve()}")
+    os.system(f"cp -r {openenv_path.resolve()} {src_path.resolve()}")
     # 删除临时文件夹
-    os.system(f'rm -r {opengym_path.resolve()}')
+    os.system(f'rm -r {openenv_path.resolve()}')
     print('文件复制完成')
 
 
