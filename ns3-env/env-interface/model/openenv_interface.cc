@@ -24,134 +24,134 @@
 #include "ns3/log.h"
 #include "ns3/config.h"
 #include "ns3/simulator.h"
-#include "opengym_interface.h"
-#include "opengym_env.h"
+#include "openenv_interface.h"
+#include "openenv_abstract.h"
 #include "container.h"
 #include "spaces.h"
 #include "messages.pb.h"
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("OpenGymInterface");
+NS_LOG_COMPONENT_DEFINE ("OpenEnvInterface");
 
-NS_OBJECT_ENSURE_REGISTERED (OpenGymInterface);
+NS_OBJECT_ENSURE_REGISTERED (OpenEnvInterface);
 
 
 TypeId
-OpenGymInterface::GetTypeId (void)
+OpenEnvInterface::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("OpenGymInterface")
+  static TypeId tid = TypeId ("OpenEnvInterface")
     .SetParent<Object> ()
-    .SetGroupName ("OpenGym")
-    .AddConstructor<OpenGymInterface> ()
+    .SetGroupName ("OpenEnv")
+    .AddConstructor<OpenEnvInterface> ()
     ;
   return tid;
 }
 
-Ptr<OpenGymInterface>
-OpenGymInterface::Get (uint32_t port)
+Ptr<OpenEnvInterface>
+OpenEnvInterface::Get (uint32_t port)
 {
   NS_LOG_FUNCTION_NOARGS ();
   return *DoGet (port);
 }
 
-Ptr<OpenGymInterface> *
-OpenGymInterface::DoGet (uint32_t port)
+Ptr<OpenEnvInterface> *
+OpenEnvInterface::DoGet (uint32_t port)
 {
   NS_LOG_FUNCTION_NOARGS ();
-  static Ptr<OpenGymInterface> ptr = 0;
+  static Ptr<OpenEnvInterface> ptr = 0;
   if (ptr == 0)
     {
-      ptr = CreateObject<OpenGymInterface> (port);
+      ptr = CreateObject<OpenEnvInterface> (port);
       Config::RegisterRootNamespaceObject (ptr);
-      Simulator::ScheduleDestroy (&OpenGymInterface::Delete);
+      Simulator::ScheduleDestroy (&OpenEnvInterface::Delete);
     }
   return &ptr;
 }
 
 void
-OpenGymInterface::Delete (void)
+OpenEnvInterface::Delete (void)
 {
   NS_LOG_FUNCTION_NOARGS ();
   Config::UnregisterRootNamespaceObject (Get ());
   (*DoGet ()) = 0;
 }
 
-OpenGymInterface::OpenGymInterface(uint32_t port):
+OpenEnvInterface::OpenEnvInterface(uint32_t port):
   m_port(port), m_zmq_context(1), m_zmq_socket(m_zmq_context, ZMQ_REQ),
   m_simEnd(false), m_stopEnvRequested(false), m_initSimMsgSent(false)
 {
   NS_LOG_FUNCTION (this);
 }
 
-OpenGymInterface::~OpenGymInterface ()
+OpenEnvInterface::~OpenEnvInterface ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymInterface::DoDispose (void)
+OpenEnvInterface::DoDispose (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymInterface::DoInitialize (void)
+OpenEnvInterface::DoInitialize (void)
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-OpenGymInterface::SetGetActionSpaceCb(Callback< Ptr<OpenGymSpace> > cb)
+OpenEnvInterface::SetGetActionSpaceCb(Callback< Ptr<OpenEnvSpace> > cb)
 {
   NS_LOG_FUNCTION (this);
   m_actionSpaceCb = cb;
 }
 
 void
-OpenGymInterface::SetGetObservationSpaceCb(Callback< Ptr<OpenGymSpace> > cb)
+OpenEnvInterface::SetGetObservationSpaceCb(Callback< Ptr<OpenEnvSpace> > cb)
 {
   NS_LOG_FUNCTION (this);
   m_observationSpaceCb = cb;
 }
 
 void
-OpenGymInterface::SetGetGameOverCb(Callback< bool > cb)
+OpenEnvInterface::SetGetGameOverCb(Callback< bool > cb)
 {
   NS_LOG_FUNCTION (this);
   m_gameOverCb = cb;
 }
 
 void
-OpenGymInterface::SetGetObservationCb(Callback< Ptr<OpenGymDataContainer> > cb)
+OpenEnvInterface::SetGetObservationCb(Callback< Ptr<OpenEnvDataContainer> > cb)
 {
   NS_LOG_FUNCTION (this);
   m_obsCb = cb;
 }
 
 void
-OpenGymInterface::SetGetRewardCb(Callback<float> cb)
+OpenEnvInterface::SetGetRewardCb(Callback<float> cb)
 {
   NS_LOG_FUNCTION (this);
   m_rewardCb = cb;
 }
 
 void
-OpenGymInterface::SetGetExtraInfoCb(Callback<std::string> cb)
+OpenEnvInterface::SetGetExtraInfoCb(Callback<std::string> cb)
 {
   NS_LOG_FUNCTION (this);
   m_extraInfoCb = cb;
 }
 
 void
-OpenGymInterface::SetExecuteActionsCb(Callback<bool, Ptr<OpenGymDataContainer> > cb)
+OpenEnvInterface::SetExecuteActionsCb(Callback<bool, Ptr<OpenEnvDataContainer> > cb)
 {
   NS_LOG_FUNCTION (this);
   m_actionCb = cb;
 }
 
 void 
-OpenGymInterface::Init()
+OpenEnvInterface::Init()
 {
   NS_LOG_FUNCTION (this);
   // do not send init msg twice
@@ -163,25 +163,25 @@ OpenGymInterface::Init()
   std::string connectAddr = "tcp://localhost:" + std::to_string(m_port);
   zmq_connect ((void*)m_zmq_socket, connectAddr.c_str());
 
-  Ptr<OpenGymSpace> obsSpace = GetObservationSpace();
-  Ptr<OpenGymSpace> actionSpace = GetActionSpace();
+  Ptr<OpenEnvSpace> obsSpace = GetObservationSpace();
+  Ptr<OpenEnvSpace> actionSpace = GetActionSpace();
 
   NS_LOG_UNCOND("Simulation process id: " << ::getpid() << " (parent (waf shell) id: " << ::getppid() << ")");
   NS_LOG_UNCOND("Waiting for Python process to connect on port: "<< connectAddr);
-  NS_LOG_UNCOND("Please start proper Python Gym Agent");
+  NS_LOG_UNCOND("Please start proper Python Env Agent");
 
-  ns3opengym::SimInitMsg simInitMsg;
+  ns3openenv::SimInitMsg simInitMsg;
   simInitMsg.set_simprocessid(::getpid());
   simInitMsg.set_wafshellprocessid(::getppid());
 
   if (obsSpace) {
-    ns3opengym::SpaceDescription spaceDesc;
+    ns3openenv::SpaceDescription spaceDesc;
     spaceDesc = obsSpace->GetSpaceDescription();
     simInitMsg.mutable_obsspace()->CopyFrom(spaceDesc);
   }
 
   if (actionSpace) {
-    ns3opengym::SpaceDescription spaceDesc;
+    ns3openenv::SpaceDescription spaceDesc;
     spaceDesc = actionSpace->GetSpaceDescription();
     simInitMsg.mutable_actspace()->CopyFrom(spaceDesc);
   }
@@ -192,7 +192,7 @@ OpenGymInterface::Init()
   m_zmq_socket.send (request);
 
   // receive init ack msg form python
-  ns3opengym::SimInitAck simInitAck;
+  ns3openenv::SimInitAck simInitAck;
   zmq::message_t reply;
   m_zmq_socket.recv (&reply);
   simInitAck.ParseFromArray(reply.data(), reply.size());
@@ -211,7 +211,7 @@ OpenGymInterface::Init()
 }
 
 void
-OpenGymInterface::NotifyCurrentState()
+OpenEnvInterface::NotifyCurrentState()
 {
   NS_LOG_FUNCTION (this);
 
@@ -224,14 +224,14 @@ OpenGymInterface::NotifyCurrentState()
   }
 
   // collect current env state
-  Ptr<OpenGymDataContainer> obsDataContainer = GetObservation();
+  Ptr<OpenEnvDataContainer> obsDataContainer = GetObservation();
   float reward = GetReward();
   bool isGameOver = IsGameOver();
   std::string extraInfo = GetExtraInfo();
 
-  ns3opengym::EnvStateMsg envStateMsg;
+  ns3openenv::EnvStateMsg envStateMsg;
   // observation
-  ns3opengym::DataContainer obsDataContainerPbMsg;
+  ns3openenv::DataContainer obsDataContainerPbMsg;
   if (obsDataContainer) {
     obsDataContainerPbMsg = obsDataContainer->GetDataContainerPbMsg();
     envStateMsg.mutable_obsdata()->CopyFrom(obsDataContainerPbMsg);
@@ -244,9 +244,9 @@ OpenGymInterface::NotifyCurrentState()
   {
     envStateMsg.set_isgameover(true);
     if (m_simEnd) {
-      envStateMsg.set_reason(ns3opengym::EnvStateMsg::SimulationEnd);
+      envStateMsg.set_reason(ns3openenv::EnvStateMsg::SimulationEnd);
     } else {
-      envStateMsg.set_reason(ns3opengym::EnvStateMsg::GameOver);
+      envStateMsg.set_reason(ns3openenv::EnvStateMsg::GameOver);
     }
   }
 
@@ -259,7 +259,7 @@ OpenGymInterface::NotifyCurrentState()
   m_zmq_socket.send (request);
 
   // receive act msg form python
-  ns3opengym::EnvActMsg envActMsg;
+  ns3openenv::EnvActMsg envActMsg;
   zmq::message_t reply;
   m_zmq_socket.recv (&reply);
   envActMsg.ParseFromArray(reply.data(), reply.size());
@@ -279,14 +279,14 @@ OpenGymInterface::NotifyCurrentState()
   }
 
   // first step after reset is called without actions, just to get current state
-  ns3opengym::DataContainer actDataContainerPbMsg = envActMsg.actdata();
-  Ptr<OpenGymDataContainer> actDataContainer = OpenGymDataContainer::CreateFromDataContainerPbMsg(actDataContainerPbMsg);
+  ns3openenv::DataContainer actDataContainerPbMsg = envActMsg.actdata();
+  Ptr<OpenEnvDataContainer> actDataContainer = OpenEnvDataContainer::CreateFromDataContainerPbMsg(actDataContainerPbMsg);
   ExecuteActions(actDataContainer);
 
 }
 
 void
-OpenGymInterface::WaitForStop()
+OpenEnvInterface::WaitForStop()
 {
   NS_LOG_FUNCTION (this);
   NS_LOG_UNCOND("Wait for stop message");
@@ -294,7 +294,7 @@ OpenGymInterface::WaitForStop()
 }
 
 void
-OpenGymInterface::NotifySimulationEnd()
+OpenEnvInterface::NotifySimulationEnd()
 {
   NS_LOG_FUNCTION (this);
   m_simEnd = true;
@@ -304,7 +304,7 @@ OpenGymInterface::NotifySimulationEnd()
 }
 
 bool
-OpenGymInterface::IsGameOver()
+OpenEnvInterface::IsGameOver()
 {
   NS_LOG_FUNCTION (this);
   bool gameOver = false;
@@ -315,11 +315,11 @@ OpenGymInterface::IsGameOver()
   return (gameOver || m_simEnd);
 }
 
-Ptr<OpenGymSpace>
-OpenGymInterface::GetActionSpace()
+Ptr<OpenEnvSpace>
+OpenEnvInterface::GetActionSpace()
 {
   NS_LOG_FUNCTION (this);
-  Ptr<OpenGymSpace> actionSpace;
+  Ptr<OpenEnvSpace> actionSpace;
   if (!m_actionSpaceCb.IsNull())
   {
     actionSpace = m_actionSpaceCb();
@@ -327,11 +327,11 @@ OpenGymInterface::GetActionSpace()
   return actionSpace;
 }
 
-Ptr<OpenGymSpace>
-OpenGymInterface::GetObservationSpace()
+Ptr<OpenEnvSpace>
+OpenEnvInterface::GetObservationSpace()
 {
   NS_LOG_FUNCTION (this);
-  Ptr<OpenGymSpace> obsSpace;
+  Ptr<OpenEnvSpace> obsSpace;
   if (!m_observationSpaceCb.IsNull())
   {
     obsSpace = m_observationSpaceCb();
@@ -339,11 +339,11 @@ OpenGymInterface::GetObservationSpace()
   return obsSpace;
 }
 
-Ptr<OpenGymDataContainer>
-OpenGymInterface::GetObservation()
+Ptr<OpenEnvDataContainer>
+OpenEnvInterface::GetObservation()
 {
   NS_LOG_FUNCTION (this);
-  Ptr<OpenGymDataContainer>  obs;
+  Ptr<OpenEnvDataContainer>  obs;
   if (!m_obsCb.IsNull())
   {
     obs = m_obsCb();
@@ -352,7 +352,7 @@ OpenGymInterface::GetObservation()
 }
 
 float
-OpenGymInterface::GetReward()
+OpenEnvInterface::GetReward()
 {
   NS_LOG_FUNCTION (this);
   float reward = 0.0;
@@ -364,7 +364,7 @@ OpenGymInterface::GetReward()
 }
 
 std::string
-OpenGymInterface::GetExtraInfo()
+OpenEnvInterface::GetExtraInfo()
 {
   NS_LOG_FUNCTION (this);
   std::string info;
@@ -376,7 +376,7 @@ OpenGymInterface::GetExtraInfo()
 }
 
 bool
-OpenGymInterface::ExecuteActions(Ptr<OpenGymDataContainer> action)
+OpenEnvInterface::ExecuteActions(Ptr<OpenEnvDataContainer> action)
 {
   NS_LOG_FUNCTION (this);
   bool reply = false;
@@ -388,15 +388,15 @@ OpenGymInterface::ExecuteActions(Ptr<OpenGymDataContainer> action)
 }
 
 void
-OpenGymInterface::Notify(Ptr<OpenGymEnv> entity)
+OpenEnvInterface::Notify(Ptr<OpenEnvEnv> entity)
 {
   NS_LOG_FUNCTION (this);
 
-  SetGetGameOverCb( MakeCallback (&OpenGymEnv::GetGameOver, entity) );
-  SetGetObservationCb( MakeCallback (&OpenGymEnv::GetObservation, entity) );
-  SetGetRewardCb( MakeCallback (&OpenGymEnv::GetReward, entity) );
-  SetGetExtraInfoCb( MakeCallback (&OpenGymEnv::GetExtraInfo, entity) );
-  SetExecuteActionsCb( MakeCallback (&OpenGymEnv::ExecuteActions, entity) );
+  SetGetGameOverCb( MakeCallback (&OpenEnvEnv::GetGameOver, entity) );
+  SetGetObservationCb( MakeCallback (&OpenEnvEnv::GetObservation, entity) );
+  SetGetRewardCb( MakeCallback (&OpenEnvEnv::GetReward, entity) );
+  SetGetExtraInfoCb( MakeCallback (&OpenEnvEnv::GetExtraInfo, entity) );
+  SetExecuteActionsCb( MakeCallback (&OpenEnvEnv::ExecuteActions, entity) );
 
   NotifyCurrentState();
 }
