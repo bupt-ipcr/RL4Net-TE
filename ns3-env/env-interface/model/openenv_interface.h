@@ -19,25 +19,25 @@
  *
  */
 
-#ifndef OPENGYM_INTERFACE_H
-#define OPENGYM_INTERFACE_H
+#ifndef OPENENV_INTERFACE_H
+#define OPENENV_INTERFACE_H
 
 #include "ns3/object.h"
 #include <zmq.hpp>
 
 namespace ns3 {
 
-class OpenGymSpace;
-class OpenGymDataContainer;
-class OpenGymEnv;
+class OpenEnvSpace;
+class OpenEnvDataContainer;
+class OpenEnvAbstract;
 
-class OpenGymInterface : public Object
+class OpenEnvInterface : public Object
 {
 public:
-  static Ptr<OpenGymInterface> Get (uint32_t port=5555);
+  static Ptr<OpenEnvInterface> Get (uint32_t port=5555);
 
-  OpenGymInterface (uint32_t port=5555);
-  virtual ~OpenGymInterface ();
+  OpenEnvInterface (uint32_t port=5555);
+  virtual ~OpenEnvInterface ();
 
   static TypeId GetTypeId ();
 
@@ -47,23 +47,23 @@ public:
 
   void NotifySimulationEnd();
 
-  Ptr<OpenGymSpace> GetActionSpace();
-  Ptr<OpenGymSpace> GetObservationSpace();
-  Ptr<OpenGymDataContainer> GetObservation();
+  Ptr<OpenEnvSpace> GetActionSpace();
+  Ptr<OpenEnvSpace> GetObservationSpace();
+  Ptr<OpenEnvDataContainer> GetObservation();
   float GetReward();
   bool IsGameOver();
   std::string GetExtraInfo();
-  bool ExecuteActions(Ptr<OpenGymDataContainer> action);
+  bool ExecuteActions(Ptr<OpenEnvDataContainer> action);
 
-  void SetGetActionSpaceCb(Callback< Ptr<OpenGymSpace> > cb);
-  void SetGetObservationSpaceCb(Callback< Ptr<OpenGymSpace> > cb);
-  void SetGetObservationCb(Callback< Ptr<OpenGymDataContainer> > cb);
+  void SetGetActionSpaceCb(Callback< Ptr<OpenEnvSpace> > cb);
+  void SetGetObservationSpaceCb(Callback< Ptr<OpenEnvSpace> > cb);
+  void SetGetObservationCb(Callback< Ptr<OpenEnvDataContainer> > cb);
   void SetGetRewardCb(Callback<float> cb);
   void SetGetGameOverCb(Callback< bool > cb);
   void SetGetExtraInfoCb(Callback<std::string> cb);
-  void SetExecuteActionsCb(Callback<bool, Ptr<OpenGymDataContainer> > cb);
+  void SetExecuteActionsCb(Callback<bool, Ptr<OpenEnvDataContainer> > cb);
 
-  void Notify(Ptr<OpenGymEnv> entity);
+  void Notify(Ptr<OpenEnvAbstract> entity);
 
 protected:
   // Inherited
@@ -71,7 +71,7 @@ protected:
   virtual void DoDispose (void);
 
 private:
-  static Ptr<OpenGymInterface> *DoGet (uint32_t port=5555);
+  static Ptr<OpenEnvInterface> *DoGet (uint32_t port=5555);
   static void Delete (void);
 
   uint32_t m_port;
@@ -82,16 +82,16 @@ private:
   bool m_stopEnvRequested;
   bool m_initSimMsgSent;
 
-  Callback< Ptr<OpenGymSpace> > m_actionSpaceCb;
-  Callback< Ptr<OpenGymSpace> > m_observationSpaceCb;
+  Callback< Ptr<OpenEnvSpace> > m_actionSpaceCb;
+  Callback< Ptr<OpenEnvSpace> > m_observationSpaceCb;
   Callback< bool > m_gameOverCb;
-  Callback< Ptr<OpenGymDataContainer> > m_obsCb;
+  Callback< Ptr<OpenEnvDataContainer> > m_obsCb;
   Callback<float> m_rewardCb;
   Callback<std::string> m_extraInfoCb;
-  Callback<bool, Ptr<OpenGymDataContainer> > m_actionCb;
+  Callback<bool, Ptr<OpenEnvDataContainer> > m_actionCb;
 };
 
 } // end of namespace ns3
 
-#endif /* OPENGYM_INTERFACE_H */
+#endif /* OPENENV_INTERFACE_H */
 
