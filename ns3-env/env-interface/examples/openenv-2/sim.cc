@@ -20,12 +20,12 @@
  */
 
 #include "ns3/core-module.h"
-#include "ns3/opengym-module.h"
-#include "mygym.h"
+#include "ns3/openenv-module.h"
+#include "myenv.h"
 
 using namespace ns3;
 
-NS_LOG_COMPONENT_DEFINE ("OpenGym");
+NS_LOG_COMPONENT_DEFINE ("OpenEnv");
 
 int
 main (int argc, char *argv[])
@@ -34,12 +34,12 @@ main (int argc, char *argv[])
   uint32_t simSeed = 1;
   double simulationTime = 1; //seconds
   double envStepTime = 0.1; //seconds, ns3gym env step time interval
-  uint32_t openGymPort = 5555;
+  uint32_t OpenEnvPort = 5555;
   uint32_t testArg = 0;
 
   CommandLine cmd;
-  // required parameters for OpenGym interface
-  cmd.AddValue ("openGymPort", "Port number for OpenGym env. Default: 5555", openGymPort);
+  // required parameters for OpenEnv interface
+  cmd.AddValue ("OpenEnvPort", "Port number for OpenEnv env. Default: 5555", OpenEnvPort);
   cmd.AddValue ("simSeed", "Seed for random generator. Default: 1", simSeed);
   // optional parameters
   cmd.AddValue ("simTime", "Simulation time in seconds. Default: 10s", simulationTime);
@@ -49,7 +49,7 @@ main (int argc, char *argv[])
 
   NS_LOG_UNCOND("Ns3Env parameters:");
   NS_LOG_UNCOND("--simulationTime: " << simulationTime);
-  NS_LOG_UNCOND("--openGymPort: " << openGymPort);
+  NS_LOG_UNCOND("--OpenEnvPort: " << OpenEnvPort);
   NS_LOG_UNCOND("--envStepTime: " << envStepTime);
   NS_LOG_UNCOND("--seed: " << simSeed);
   NS_LOG_UNCOND("--testArg: " << testArg);
@@ -57,17 +57,17 @@ main (int argc, char *argv[])
   RngSeedManager::SetSeed (1);
   RngSeedManager::SetRun (simSeed);
 
-  // OpenGym Env
-  Ptr<OpenGymInterface> openGymInterface = CreateObject<OpenGymInterface> (openGymPort);
-  Ptr<MyGymEnv> myGymEnv = CreateObject<MyGymEnv> (Seconds(envStepTime));
-  myGymEnv->SetOpenGymInterface(openGymInterface);
+  // OpenEnv Env
+  Ptr<OpenEnvInterface> OpenEnvInterface = CreateObject<OpenEnvInterface> (OpenEnvPort);
+  Ptr<MyOpenEnv> myOpenEnv = CreateObject<MyOpenEnv> (Seconds(envStepTime));
+  myOpenEnv->SetOpenEnvInterface(OpenEnvInterface);
 
   NS_LOG_UNCOND ("Simulation start");
   Simulator::Stop (Seconds (simulationTime));
   Simulator::Run ();
   NS_LOG_UNCOND ("Simulation stop");
 
-  openGymInterface->NotifySimulationEnd();
+  OpenEnvInterface->NotifySimulationEnd();
   Simulator::Destroy ();
 
 }
