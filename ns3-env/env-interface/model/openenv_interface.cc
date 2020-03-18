@@ -388,15 +388,15 @@ OpenEnvInterface::ExecuteActions(Ptr<OpenEnvDataContainer> action)
 }
 
 void
-OpenEnvInterface::Notify(Ptr<OpenEnvEnv> entity)
+OpenEnvInterface::Notify(Ptr<OpenEnvAbstract> entity)
 {
   NS_LOG_FUNCTION (this);
 
-  SetGetGameOverCb( MakeCallback (&OpenEnvEnv::GetGameOver, entity) );
-  SetGetObservationCb( MakeCallback (&OpenEnvEnv::GetObservation, entity) );
-  SetGetRewardCb( MakeCallback (&OpenEnvEnv::GetReward, entity) );
-  SetGetExtraInfoCb( MakeCallback (&OpenEnvEnv::GetExtraInfo, entity) );
-  SetExecuteActionsCb( MakeCallback (&OpenEnvEnv::ExecuteActions, entity) );
+  SetGetGameOverCb( MakeCallback (&OpenEnvAbstract::GetGameOver, entity) );
+  SetGetObservationCb( MakeCallback (&OpenEnvAbstract::GetObservation, entity) );
+  SetGetRewardCb( MakeCallback (&OpenEnvAbstract::GetReward, entity) );
+  SetGetExtraInfoCb( MakeCallback (&OpenEnvAbstract::GetExtraInfo, entity) );
+  SetExecuteActionsCb( MakeCallback (&OpenEnvAbstract::ExecuteActions, entity) );
 
   NotifyCurrentState();
 }

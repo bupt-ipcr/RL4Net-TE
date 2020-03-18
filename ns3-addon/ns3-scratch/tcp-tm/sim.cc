@@ -45,7 +45,7 @@ main (int argc, char *argv[])
   //  只有需要利用输出信息调试的时候才开启下方输出
   ns3::LogLevel level = (enum ns3::LogLevel) (LOG_LEVEL_LOGIC | LOG_PREFIX_FUNC);
   LogComponentEnable ("UdpTMSim", level);
-  // LogComponentEnable ("MyOpenenv", level);
+  // LogComponentEnable ("MyOpenEnv", level);
   // LogComponentEnable ("Ipv4RLRouting", level);
   // LogComponentEnable ("RLRouteManagerImpl", level);
 
@@ -151,12 +151,12 @@ main (int argc, char *argv[])
 
   // OpenEnv Env
   Ptr<OpenEnvInterface> openEnvInterface = CreateObject<OpenEnvInterface> (openEnvPort);
-  Ptr<MyOpenenv> myOpenenv = CreateObject<MyOpenenv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
-  myOpenenv->SetFlowMonitor (flowMonitor);
-  myOpenenv->SetFlowClassifier (flowClassifier);
-  myOpenenv->SetAdjacencyVec(adjacencyVec);
-  myOpenenv->SetFlowVec (myNetwork->GetFlowVec ());
-  myOpenenv->SetOpenEnvInterface (openEnvInterface);
+  Ptr<MyOpenEnv> myOpenEnv = CreateObject<MyOpenEnv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
+  myOpenEnv->SetFlowMonitor (flowMonitor);
+  myOpenEnv->SetFlowClassifier (flowClassifier);
+  myOpenEnv->SetAdjacencyVec(adjacencyVec);
+  myOpenEnv->SetFlowVec (myNetwork->GetFlowVec ());
+  myOpenEnv->SetOpenEnvInterface (openEnvInterface);
 
   // 从client启动开始计时
   NS_LOG_UNCOND ("Simulation start");
