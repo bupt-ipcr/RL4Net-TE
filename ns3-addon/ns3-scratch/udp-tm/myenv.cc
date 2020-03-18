@@ -70,7 +70,7 @@ TypeId
 MyOpenEnv::GetTypeId (void)
 {
   static TypeId tid = TypeId ("MyOpenEnv")
-                          .SetParent<OpenEnvEnv> ()
+                          .SetParent<OpenEnvAbstract> ()
                           .SetGroupName ("OpenEnv")
                           .AddConstructor<MyOpenEnv> ();
   return tid;

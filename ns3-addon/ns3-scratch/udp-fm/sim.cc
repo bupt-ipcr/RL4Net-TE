@@ -151,12 +151,12 @@ main (int argc, char *argv[])
 
   // OpenEnv Env
   Ptr<OpenEnvInterface> openEnvInterface = CreateObject<OpenEnvInterface> (openEnvPort);
-  Ptr<MyOpenEnv> MyOpenEnv = CreateObject<MyOpenEnv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
-  MyOpenEnv->SetFlowMonitor (flowMonitor);
-  MyOpenEnv->SetFlowClassifier (flowClassifier);
-  MyOpenEnv->SetAdjacencyVec(adjacencyVec);
-  MyOpenEnv->SetFlowVec (myNetwork->GetFlowVec ());
-  MyOpenEnv->SetOpenEnvInterface (openEnvInterface);
+  Ptr<MyOpenEnv> myOpenEnv = CreateObject<MyOpenEnv> (Seconds (envStepTime), nodes, edgeNum, maxStep);
+  myOpenEnv->SetFlowMonitor (flowMonitor);
+  myOpenEnv->SetFlowClassifier (flowClassifier);
+  myOpenEnv->SetAdjacencyVec(adjacencyVec);
+  myOpenEnv->SetFlowVec (myNetwork->GetFlowVec ());
+  myOpenEnv->SetOpenEnvInterface (openEnvInterface);
 
   // 从client启动开始计时
   NS_LOG_UNCOND ("Simulation start");
