@@ -13,6 +13,11 @@
 注意： 工具包有使用pytorch和numpy，建议使用conda新建环境后安装。  
 
 1. 安装工具包  
+   从GitHub下载包  
+
+   ```bash
+   git clone https://github.com/LampV/Reinforcement-Learning
+   ```
 
    进入文件夹
 
