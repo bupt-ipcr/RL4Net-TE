@@ -78,7 +78,7 @@ def start_sim_script(simScriptName=None, port=5555, simSeed=0, simArgs={}, debug
 	wafString = wafPath + ' --run "' + simScriptName
 
 	if port:
-		wafString += ' --openGymPort=' + str(port)
+		wafString += ' --openEnvPort=' + str(port)
 
 	if simSeed:
 		wafString += ' --simSeed=' + str(simSeed)
