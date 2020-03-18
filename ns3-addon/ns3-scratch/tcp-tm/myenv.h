@@ -2,7 +2,7 @@
  * @author: Jiawei Wu
  * @create time: 1970-01-01 08:00
  * @edit time: 2020-03-02 16:18
- * @FilePath: /simulator/udp-tm/mygym.h
+ * @FilePath: /simulator/udp-tm/myenv.h
  */
 /* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
 /*
@@ -47,13 +47,13 @@ public:
   static TypeId GetTypeId (void);
   virtual void DoDispose ();
 
-  Ptr<OpenGymSpace> GetActionSpace ();
-  Ptr<OpenGymSpace> GetObservationSpace ();
+  Ptr<OpenEnvSpace> GetActionSpace ();
+  Ptr<OpenEnvSpace> GetObservationSpace ();
   bool GetGameOver ();
-  Ptr<OpenGymDataContainer> GetObservation ();
+  Ptr<OpenEnvDataContainer> GetObservation ();
   float GetReward ();
   std::string GetExtraInfo ();
-  bool ExecuteActions (Ptr<OpenGymDataContainer> action);
+  bool ExecuteActions (Ptr<OpenEnvDataContainer> action);
 
   void SetAdjacencyVec (std::vector<int> adjacencyVec);
   void SetFlowMonitor (Ptr<FlowMonitor> flowMonitor);
@@ -77,4 +77,4 @@ private:
 
 } // namespace ns3
 
-#endif // MY_GYM_ENTITY_H
+#endif // MY_ENV_ENTITY_H
