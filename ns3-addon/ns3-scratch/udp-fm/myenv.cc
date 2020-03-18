@@ -18,7 +18,7 @@
  * Author: Piotr Gawlowicz <gawlowicz@tkn.tu-berlin.de>
  */
 
-#include "mygym.h"
+#include "myenv.h"
 #include "ns3/object.h"
 #include "ns3/core-module.h"
 #include "ns3/wifi-module.h"
@@ -29,19 +29,19 @@
 
 namespace ns3 {
 
-NS_LOG_COMPONENT_DEFINE ("MyGymEnv");
+NS_LOG_COMPONENT_DEFINE ("MyOpenEnv");
 
-NS_OBJECT_ENSURE_REGISTERED (MyGymEnv);
+NS_OBJECT_ENSURE_REGISTERED (MyOpenEnv);
 
-MyGymEnv::MyGymEnv ()
+MyOpenEnv::MyOpenEnv ()
 {
   NS_LOG_FUNCTION (this);
   m_interval = Seconds (0.1);
   m_needGameOver = true;
-  Simulator::Schedule (Seconds (0.0), &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (Seconds (0.0), &MyOpenEnv::ScheduleNextStateRead, this);
 }
 
-MyGymEnv::MyGymEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep)
+MyOpenEnv::MyOpenEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32_t maxStep)
 {
   NS_LOG_FUNCTION (this);
   m_interval = stepTime;
@@ -50,58 +50,58 @@ MyGymEnv::MyGymEnv (Time stepTime, NodeContainer nodes, uint32_t edgeNum, uint32
   m_edgeNum = edgeNum;
   m_maxStep = maxStep;
 
-  Simulator::Schedule (Seconds (7.0), &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (Seconds (7.0), &MyOpenEnv::ScheduleNextStateRead, this);
 }
 
 void
-MyGymEnv::ScheduleNextStateRead ()
+MyOpenEnv::ScheduleNextStateRead ()
 {
   NS_LOG_FUNCTION (this);
-  Simulator::Schedule (m_interval, &MyGymEnv::ScheduleNextStateRead, this);
+  Simulator::Schedule (m_interval, &MyOpenEnv::ScheduleNextStateRead, this);
   Notify ();
 }
 
-MyGymEnv::~MyGymEnv ()
+MyOpenEnv::~MyOpenEnv ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 TypeId
-MyGymEnv::GetTypeId (void)
+MyOpenEnv::GetTypeId (void)
 {
-  static TypeId tid = TypeId ("MyGymEnv")
-                          .SetParent<OpenGymEnv> ()
-                          .SetGroupName ("OpenGym")
-                          .AddConstructor<MyGymEnv> ();
+  static TypeId tid = TypeId ("MyOpenEnv")
+                          .SetParent<OpenEnvAbstract> ()
+                          .SetGroupName ("OpenEnv")
+                          .AddConstructor<MyOpenEnv> ();
   return tid;
 }
 
 void
-MyGymEnv::DoDispose ()
+MyOpenEnv::DoDispose ()
 {
   NS_LOG_FUNCTION (this);
 }
 
 void
-MyGymEnv::SetAdjacencyVec (std::vector<int> adjacencyVec)
+MyOpenEnv::SetAdjacencyVec (std::vector<int> adjacencyVec)
 {
   m_adjacencyVec = adjacencyVec;
 }
 
 void
-MyGymEnv::SetFlowMonitor (Ptr<FlowMonitor> flowMonitor)
+MyOpenEnv::SetFlowMonitor (Ptr<FlowMonitor> flowMonitor)
 {
   m_flowMonitor = flowMonitor;
 }
 
 void
-MyGymEnv::SetFlowClassifier (Ptr<Ipv4FlowClassifier> flowClassifier)
+MyOpenEnv::SetFlowClassifier (Ptr<Ipv4FlowClassifier> flowClassifier)
 {
   m_flowClassifier = flowClassifier;
 }
 
 void
-MyGymEnv::SetFlowVec (FlowVec flowVec)
+MyOpenEnv::SetFlowVec (FlowVec flowVec)
 {
   m_flowVec = flowVec;
 }
@@ -109,8 +109,8 @@ MyGymEnv::SetFlowVec (FlowVec flowVec)
 /*
 Define observation space
 */
-Ptr<OpenGymSpace>
-MyGymEnv::GetObservationSpace ()
+Ptr<OpenEnvSpace>
+MyOpenEnv::GetObservationSpace ()
 {
   uint32_t nodeNum = m_nodes.GetN ();
   float low = 0.0;
@@ -121,7 +121,7 @@ MyGymEnv::GetObservationSpace ()
 
   std::string dtype = TypeNameGet<uint32_t> ();
 
-  Ptr<OpenGymBoxSpace> space = CreateObject<OpenGymBoxSpace> (low, high, shape, dtype);
+  Ptr<OpenEnvBoxSpace> space = CreateObject<OpenEnvBoxSpace> (low, high, shape, dtype);
 
   NS_LOG_UNCOND ("MyGetObservationSpace: " << space);
   return space;
@@ -131,8 +131,8 @@ MyGymEnv::GetObservationSpace ()
 /*
 Define action space
 */
-Ptr<OpenGymSpace>
-MyGymEnv::GetActionSpace ()
+Ptr<OpenEnvSpace>
+MyOpenEnv::GetActionSpace ()
 {
   float low = 0.0;
   float high = 10.0;
@@ -141,7 +141,7 @@ MyGymEnv::GetActionSpace ()
   };
   std::string dtype = TypeNameGet<double> ();
 
-  Ptr<OpenGymBoxSpace> space = CreateObject<OpenGymBoxSpace> (low, high, shape, dtype);
+  Ptr<OpenEnvBoxSpace> space = CreateObject<OpenEnvBoxSpace> (low, high, shape, dtype);
 
   NS_LOG_UNCOND ("MyGetActionSpace: " << space);
   return space;
@@ -151,7 +151,7 @@ MyGymEnv::GetActionSpace ()
 Define game over condition
 */
 bool
-MyGymEnv::GetGameOver ()
+MyOpenEnv::GetGameOver ()
 {
   bool isGameOver = false;
   static float stepCounter = 0.0;
@@ -167,8 +167,8 @@ MyGymEnv::GetGameOver ()
 /*
 Collect observations
 */
-Ptr<OpenGymDataContainer>
-MyGymEnv::GetObservation ()
+Ptr<OpenEnvDataContainer>
+MyOpenEnv::GetObservation ()
 {
   uint32_t nodeNum = m_nodes.GetN ();
 
@@ -181,7 +181,7 @@ MyGymEnv::GetObservation ()
   std::vector<uint32_t> shape = {
       nodeNum * nodeNum,
   };
-  Ptr<OpenGymBoxContainer<uint32_t>> box = CreateObject<OpenGymBoxContainer<uint32_t>> (shape);
+  Ptr<OpenEnvBoxContainer<uint32_t>> box = CreateObject<OpenEnvBoxContainer<uint32_t>> (shape);
 
   // 用cur-last得到最近一个仿真时段的TM
   for (uint32_t index = 0; index < nodeNum * nodeNum; index++)
@@ -198,7 +198,7 @@ MyGymEnv::GetObservation ()
 Define reward function
 */
 float
-MyGymEnv::GetReward ()
+MyOpenEnv::GetReward ()
 {
   static float reward;
   static int64_t cumNanoDelay = 0; // 累计的时延
@@ -233,7 +233,7 @@ MyGymEnv::GetReward ()
 Define extra info. Optional
 */
 std::string
-MyGymEnv::GetExtraInfo ()
+MyOpenEnv::GetExtraInfo ()
 {
   std::string myInfo = "testInfo";
   myInfo += "|123";
@@ -245,10 +245,10 @@ MyGymEnv::GetExtraInfo ()
 Execute received actions
 */
 bool
-MyGymEnv::ExecuteActions (Ptr<OpenGymDataContainer> action)
+MyOpenEnv::ExecuteActions (Ptr<OpenEnvDataContainer> action)
 {
   //!< 这里只能用float而不能用double
-  Ptr<OpenGymBoxContainer<float>> box = DynamicCast<OpenGymBoxContainer<float>> (action);
+  Ptr<OpenEnvBoxContainer<float>> box = DynamicCast<OpenEnvBoxContainer<float>> (action);
   NS_LOG_UNCOND ("传入的action是: " << box);
 
   uint32_t nodeNum = m_nodes.GetN ();
@@ -283,7 +283,7 @@ MyGymEnv::ExecuteActions (Ptr<OpenGymDataContainer> action)
 }
 
 std::vector<uint32_t>
-MyGymEnv::GetForwardMatrix ()
+MyOpenEnv::GetForwardMatrix ()
 {
   uint32_t nodeNum = m_nodes.GetN ();
 
