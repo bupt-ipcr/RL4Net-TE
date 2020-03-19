@@ -19,6 +19,20 @@ RL4Net is composed of two functional blocks:
     (6) <b>envInterface</b> to translate between ns3 data and DRL factors.     
 2. <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
 
+# Description of folders
+
+- <b>./ns3-addon</b>: Files to be copied into ns3 source file folder for extension. It includes:
+    - ns3-src/action-executor: code for Action Executor
+    - ns3-src/metric-extractor: code for Metric Extractor
+    - rapidjson: an open source JSON parser and generator
+    - ns3-scratch: several examples of experiments on RL4Net
+- <b>./ns3-env</b>: File for ns3Env block. It cinludes:
+    - env-interface: code for envInterface
+    - ns3-python-connector: code for connecting python and ns3 c++
+- <b>./RL4Net-lib</b>: Libaray files developed by us
+- <b>./TE-trainer</b>: Files for traning agents
+- <b>./RLAgent</b>: Files of agents
+
 # Contact
 
 Jun Liu (liujun@bupt.edu.cn), Beijing University of Posts and Telecommunications, China
