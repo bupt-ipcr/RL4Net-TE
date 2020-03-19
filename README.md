@@ -9,4 +9,13 @@ Below Figure shows the architecture of RL4Net:
 </p>
 
 
-RL4Net are composed of two functional blocks:
+RL4Net is composed of two functional blocks:
+
+1. Environment: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components: 
+    (1) Metric Extractor for computing quality metrics like delay and loss from ns3;   
+    (2) Computers for translating quality metrics to DRL state and reward;  
+    (3) Action Operator to get action commands from agent;  
+    (4) Action Executor for perform ns3 operations by actions;   
+    (5) ns3Env for transforming the ns3 object into DRL environment;   
+    (6) envInterface to translate between ns3 data and DRL factors.   
+2. Agent: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
