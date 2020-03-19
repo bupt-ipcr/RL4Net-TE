@@ -10,7 +10,7 @@ Below Figure shows the architecture of RL4Net:
 
 RL4Net is composed of two functional blocks:
 
-1. Environment: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components: 
+1. Environment: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components:   
     (1) Metric Extractor for computing quality metrics like delay and loss from ns3;   
     (2) Computers for translating quality metrics to DRL state and reward;  
     (3) Action Operator to get action commands from agent;  
