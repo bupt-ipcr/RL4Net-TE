@@ -10,14 +10,14 @@ Below Figure shows the architecture of RL4Net:
 
 RL4Net is composed of two functional blocks:  
 
-1. <b>Environment</b>: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components:   
-    (1) <b>Metric Extractor</b> for computing quality metrics like delay and loss from ns3;   
-    (2) <b>Computers</b> for translating quality metrics to DRL state and reward;  
-    (3) <b>Action Operator</b> to get action commands from agent;  
-    (4) <b>Action Executor</b> for perform ns3 operations by actions;   
-    (5) <b>ns3Env</b> for transforming the ns3 object into DRL environment;   
-    (6) <b>envInterface</b> to translate between ns3 data and DRL factors.     
-2. <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
+- <b>Environment</b>: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components:   
+    - <b>Metric Extractor</b> for computing quality metrics like delay and loss from ns3;   
+    - <b>Computers</b> for translating quality metrics to DRL state and reward;  
+    - <b>Action Operator</b> to get action commands from agent;  
+    - <b>Action Executor</b> for perform ns3 operations by actions;   
+    - <b>ns3Env</b> for transforming the ns3 object into DRL environment;   
+    - <b>envInterface</b> to translate between ns3 data and DRL factors.     
+- <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
 
 # Description of folders
 
