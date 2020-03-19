@@ -20,4 +20,5 @@ RL4Net is composed of two functional blocks:
 2. <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
 
 # Contact
-Jun Liu, BUPT-China, liujun@bupt.edu.cn
+
+Jun Liu (liujun@bupt.edu.cn), Beijing University of Posts and Telecommunications, China
