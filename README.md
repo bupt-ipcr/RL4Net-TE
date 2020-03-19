@@ -8,7 +8,7 @@ Below Figure shows the architecture of RL4Net:
 <img src="doc/RL4Net_architecture.png" alt="drawing" width="600"/>
 </p>
 
-RL4Net is composed of two functional blocks:
+RL4Net is composed of two functional blocks:  
 
 1. <b>Environment</b>: Environment is built on widely used ns3 network simulator [ns3](https://www.nsnam.org/). We extend ns3 with six components:   
     (1) <b>Metric Extractor</b> for computing quality metrics like delay and loss from ns3;   
