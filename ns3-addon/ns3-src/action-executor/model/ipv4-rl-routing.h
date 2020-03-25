@@ -1,21 +1,9 @@
-// -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*-
-//
-// Copyright (c) 2008 University of Washington
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License version 2 as
-// published by the Free Software Foundation;
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-//
-//
+/*
+ * @author: Jiawei Wu
+ * @create time: 2020-03-17 20:52
+ * @edit time: 2020-03-25 17:04
+ * @FilePath: /ns3-addon/ns3-src/action-executor/model/ipv4-rl-routing.h
+ */
 
 #ifndef IPV4_RL_ROUTING_H
 #define IPV4_RL_ROUTING_H
@@ -29,7 +17,8 @@
 #include "ns3/ipv4-routing-protocol.h"
 #include "ns3/random-variable-stream.h"
 
-namespace ns3 {
+namespace ns3
+{
 
 class Packet;
 class NetDevice;
@@ -39,7 +28,6 @@ class Ipv4Header;
 class Ipv4RoutingTableEntry;
 class Ipv4MulticastRoutingTableEntry;
 class Node;
-
 
 /**
  * \ingroup ipv4
@@ -71,7 +59,7 @@ class Node;
 class Ipv4RLRouting : public Ipv4RoutingProtocol
 {
 public:
-   /// 带有权重的路由表（权重用于计算选路概率）
+  /// 带有权重的路由表（权重用于计算选路概率）
   typedef std::pair<Ipv4RoutingTableEntry *, double> RLHostRoute;
   typedef std::list<RLHostRoute> HostRoutes;
   typedef std::list<RLHostRoute>::const_iterator HostRoutesCI;
@@ -81,7 +69,7 @@ public:
    * \brief Get the type ID.
    * \return the object TypeId
    */
-  static TypeId GetTypeId (void);
+  static TypeId GetTypeId(void);
   /**
    * \brief Construct an empty Ipv4RLRouting routing protocol,
    *
@@ -90,21 +78,21 @@ public:
    *
    * \see Ipv4RLRouting
    */
-  Ipv4RLRouting ();
-  virtual ~Ipv4RLRouting ();
+  Ipv4RLRouting();
+  virtual ~Ipv4RLRouting();
 
   // These methods inherited from base class
-  virtual Ptr<Ipv4Route> RouteOutput (Ptr<Packet> p, const Ipv4Header &header, Ptr<NetDevice> oif, Socket::SocketErrno &sockerr);
+  virtual Ptr<Ipv4Route> RouteOutput(Ptr<Packet> p, const Ipv4Header &header, Ptr<NetDevice> oif, Socket::SocketErrno &sockerr);
 
-  virtual bool RouteInput  (Ptr<const Packet> p, const Ipv4Header &header, Ptr<const NetDevice> idev,
-                            UnicastForwardCallback ucb, MulticastForwardCallback mcb,
-                            LocalDeliverCallback lcb, ErrorCallback ecb);
-  virtual void NotifyInterfaceUp (uint32_t interface);
-  virtual void NotifyInterfaceDown (uint32_t interface);
-  virtual void NotifyAddAddress (uint32_t interface, Ipv4InterfaceAddress address);
-  virtual void NotifyRemoveAddress (uint32_t interface, Ipv4InterfaceAddress address);
-  virtual void SetIpv4 (Ptr<Ipv4> ipv4);
-  virtual void PrintRoutingTable (Ptr<OutputStreamWrapper> stream, Time::Unit unit = Time::S) const;
+  virtual bool RouteInput(Ptr<const Packet> p, const Ipv4Header &header, Ptr<const NetDevice> idev,
+                          UnicastForwardCallback ucb, MulticastForwardCallback mcb,
+                          LocalDeliverCallback lcb, ErrorCallback ecb);
+  virtual void NotifyInterfaceUp(uint32_t interface);
+  virtual void NotifyInterfaceDown(uint32_t interface);
+  virtual void NotifyAddAddress(uint32_t interface, Ipv4InterfaceAddress address);
+  virtual void NotifyRemoveAddress(uint32_t interface, Ipv4InterfaceAddress address);
+  virtual void SetIpv4(Ptr<Ipv4> ipv4);
+  virtual void PrintRoutingTable(Ptr<OutputStreamWrapper> stream, Time::Unit unit = Time::S) const;
 
   /**
    * \brief 添加一条带距离的路由到路由表中
@@ -116,10 +104,10 @@ public:
    *
    * \see Ipv4Address
    */
-  void AddHostRouteTo (Ipv4Address dest, 
-                                   Ipv4Address nextHop, 
-                                   uint32_t interface,
-                                   double weight);
+  void AddHostRouteTo(Ipv4Address dest,
+                      Ipv4Address nextHop,
+                      uint32_t interface,
+                      double weight);
   /**
    * \brief Add a host route to the rl routing table.
    *
@@ -130,9 +118,9 @@ public:
    *
    * \see Ipv4Address
    */
-  void AddHostRouteTo (Ipv4Address dest, 
-                       Ipv4Address nextHop, 
-                       uint32_t interface);
+  void AddHostRouteTo(Ipv4Address dest,
+                      Ipv4Address nextHop,
+                      uint32_t interface);
   /**
    * \brief Add a host route to the rl routing table.
    *
@@ -142,8 +130,8 @@ public:
    *
    * \see Ipv4Address
    */
-  void AddHostRouteTo (Ipv4Address dest, 
-                       uint32_t interface);
+  void AddHostRouteTo(Ipv4Address dest,
+                      uint32_t interface);
 
   /**
    * \brief Get the number of individual unicast routes that have been added
@@ -152,7 +140,7 @@ public:
    * \warning The default route counts as one of the routes.
    * \returns the number of routes
    */
-  uint32_t GetNRoutes (void) const;
+  uint32_t GetNRoutes(void) const;
 
   /**
    * \brief Get a route from the rl unicast routing table.
@@ -174,7 +162,7 @@ public:
    * \see Ipv4RoutingTableEntry
    * \see Ipv4RLRouting::RemoveRoute
    */
-  HostRoutesCI GetRoute (uint32_t i) const;
+  HostRoutesCI GetRoute(uint32_t i) const;
 
   /**
    * \brief Remove a route from the rl unicast routing table.
@@ -192,7 +180,7 @@ public:
    * \see Ipv4RLRouting::GetRoute
    * \see Ipv4RLRouting::AddRoute
    */
-  void RemoveRoute (uint32_t i);
+  void RemoveRoute(uint32_t i);
 
   /**
    * Assign a fixed random variable stream number to the random variables
@@ -202,19 +190,18 @@ public:
    * \param stream first stream index to use
    * \return the number of stream indices assigned by this model
    */
-  int64_t AssignStreams (int64_t stream);
+  int64_t AssignStreams(int64_t stream);
 
 protected:
-  void DoDispose (void);
+  void DoDispose(void);
 
 private:
   /// Set to true if packets are randomly routed among ECMP; set to false for using only one route consistently
   bool m_randomEcmpRouting;
-  /// Set to true if this interface should respond to interface events by rllly recomputing routes 
+  /// Set to true if this interface should respond to interface events by rllly recomputing routes
   bool m_respondToInterfaceEvents;
-  /// A uniform random number generator for randomly routing packets among ECMP 
+  /// A uniform random number generator for randomly routing packets among ECMP
   Ptr<UniformRandomVariable> m_rand;
-
 
   /**
    * \brief Lookup in the forwarding table for destination.
@@ -223,10 +210,9 @@ private:
    * \param reverse if reverse is true, oif turns to NOT iif
    * \return Ipv4Route to route the packet to reach dest address
    */
-  Ptr<Ipv4Route> LookupRL (Ipv4Address dest, uint32_t ifIndex = 0, bool reverse = false);
+  Ptr<Ipv4Route> LookupRL(Ipv4Address dest, uint32_t ifIndex = 0, bool reverse = false);
 
-  
-  HostRoutes m_hostRoutes;             //!< Routes to hosts
+  HostRoutes m_hostRoutes; //!< Routes to hosts
 
   Ptr<Ipv4> m_ipv4; //!< associated IPv4 instance
 };
