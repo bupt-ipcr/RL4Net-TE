@@ -1,7 +1,7 @@
 /*
  * @author: Jiawei Wu
  * @create time: 2020-03-17 20:52
- * @edit time: 2020-03-25 17:27
+ * @edit time: 2020-03-25 17:35
  * @desc: 使用RL方法进行路由计算的数据库
  */
 
@@ -69,7 +69,7 @@ public:
   RLRoutingDB ();
 
   /**
- * @brief Destroy an empty RL Routing Database.
+ * @brief 删除空的 RL Routing Database.
  *
  * The database map is walked and all of the Link State Advertisements stored
  * in the database are freed; then the database map itself is clear ()ed to
@@ -245,17 +245,17 @@ private:
   void InitWeightMatrix (uint32_t nodeNum);
 
   /**
- * @brief RLRouteManagerLSDB copy construction is disallowed.  There's no 
- * need for it and a compiler provided shallow copy would be wrong.
- * @param lsdb object to copy from
+ * @brief 对于 RLRouteManagerLSDB 的拷贝方法是不被允许的。因此显式声明拷贝方法以避免
+ * 出现编译器默认隐式拷贝导致的出错。
+ * @param lsdb 要拷贝的目标
  */
   RLRoutingDB (RLRoutingDB &rldb);
 
   /**
- * @brief The PAPVertex copy assignment operator is disallowed.  There's no 
- * need for it and a compiler provided shallow copy would be wrong.
- * @param lsdb object to copy from
- * @returns the copied object
+ * @brief 对于 RLRouteManagerLSDB 的拷贝方法是不被允许的。因此显式声明拷贝方法以避免
+ * 出现编译器默认隐式拷贝导致的出错。
+ * @param lsdb 要拷贝的对象
+ * @returns 拷贝结果
  */
   RLRoutingDB &operator= (RLRoutingDB &rldb);
 };
