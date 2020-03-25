@@ -1,28 +1,10 @@
 /*
  * @author: Jiawei Wu
  * @create time: 1970-01-01 08:00
- * @edit time: 2020-03-02 19:40
- * @FilePath: /ns3src/internet/helper/ipv4-rl-routing-helper.cc
+ * @edit time: 2020-03-25 17:00
+ * @desc: 封装RL路由，对外提供初始化和计算路由表的功能
  */
-/* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
-/*
- * Copyright (c) 2008 INRIA
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation;
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- * Author: Mathieu Lacage <mathieu.lacage@sophia.inria.fr>
- */
+
 #include "ipv4-rl-routing-helper.h"
 #include "ns3/rl-router-interface.h"
 #include "ns3/ipv4-rl-routing.h"
@@ -69,7 +51,6 @@ Ipv4RLRoutingHelper::InitializeRouteDatabase(int * adjacencyArray, NodeContainer
   RLRouteManager::BuildRLRoutingDatabase (adjacencyArray, nodes);
 }
 
-// 重载函数，允许添加metric信息
 void 
 Ipv4RLRoutingHelper::ComputeRoutingTables (double *weightArray)
 {
