@@ -1,7 +1,7 @@
 /*
  * @author: Jiawei Wu
  * @create time: 2020-03-17 20:52
- * @edit time: 2020-03-25 17:25
+ * @edit time: 2020-03-25 17:32
  * @desc: 基于权重进行路由的路由层协议
  * 路由协议被安放在每个路由器（用作路由的节点）上，对于每个经过的包进行路由选择
  * 
@@ -45,22 +45,22 @@ class Node;
  *
  * \brief RL routing protocol for IPv4 stacks.
  *
- * In ns-3 we have the concept of a pluggable routing protocol.  Routing
- * protocols are added to a list maintained by the Ipv4L3Protocol.  Every 
- * stack gets one routing protocol for free -- the Ipv4StaticRouting routing
- * protocol is added in the constructor of the Ipv4L3Protocol (this is the 
- * piece of code that implements the functionality of the IP layer).
- *
- * As an option to running a dynamic routing protocol, a RLRouteManager
- * object has been created to allow users to build routes for all participating
- * nodes.  One can think of this object as a "routing oracle"; it has
- * an omniscient view of the topology, and can construct shortest path
- * routes between all pairs of nodes.  These routes must be stored 
- * somewhere in the node, so therefore this class Ipv4RLRouting
- * is used as one of the pluggable routing protocols.  It is kept distinct
- * from Ipv4StaticRouting because these routes may be dynamically cleared
- * and rebuilt in the middle of the simulation, while manually entered
- * routes into the Ipv4StaticRouting may need to be kept distinct.
+ * 路由协议被安放在每个路由器（用作路由的节点）上，对于每个经过的包进行路由选择
+ * 
+ * - 经典路由规则
+ *   路由器拥有一张路由表，对于每个到达的包，检查其源、目的地 (src, dst)，从路由表中读取下一跳，将包发往下一跳  
+ *   路由表是通过路由规则在manager中计算好的（实际可能是在本机计算并更新的）  
+ *   对于ECMP而言，同样距离的路由有多条，则会随机选择其中一条作为路由，读取这条路由的下一跳  
+ * 
+ * - 基于权重的路由规则
+ *   同样由manager计算路由表，但是路由表项中需要增加一项weight作为选路的权重
+ *   类似ECMP，随机选择一条路由发往下一跳。区别在于随机是基于weight随机的
+
+ * 
+ * - 路由协议不关心，但有意义的部分
+ *   通常而言，路由计算只会保留最短的路由。但是对于搭配使用的RLRouting而言：
+ *   所有可行路由都会被使用的，只是使用这个路由的概率不同而已。因此不需要比较路由长短，只需要简单判断路由是否可行，
+ *   再根据RL决策的路由权重配套下发给路由协议即可
  *
  * This class deals with Ipv4 unicast routes only.
  *

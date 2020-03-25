@@ -1,8 +1,8 @@
 /*
  * @author: Jiawei Wu
  * @create time: 2020-03-17 20:52
- * @edit time: 2020-03-25 17:14
- * @file: /ns3-addon/ns3-src/action-executor/model/rl-route-manager-impl.cc
+ * @edit time: 2020-03-25 17:27
+ * @desc: 使用RL方法进行路由计算的数据库
  */
 
 #include <utility>
