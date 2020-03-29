@@ -1,6 +1,6 @@
 # ns3-env
 
-在[ns3-gym](https://github.com/tkn-tub/ns3-gym) (基于ns-3和openai-gym开发的一个框架)的基础上，将主要代码从ns3代码结构中抽出，使得其与ns3接耦。同时因为gym并不是必须的步骤，将gym从名字中删去。
+为了使python能直接将ns3视为简单环境，编写了与ns3进行通信和抽象的代码
 
 Installation
 ============
