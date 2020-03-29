@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-03-29 17:31
+ * @edit time: 2020-03-30 00:04
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -33,8 +33,13 @@ Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
 As a recommendation, you can  
 
-1. Install dependencies follow the guide.  
-2. Then use git to install **ns-3-dev** (you can also install a specific version od ns-3, such as ns-3.30, but we prefer ns-3-dev). 
+1. Install dependencies  
+   You can install ns-3 dependencies by following [official guide](https://www.nsnam.org/docs/release/3.30/tutorial/html/getting-started.html#prerequisites).  
+2. Use git to install **ns-3-dev**  
+   see: [downloading-ns-3-using-git](https://www.nsnam.org/docs/release/3.30/tutorial/html/getting-started.html#downloading-ns-3-using-git)  
+   *you can also install a specific version od ns-3, such as ns-3.30, but we prefer ns-3-dev.*  
+
+Another possible guide is wiki of ns-3, see: [wiki](https://www.nsnam.org/wiki/Installation#Installation) of installation
 
 ## Install ns3 addon files
 
