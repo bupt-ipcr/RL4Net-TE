@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-03-29 17:30
+ * @edit time: 2020-03-29 17:31
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -68,6 +68,7 @@ Now suppose you have successfuly installed ns-3-dev, you can start to install RL
     ```
 
 ## Install pyns3
+
 pyns3 is the python module that connect python and ns3. Use pip(or pip3) to install this module with your python env(maybe conda).  
 
 ```bash
@@ -75,6 +76,7 @@ pip install ns3-env/ns3-python-connector
 ```
 
 ## Install wjwgym
+
 wjwgym is a lab that helps build reinforcement learning algorithms. See: [Github](https://github.com/LampV/Reinforcement-Learning)  
 Install it with pip and your python env:  
 
