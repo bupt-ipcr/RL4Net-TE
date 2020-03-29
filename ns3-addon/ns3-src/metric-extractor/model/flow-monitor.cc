@@ -4,7 +4,6 @@
  * @edit time: 2020-03-29 15:59
  * @desc: 在原flow-monitor基础上增加了RL专属的转发记录
  */
- * @FilePath: /ns3-addon/ns3-src/metric-extractor/model/flow-monitor.cc
 //
 // Copyright (c) 2009 INESC Porto
 //
