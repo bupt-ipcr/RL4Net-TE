@@ -1,3 +1,9 @@
+<!--
+ * @author: Jiawei Wu
+ * @create time: 2020-03-19 20:58
+ * @edit time: 2020-03-29 17:19
+ * @FilePath: /README.md
+ -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
 
 Implementing a reinforcement learning environment and algorithms for networking from scratch is a difficult task. Inspired by the work of [ns3-gym](https://github.com/tkn-tub/ns3-gym), we developed RL4Net (<b>R</b>einforcement <b>L</b>earning for <b>Net</b>working) to facilitate the research and simulator of reinforcement learning for networking. 
@@ -18,6 +24,41 @@ RL4Net is composed of two functional blocks:
     - <b>ns3Env</b> for transforming the ns3 object into DRL environment;   
     - <b>envInterface</b> to translate between ns3 data and DRL factors.     
 - <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
+
+# Installation  
+
+## Install ns3  
+Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
+The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
+As a recommendation, you can  
+
+1. Install dependencies follow the guide.  
+2. Then use git to install **ns-3-dev** (you can also install a specific version od ns-3, such as ns-3.30, but we prefer ns-3-dev). 
+
+## Install ns3 addon files
+Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
+```bash
+python ns3_setup.py --wafdir=YOUR_WAFPATH
+```
+the `YOUR_WAFPATH` is correspond to the introduction of ns-3 installation, where you can execute `./waf build`, typically `ns-3-allinone/ns-3-dev`. Remember to use absolute path.  
+
+The default value of  wafdir is `/ns-3-dev` (notice it is subdir of '/'). As an alternative, you can copy the folder into `/ns-3-dev`, then run  
+```bash
+python ns3_setup.py
+```
+
+## Install pyns3
+pyns3 is the python module that connect python and ns3. Use pip(or pip3) to install this module with your python env(maybe conda).  
+```bash
+pip install ns3-env/ns3-python-connector
+```
+
+## Install wjwgym
+wjwgym is a lab that helps build reinforcement learning algorithms. See: [Github](https://github.com/LampV/Reinforcement-Learning)  
+Install it with pip and your python env:  
+```bash
+pip install RL4Net-lib/wjwgym-home
+```
 
 # Description of folders
 
