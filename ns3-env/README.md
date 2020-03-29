@@ -9,7 +9,7 @@ Installation
 
    ns-3的安装方法参考 [ns-3](https://www.nsnam.org/wiki/Installation#Installation) 官方引导
 
-   ns3-gym对ZMQ和protoc有依赖，可以参照以下方式安装
+   ns3-env对ZMQ和protoc有依赖，可以参照以下方式安装
 
    ```bash
    # to install protobuf-3.6 on ubuntu 16.04:

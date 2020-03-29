@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-03-29 17:19
+ * @edit time: 2020-03-29 17:28
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -28,6 +28,7 @@ RL4Net is composed of two functional blocks:
 # Installation  
 
 ## Install ns3  
+
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
 As a recommendation, you can  
@@ -36,19 +37,39 @@ As a recommendation, you can
 2. Then use git to install **ns-3-dev** (you can also install a specific version od ns-3, such as ns-3.30, but we prefer ns-3-dev). 
 
 ## Install ns3 addon files
-Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
-```bash
-python ns3_setup.py --wafdir=YOUR_WAFPATH
-```
-the `YOUR_WAFPATH` is correspond to the introduction of ns-3 installation, where you can execute `./waf build`, typically `ns-3-allinone/ns-3-dev`. Remember to use absolute path.  
 
-The default value of  wafdir is `/ns-3-dev` (notice it is subdir of '/'). As an alternative, you can copy the folder into `/ns-3-dev`, then run  
-```bash
-python ns3_setup.py
-```
+Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
+
+1. Install zmqbridge and protobuf
+   ns3-env needs ZMQ and libprotoc, you can install as follow:  
+
+   ```bash
+   # to install protobuf-3.6 on ubuntu 16.04:
+   sudo add-apt-repository ppa:maarten-fonville/protobuf
+   sudo apt-get update
+   apt-get install libzmq5 libzmq5-dev
+   apt-get install libprotobuf-dev
+   apt-get install protobuf-compiler
+   ```
+
+2. Install addon files
+   Since you have installed dependence libs, you can install addon files by:  
+
+    ```bash
+    python ns3_setup.py --wafdir=YOUR_WAFPATH
+    ```
+
+    the `YOUR_WAFPATH` is correspond to the introduction of ns-3 installation, where you can execute `./waf build`, typically `ns-3-allinone/ns-3-dev`. Remember to use absolute path.  
+
+    The default value of  wafdir is `/ns-3-dev` (notice it is subdir of '/'). As an alternative, you can copy the folder into `/ns-3-dev`, then run  
+
+    ```bash
+    python ns3_setup.py
+    ```
 
 ## Install pyns3
 pyns3 is the python module that connect python and ns3. Use pip(or pip3) to install this module with your python env(maybe conda).  
+
 ```bash
 pip install ns3-env/ns3-python-connector
 ```
@@ -56,6 +77,7 @@ pip install ns3-env/ns3-python-connector
 ## Install wjwgym
 wjwgym is a lab that helps build reinforcement learning algorithms. See: [Github](https://github.com/LampV/Reinforcement-Learning)  
 Install it with pip and your python env:  
+
 ```bash
 pip install RL4Net-lib/wjwgym-home
 ```
