@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-3-10 19:56
-@edit time: 2020-03-11 13:02
+@edit time: 2020-03-29 16:35
 """
 import argparse
 import json
@@ -25,7 +25,7 @@ cur_path = Path().resolve()
 def exec_addon_setup():
     addon_path = cur_path / 'ns3-addon'
     os.chdir(addon_path)
-    os.system(f'python addon_setup.py --wafdir={args.wafdir} --build --noreconf --norebuild')
+    os.system(f'python addon_setup.py --wafdir={args.wafdir} --noreconf --norebuild')
 
 
 def exec_env_setup():
