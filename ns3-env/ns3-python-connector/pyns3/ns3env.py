@@ -16,14 +16,9 @@ import pyns3.messages_pb2 as pb
 from google.protobuf.any_pb2 import Any
 
 
-__author__ = "Piotr Gawlowicz"
-__copyright__ = "Copyright (c) 2018, Technische Universität Berlin"
-__version__ = "0.1.0"
-__email__ = "gawlowicz@tkn.tu-berlin.de"
-
-
 class Ns3ZmqBridge(object):
     """docstring for Ns3ZmqBridge"""
+
     def __init__(self, simScriptName=None, port=0, startSim=True, simSeed=0, simArgs={}, debug=False):
         super(Ns3ZmqBridge, self).__init__()
         port = int(port)
@@ -45,16 +40,16 @@ class Ns3ZmqBridge(object):
                 print("Got new port for ns3gm interface: ", port)
 
             elif port == 0 and not self.startSim:
-                print("Cannot use port %s to bind" % str(port) )
-                print("Please specify correct port" )
+                print("Cannot use port %s to bind" % str(port))
+                print("Please specify correct port")
                 sys.exit()
 
             else:
-                self.socket.bind ("tcp://*:%s" % str(port))
+                self.socket.bind("tcp://*:%s" % str(port))
 
         except Exception as e:
-            print("Cannot bind to tcp://*:%s as port is already in use" % str(port) )
-            print("Please specify different port or use 0 to get free port" )
+            print("Cannot bind to tcp://*:%s as port is already in use" % str(port))
+            print("Please specify different port or use 0 to get free port")
             sys.exit()
 
         if (startSim == True and simSeed == 0):
