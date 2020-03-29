@@ -2,7 +2,7 @@
  * @author: Jiawei Wu
  * @create time: 1970-01-01 08:00
  * @edit time: 2020-03-02 19:43
- * @FilePath: /ns3src/internet/model/rl-route-manager.cc
+ * @desc: RL概率路由计算的抽象类
  */
  
 

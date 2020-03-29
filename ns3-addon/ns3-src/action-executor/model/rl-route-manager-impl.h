@@ -2,7 +2,7 @@
  * @author: Jiawei Wu
  * @create time: 2020-03-17 20:52
  * @edit time: 2020-03-25 17:35
- * @desc: 使用RL方法进行路由计算的数据库
+ * @desc: RL概率路由计算的实现
  */
 
 

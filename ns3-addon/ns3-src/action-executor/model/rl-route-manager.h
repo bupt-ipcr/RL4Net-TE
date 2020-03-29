@@ -2,9 +2,9 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 /*
  * @author: Jiawei Wu
- * @create time: 1970-01-01 08:00
- * @edit time: 2020-03-02 19:42
- * @FilePath: /ns3src/internet/model/rl-route-manager.h
+ * @create time: 2020-03-02 19:42
+ * @edit time: 2020-03-25 17:36
+ * @desc: RL概率路由计算的抽象类
  */
 
 #include "ns3/network-module.h"
