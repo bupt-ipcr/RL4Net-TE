@@ -1,8 +1,8 @@
 /*
  * @author: Jiawei Wu
  * @create time: 1970-01-01 08:00
- * @edit time: 2020-02-29 16:48
- * @FilePath: /ns3src/internet/test/rl-route-manager-impl-test-suite.cc
+ * @edit time: 2020-03-29 15:57
+ * @desc: 测试RLRouteManagerImpl是否按照预期工作
  */
 
 // 测试RLRouteManagerImpl是否按照预期工作。
