@@ -6,9 +6,13 @@
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
 
-## 1. Brief Descrition
+## 1. Introduction
+
+### 1.1 Motivation
 
 Implementing a reinforcement learning environment and algorithms for networking from scratch is a difficult task. Inspired by the work of [ns3-gym](https://github.com/tkn-tub/ns3-gym), we developed RL4Net (<b>R</b>einforcement <b>L</b>earning for <b>Net</b>working) to facilitate the research and simulator of reinforcement learning for networking. 
+
+### 1.2 Architecture
 
 Below figure shows the architecture of RL4Net:
 
@@ -27,9 +31,7 @@ RL4Net is composed of two functional blocks:
     - <b>envInterface</b> to translate between ns3 data and DRL factors.     
 - <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
 
-## 2. Installation  
-
-### 2.1 Description of folders
+### 1.3 Folders
 
 - <b>./ns3-addon</b>: Files to be copied into ns3 source file folder for extension. It includes:
     - ns3-src/action-executor: code for Action Executor
@@ -43,7 +45,9 @@ RL4Net is composed of two functional blocks:
 - <b>./TE-trainer</b>: Files for traning agents
 - <b>./RLAgent</b>: Files of agents
 
-### 2.1 Install ns3  
+## 2. Installation  
+
+### 2.2 Install ns3  
 
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
