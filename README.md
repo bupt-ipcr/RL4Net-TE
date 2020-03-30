@@ -111,7 +111,9 @@ pip install RL4Net-lib/wjwgym-home
 
 The lab need numpy, torch and tensorboard. You can pre-install them, especially pytorch, by which you can choose pip/conda.
 
-### 2.5 Run an example
+### 2.5 Validate installation and run an example
+
+TBD.
 
 # Contact
 
