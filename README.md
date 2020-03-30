@@ -51,7 +51,7 @@ RL4Net is composed of two functional blocks:
 
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
-As a recommendation, you can  
+As a recommendation, you can:  
 
 1. Install dependencies  
    You can install ns-3 dependencies by following [official guide](https://www.nsnam.org/docs/release/3.30/tutorial/html/getting-started.html#prerequisites).  
