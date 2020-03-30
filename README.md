@@ -47,7 +47,7 @@ RL4Net is composed of two functional blocks:
 
 ## 2. Installation  
 
-### 2.2 Install ns3  
+### 2.1 Install ns3  
 
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
