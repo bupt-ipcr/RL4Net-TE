@@ -6,6 +6,8 @@
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
 
+## 1. Brief Descrition
+
 Implementing a reinforcement learning environment and algorithms for networking from scratch is a difficult task. Inspired by the work of [ns3-gym](https://github.com/tkn-tub/ns3-gym), we developed RL4Net (<b>R</b>einforcement <b>L</b>earning for <b>Net</b>working) to facilitate the research and simulator of reinforcement learning for networking. 
 
 Below figure shows the architecture of RL4Net:
@@ -25,9 +27,23 @@ RL4Net is composed of two functional blocks:
     - <b>envInterface</b> to translate between ns3 data and DRL factors.     
 - <b>Agent</b>: Agent is container of a DRL-based cognitive routing algorithm. A agent can built on various deep learning frameworks like pyTorch and Tensorflow.
 
-# Installation  
+## 2. Installation  
 
-## Install ns3  
+### 2.1 Description of folders
+
+- <b>./ns3-addon</b>: Files to be copied into ns3 source file folder for extension. It includes:
+    - ns3-src/action-executor: code for Action Executor
+    - ns3-src/metric-extractor: code for Metric Extractor
+    - rapidjson: an open source JSON parser and generator
+    - ns3-scratch: several examples of experiments on RL4Net
+- <b>./ns3-env</b>: File for ns3Env block. It cinludes:
+    - env-interface: code for envInterface
+    - ns3-python-connector: code for connecting python and ns3 c++
+- <b>./RL4Net-lib</b>: Libaray files developed by us
+- <b>./TE-trainer</b>: Files for traning agents
+- <b>./RLAgent</b>: Files of agents
+
+### 2.1 Install ns3  
 
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
@@ -41,7 +57,7 @@ As a recommendation, you can
 
 Another possible guide is wiki of ns-3, see: [wiki](https://www.nsnam.org/wiki/Installation#Installation) of installation
 
-## Install ns3 addon files
+### 2.2 Install ns3 addon files
 
 Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
 
@@ -72,7 +88,7 @@ Now suppose you have successfuly installed ns-3-dev, you can start to install RL
     python ns3_setup.py
     ```
 
-## Install pyns3
+### 2.3 Install pyns3
 
 pyns3 is the python module that connect python and ns3. Use pip(or pip3) to install this module with your python env(maybe conda).  
 
@@ -80,7 +96,7 @@ pyns3 is the python module that connect python and ns3. Use pip(or pip3) to inst
 pip install ns3-env/ns3-python-connector
 ```
 
-## Install wjwgym
+### 2.4 Install wjwgym
 
 wjwgym is a lab that helps build reinforcement learning algorithms. See: [Github](https://github.com/LampV/Reinforcement-Learning)  
 Install it with pip and your python env:  
@@ -90,20 +106,6 @@ pip install RL4Net-lib/wjwgym-home
 ```
 
 The lab need numpy, torch and tensorboard. You can pre-install them, especially pytorch, by which you can choose pip/conda.
-
-# Description of folders
-
-- <b>./ns3-addon</b>: Files to be copied into ns3 source file folder for extension. It includes:
-    - ns3-src/action-executor: code for Action Executor
-    - ns3-src/metric-extractor: code for Metric Extractor
-    - rapidjson: an open source JSON parser and generator
-    - ns3-scratch: several examples of experiments on RL4Net
-- <b>./ns3-env</b>: File for ns3Env block. It cinludes:
-    - env-interface: code for envInterface
-    - ns3-python-connector: code for connecting python and ns3 c++
-- <b>./RL4Net-lib</b>: Libaray files developed by us
-- <b>./TE-trainer</b>: Files for traning agents
-- <b>./RLAgent</b>: Files of agents
 
 # Contact
 
