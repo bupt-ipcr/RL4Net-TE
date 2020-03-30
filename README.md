@@ -8,7 +8,7 @@
 
 ## 1. Introduction
 
-### 1.1 Motivation
+### 1.1     Motivation
 
 Implementing a reinforcement learning environment and algorithms for networking from scratch is a difficult task. Inspired by the work of [ns3-gym](https://github.com/tkn-tub/ns3-gym), we developed RL4Net (<b>R</b>einforcement <b>L</b>earning for <b>Net</b>working) to facilitate the research and simulator of reinforcement learning for networking. 
 
