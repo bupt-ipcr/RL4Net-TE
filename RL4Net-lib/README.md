@@ -1,8 +1,8 @@
 <!--
- * @author       : Jiawei Wu
+ * @author: Jiawei Wu
  * @create time: 2020-01-15 16:42
- * @edit time    : 2020-01-15 16:57
- * @file: /README.md
+ * @edit time: 2020-03-30 17:43
+ * @FilePath: /RL4Net-lib/README.md
  -->
 # 强化学习工具包  
 
@@ -15,14 +15,10 @@
 1. 安装工具包  
    从GitHub下载包  
 
-   ```bash
-   git clone https://github.com/LampV/Reinforcement-Learning
-   ```
-
    进入文件夹
 
    ```bash
-   cd Reinforcement-Learning
+   cd RL4Net-lib
    ```
 
    安装wjwgym到本地
