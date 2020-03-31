@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-03-30 00:04
+ * @edit time: 2020-03-31 22:40
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -111,9 +111,26 @@ pip install RL4Net-lib/wjwgym-home
 
 The lab need numpy, torch and tensorboard. You can pre-install them, especially pytorch, by which you can choose pip/conda.
 
-### 2.5 Validate installation and run an example
+### 2.5 Validate installation and run an test
 
-TBD.
+The test file can help you check if you have every in place.  
+Use pip to install `pytest` for this test:  
+
+```bash
+pip install pytest -U
+```
+
+after that, you can run test by:  
+
+```bash
+pytest
+```
+
+it will automatically detect test files. You can also specify file like:
+
+```bash
+pytest test_rl4net.py
+```
 
 # Contact
 
