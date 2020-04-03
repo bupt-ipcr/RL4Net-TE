@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-04-03 12:11
+ * @edit time: 2020-04-03 12:17
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -97,7 +97,8 @@ Here we have requirements for python:
 
 - (Optional) install pytorch with conda
   Conda provides costumized pytorch version and is claimed to be faster.  
-  You can install pytorch by conda if prefer:  
+  You can install pytorch by conda if prefer: 
+   
   ```bash
   conda install pytorch
   ```
@@ -123,7 +124,9 @@ Another possible guide is wiki of ns-3, see: [wiki](https://www.nsnam.org/wiki/I
 
 Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
 
-Since you have installed dependence libs, you can install addon files by:  
+As recommendation, deactivate your conda env before run setup script.  
+Conda may install libprotoc in your virtual environment with version >= 3.6, while your system libprotoc version is 3.6.  
+Thus when configure, protoc head file will read version >= 3.6 and when build, protoc head file will read libprotoc v3.6 and cause error.
 
 ```bash
 python ns3_setup.py --wafdir=YOUR_WAFPATH
