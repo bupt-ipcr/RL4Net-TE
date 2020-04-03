@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-03-31 22:40
+ * @edit time: 2020-04-03 12:11
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -47,7 +47,65 @@ RL4Net is composed of two functional blocks:
 
 ## 2. Installation  
 
-### 2.1 Install ns3  
+### 2.1 Download RL4Net
+
+First of all, you should download RL4Net from Github:  
+
+```bash
+git clone https://github.com/bupt-ipcr/RL4Net
+```
+
+by default, source code will be download into ./RL4Net folder.
+
+### 2.2 Install dependent packages
+
+To combine python and ns-3, RL4Net requires ZMQ and libprotoc. You can install as follow:  
+
+```bash
+# to install protobuf-3.6 on ubuntu 16.04:
+sudo add-apt-repository ppa:maarten-fonville/protobuf
+sudo apt-get update
+apt-get install libzmq5 libzmq5-dev
+apt-get install libprotobuf-dev
+apt-get install protobuf-compiler
+```
+
+**Notice**: libprotoc version is 3.6 if you download this way.   The c++ file compiled will change 
+at after version 3.7. Potential error will explain later.
+
+### 2.3 Python requirements
+
+Here we have requirements for python:
+
+- To use RL4Net-lib, you need python>=3.6 for f-string.  
+
+- To test the project, module `pytest` is required
+  you can install `pytest` by:  
+
+  ```bash
+  pip install pytest -U
+  ```
+
+- (Optional) create conda enviornment
+  You can use conda help you to manage above by:  
+
+  ```bash
+  conda create -n NAME python=VERSION
+  ```
+
+  which `NAME` means your environment name and valid `VERSION` for this project is `3.6` and `3.7`.  
+
+- (Optional) install pytorch with conda
+  Conda provides costumized pytorch version and is claimed to be faster.  
+  You can install pytorch by conda if prefer:  
+  ```bash
+  conda install pytorch
+  ```
+
+  The recommended version is 1.4.0.
+
+
+### 2.4 Install ns3  
 
 Since RL4Net is based on ns-3, you need to install ns-3 before use RL4Net.  
 The introcuction of ns-3 and how to install can be find at the [official website](https://www.nsnam.org/) of ns-3.  
@@ -61,38 +119,25 @@ As a recommendation, you can:
 
 Another possible guide is wiki of ns-3, see: [wiki](https://www.nsnam.org/wiki/Installation#Installation) of installation
 
-### 2.2 Install ns3 addon files
+### 2.5 Install ns3 addon files
 
 Now suppose you have successfuly installed ns-3-dev, you can start to install RL4Net.  
 
-1. Install zmqbridge and protobuf
-   ns3-env needs ZMQ and libprotoc, you can install as follow:  
+Since you have installed dependence libs, you can install addon files by:  
 
-   ```bash
-   # to install protobuf-3.6 on ubuntu 16.04:
-   sudo add-apt-repository ppa:maarten-fonville/protobuf
-   sudo apt-get update
-   apt-get install libzmq5 libzmq5-dev
-   apt-get install libprotobuf-dev
-   apt-get install protobuf-compiler
-   ```
+```bash
+python ns3_setup.py --wafdir=YOUR_WAFPATH
+```
 
-2. Install addon files
-   Since you have installed dependence libs, you can install addon files by:  
+the `YOUR_WAFPATH` is correspond to the introduction of ns-3 installation, where you can execute `./waf build`, typically `ns-3-allinone/ns-3-dev`. Remember to use absolute path.  
 
-    ```bash
-    python ns3_setup.py --wafdir=YOUR_WAFPATH
-    ```
+The default value of  wafdir is `/ns-3-dev` (notice it is subdir of '/'). As an alternative, you can copy the folder into `/ns-3-dev`, then run  
 
-    the `YOUR_WAFPATH` is correspond to the introduction of ns-3 installation, where you can execute `./waf build`, typically `ns-3-allinone/ns-3-dev`. Remember to use absolute path.  
+```bash
+python ns3_setup.py
+```
 
-    The default value of  wafdir is `/ns-3-dev` (notice it is subdir of '/'). As an alternative, you can copy the folder into `/ns-3-dev`, then run  
-
-    ```bash
-    python ns3_setup.py
-    ```
-
-### 2.3 Install pyns3
+### 2.6 Install pyns3
 
 pyns3 is the python module that connect python and ns3. Use pip(or pip3) to install this module with your python env(maybe conda).  
 
@@ -100,7 +145,7 @@ pyns3 is the python module that connect python and ns3. Use pip(or pip3) to inst
 pip install ns3-env/ns3-python-connector
 ```
 
-### 2.4 Install wjwgym
+### 2.7 Install wjwgym
 
 wjwgym is a lab that helps build reinforcement learning algorithms. See: [Github](https://github.com/LampV/Reinforcement-Learning)  
 Install it with pip and your python env:  
@@ -111,22 +156,16 @@ pip install RL4Net-lib/wjwgym-home
 
 The lab need numpy, torch and tensorboard. You can pre-install them, especially pytorch, by which you can choose pip/conda.
 
-### 2.5 Validate installation and run an test
+### 2.8 Validate installation and run an test
 
-The test file can help you check if you have every in place.  
-Use pip to install `pytest` for this test:  
-
-```bash
-pip install pytest -U
-```
-
-after that, you can run test by:  
+The test file can help you check if you have every in place. You can run test by:  
 
 ```bash
 pytest
 ```
 
-it will automatically detect test files. You can also specify file like:
+inside folder `RL4Net`, it will automatically detect test files.  
+You can also specify file like:
 
 ```bash
 pytest test_rl4net.py
