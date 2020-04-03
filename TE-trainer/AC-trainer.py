@@ -126,7 +126,8 @@ if __name__ == '__main__':
         "--adjacencyMatrix": '[' + ','.join([str(m) for m in adjacencyMatrix]) + ']'
     })
     # traffic_matrix_str_list, traffic_matrix_state_list = create_tms(adjacencyMatrix, total_rate=4, max_tms=1)
-    traffic_matrix_str_list = ['''[{/src/:0,/dst/:3,/rate/:2}]''']
+    # TODO 将traffic_matrix抽象一层
+    traffic_matrix_str_list = ['''[{/src/:0,/dst/:3,/rate/:5}]''']
     traffic_matrix_state_list = [[0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     save_tms(traffic_matrix_str_list)
     print(f'create an agent as inputs {len(adjacencyMatrix),}, outputs {adjacencyMatrix.count(1)}.')
