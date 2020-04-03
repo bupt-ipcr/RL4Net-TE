@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-04-03 12:17
+ * @edit time: 2020-04-03 12:20
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -97,14 +97,13 @@ Here we have requirements for python:
 
 - (Optional) install pytorch with conda
   Conda provides costumized pytorch version and is claimed to be faster.  
-  You can install pytorch by conda if prefer: 
-   
+  You can install pytorch by conda if prefer:  
+
   ```bash
   conda install pytorch
   ```
 
   The recommended version is 1.4.0.
-
 
 ### 2.4 Install ns3  
 
@@ -171,7 +170,7 @@ inside folder `RL4Net`, it will automatically detect test files.
 You can also specify file like:
 
 ```bash
-pytest test_rl4net.py
+pytest test_installation.py
 ```
 
 # Contact
