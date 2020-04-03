@@ -3,8 +3,8 @@
 """
 @author: Jiawei Wu
 @create time: 2019-12-08 22:32
-@edit time: 2020-03-02 21:30
-@FilePath: /RL_brain/eval-drlte/ddpg.py
+@edit time: 2020-04-03 11:26
+@FilePath: /RLAgent/AgentDDPG.py
 """
 
 
@@ -42,6 +42,10 @@ class DDPG(DDPGBase):
         """
         n_states, n_actions = self.n_states, self.n_actions
         print('bound: ', self.bound)
+        if CUDA:
+            print(f'use pytorch with gpu')
+        else:
+            print(f'use pytorch with cpu')
         self.actor_eval = ActorNetwork(n_states, n_actions, a_bound=self.bound)
         self.actor_target = ActorNetwork(n_states, n_actions, a_bound=self.bound)
         self.critic_eval = SimpleCriticNet(n_states, n_actions, n_neurons=64)
