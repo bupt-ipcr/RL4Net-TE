@@ -3,13 +3,14 @@
 """
 @author: Jiawei Wu
 @create time: 2020-03-17 20:52
-@edit time: 2020-04-06 10:48
-@file: /ns3-env/env_setup.py
+@edit time: 2020-04-06 11:35
+@FilePath: /ns3-env/env_setup.py
 @desc: 
 """
 
-import os
 import argparse
+import json
+import os
 from pathlib import Path
 
 
@@ -34,24 +35,24 @@ def create_conf():
 
     # 产生conf
     waf_path = ns3_path / 'waf'
-    conf = {'waf_path': str(waf_path)}
+    conf = json.dumps({'waf_path': str(waf_path)})
 
     # 获取conf path
     conf_path = cur_path / 'ns3-python-connector' / 'pyns3' / 'wafconf.py'
     with conf_path.open('w') as f:
         f.write(f'conf = {conf}')
 
-    print("生成waf路径完成")
+    print("Generate wafpath for pyns3 finished.")
 
 
 def file_copy():
     """
     进行文件复制操作
     """
-    # 将openenv文件夹复制到 ns3path/src下
-
-    # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     src_path = ns3_path / 'src'
+    # 将openenv文件夹复制到 ns3path/src下
+    print(f'copy openenv to {src_path.resolve()}')
+    # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
     interface_path = cur_path / 'env-interface'
     openenv_path = cur_path / 'openenv'
     # 创建临时文件夹
@@ -60,7 +61,7 @@ def file_copy():
     os.system(f"cp -r {openenv_path.resolve()} {src_path.resolve()}")
     # 删除临时文件夹
     os.system(f'rm -r {openenv_path.resolve()}')
-    print('文件复制完成')
+    print('openenv file copy finished.')
 
 
 def waf_reconf():
