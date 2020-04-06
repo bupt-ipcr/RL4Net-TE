@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-3-10 19:56
-@edit time: 2020-04-06 11:23
+@edit time: 2020-04-06 11:44
 """
 import argparse
 import json
@@ -19,6 +19,10 @@ parser.add_argument('--noaddon', default=False, action='store_true', help='是�
 parser.add_argument('--noenv', default=False, action='store_true', help='是否执行env代码')
 
 args = parser.parse_args()
+# 处理args.wafdir
+if args.wafdir.startswith('~'):
+    # 对于～开头的路径，要转为绝对路径
+    args.wafdir = args.wafdir.replace('~', str(Path.home()))
 
 cur_path = Path().resolve()
 
