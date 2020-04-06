@@ -1,7 +1,7 @@
 /*
  * @author: Jiawei Wu
  * @create time: 2020-03-17 20:52
- * @edit time: 2020-03-25 17:25
+ * @edit time: 2020-04-06 16:11
  * @desc: 基于权重进行路由的路由层协议
  */
 
@@ -117,7 +117,7 @@ Ipv4RLRouting::LookupRL (Ipv4Address dest, uint32_t ifIndex, bool reverse)
       // *i 是 RLHostRoute，即<Ipv4RoutingTableEntry *, uint32_t >组成的pair
       Ipv4RoutingTableEntry *r = i->first;
       NS_ASSERT ((r)->IsHost ());
-      if ((r)->GetDest ().IsEqual (dest)) 
+      if ((r)->GetDest () == (dest)) 
         {
           // 如果有outputInterface要求，则检查
           if ( ifIndex != 0){
