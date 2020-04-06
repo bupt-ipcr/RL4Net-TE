@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-02-18 19:56
-@edit time: 2020-04-06 11:31
+@edit time: 2020-04-06 11:55
 @desc: 将addon的源码安装到原ns3的代码中
 """
 
@@ -36,7 +36,7 @@ dir_dict = {
 def env_confirm():
     """检查安装环境"""
     # 确保安装目录存在
-    print(f'checking if dir {ns3_path.resolve()} exists')
+    print(f"\033[1;37;40mchecking if dir {ns3_path.resolve()} exists\033[0m")
     if not ns3_path.exists():
         raise TypeError(f"{ns3_path.resolve()} not exists!")
 
@@ -53,7 +53,7 @@ def file_copy():
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         # 每个module都要被复制到 ns3_path/src 下的对应目录
-        print(f'copy module {dir_dict[module_path.parts[-1]]}')
+        print(f"\033[1;37;40mcopy module {dir_dict[module_path.parts[-1]]}\033[0m")
         # 创建文件夹
         mapped_path = ns3src_path / dir_dict[module_path.parts[-1]]
         os.system(f'cp -r {module_path.resolve()} {mapped_path.resolve()}')
@@ -100,7 +100,7 @@ def wscript_append(waf_script: str, module_path: str):
 
     # 如果有要添加的项，则加上头尾。否则用原文替换（即不修改）
     if replace_str:
-        replace_str = '    # RL方法新增文件部分\n' + replace_str + '\n'
+        replace_str = '    # append compiling for RL methods\n' + replace_str + '\n'
 
     replace_str += '    bld.ns3_python_bindings()\n'
     new_script = waf_script.replace('    bld.ns3_python_bindings()\n', replace_str)
@@ -120,8 +120,7 @@ def wscript_rewrite():
     for addon_module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         module_name = dir_dict[addon_module_path.parts[-1]]         # 获取module的相对路径，即module名称
         wscript_path = src_path / module_name / 'wscript'     # 获取wscript在ns3_path下的对应路径
-
-        print(f"rewrite wcsript of module {module_name}")
+        print(f"\033[1;37;40mrewrite wcsript of module {module_name}\033[0m")
         # 先读取这个文件的内容
         waf_script = (wscript_path.read_text())
         # 添加编译信息，获取新的scrpte字符串
