@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+"""
+@author: Jiawei Wu
+@create time: 2020-03-17 20:52
+@edit time: 2020-04-06 10:48
+@file: /ns3-env/env_setup.py
+@desc: 
+"""
+
 import os
 import argparse
 from pathlib import Path
