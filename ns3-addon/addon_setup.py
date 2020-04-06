@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-02-18 19:56
-@edit time: 2020-03-29 16:17
+@edit time: 2020-04-06 11:31
 @desc: 将addon的源码安装到原ns3的代码中
 """
 
@@ -36,13 +36,15 @@ dir_dict = {
 def env_confirm():
     """检查安装环境"""
     # 确保安装目录存在
+    print(f'checking if dir {ns3_path.resolve()} exists')
     if not ns3_path.exists():
-        raise TypeError("安装目录不存在")
+        raise TypeError(f"{ns3_path.resolve()} not exists!")
 
 
 def file_copy():
     """进行文件复制操作"""
     # 将rapidjson复制到ns3文件夹下
+    print(f"cp -r rapidjson/ {ns3_path.resolve()}")
     os.system(f"cp -r rapidjson/ {ns3_path.resolve()}")
 
     # 将ns3src/下文件夹复制到 ns3path/src 对应文件夹下
@@ -51,6 +53,7 @@ def file_copy():
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         # 每个module都要被复制到 ns3_path/src 下的对应目录
+        print(f'copy module {dir_dict[module_path.parts[-1]]}')
         # 创建文件夹
         mapped_path = ns3src_path / dir_dict[module_path.parts[-1]]
         os.system(f'cp -r {module_path.resolve()} {mapped_path.resolve()}')
@@ -65,6 +68,7 @@ def file_copy():
 
     for program_path in ns3scratch_path.iterdir():     # 遍历所有要被复制的模拟器
         # 每个program都要被复制到 ns3_path/scratch 下
+        print(f'cp -r {program_path.resolve()} {scratch_path.resolve()}')
         os.system(f'cp -r {program_path.resolve()} {scratch_path.resolve()}')
 
 
@@ -117,6 +121,7 @@ def wscript_rewrite():
         module_name = dir_dict[addon_module_path.parts[-1]]         # 获取module的相对路径，即module名称
         wscript_path = src_path / module_name / 'wscript'     # 获取wscript在ns3_path下的对应路径
 
+        print(f"rewrite wcsript of module {module_name}")
         # 先读取这个文件的内容
         waf_script = (wscript_path.read_text())
         # 添加编译信息，获取新的scrpte字符串
@@ -164,7 +169,7 @@ def install():
         waf_reconf()
     if not args.norebuild:
         waf_rebuild()
-    print('安装完成')
+    print('Addon files install finished.')
 
 
 if __name__ == '__main__':
