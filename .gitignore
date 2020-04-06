@@ -4,3 +4,4 @@
 .vscode/
 drlte.pth
 RL_brain/
+ns3-env/ns3-python-connector/pyns3/wafconf.py
