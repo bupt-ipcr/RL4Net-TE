@@ -3,7 +3,6 @@ import sys
 import os.path
 import os
 import re
-import pyns3
 cwd = os.getcwd()
 protobufFile = cwd + '/pyns3/messages_pb2.py'
 
