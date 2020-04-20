@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-03-17 20:52
-@edit time: 2020-04-06 11:35
+@edit time: 2020-04-20 20:41
 @FilePath: /ns3-env/env_setup.py
 @desc: 
 """
@@ -12,6 +12,8 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
+import sys
 
 
 parser = argparse.ArgumentParser(description='安装参数')
@@ -20,6 +22,7 @@ parser.add_argument('--nocopy', default=False, action='store_true', help='是否
 parser.add_argument('--norebuild', default=False, action='store_true', help='是否跳过waf build')
 parser.add_argument('--noreconf', default=False, action='store_true', help='是否跳过waf configure')
 parser.add_argument('--noconf', default=False, action='store_true', help='是否跳过conf生成')
+parser.add_argument('--noprotoc', default=False, action='store_true', help='是否跳过protoc文件生成')
 args = parser.parse_args()
 
 cur_path = Path().resolve()
@@ -43,6 +46,44 @@ def create_conf():
         f.write(f'conf = {conf}')
 
     print("Generate wafpath for pyns3 finished.")
+
+
+def create_protoc_pb():
+    """利用protoc产生交互需要的pb文件"""
+    pyns3_path = cur_path / 'ns3-python-connector' / 'pyns3'
+    protobufFile = pyns3_path / 'messages_pb2.py'
+
+    if protobufFile.exists():
+        # 提示文件已存在
+        print(f"\033[1;34;40m {protobufFile} already exist \033[0m")
+    else:
+        print(f"\033[1;34;40m {protobufFile} not found, try to generate \033[0m")
+        # 尝试创建文件
+        if not os.path.isfile(protobufFile):
+            # 如果没有protocbuf文件，则尝试产生
+            rc = os.system('whereis protoc')
+            # 先检查是否有whereis指令
+            if rc != 0:
+                print(f"\033[1;31;40m Command: whereis protoc not found \033[0m")
+                sys.exit("Missing command 'whereis', please check!")
+            protoc = None
+            # 再查找protoc指令
+            rt = os.popen("whereis protoc").read()
+            protoc_paths = re.finditer(r'/[^\s]+', rt)
+            for protoc_path in protoc_paths:
+                if 'conda' in protoc_path[0]:
+                    continue
+                else:
+                    protoc = protoc_path[0]
+                    break
+            # 如果没有找到protoc，则需要报错
+            if protoc is None:
+                print(f"\033[1;31;40m No path of protoc not found \033[0m")
+                sys.exit('Protocol Buffer messages are missing. Please run ./waf configure to generate the file')
+            # 如果有，则尝试产生文件
+            proto = pyns3_path / 'messages.proto'
+            print(f'\033[1;37;40{protoc} --python_out={pyns3_path.resolve()} -I={pyns3_path.resolve()} {proto.resolve()} \033[0m')
+            os.system(f'{protoc} --python_out={pyns3_path.resolve()} -I={pyns3_path.resolve()} {proto.resolve()}')
 
 
 def file_copy():
@@ -90,3 +131,5 @@ if __name__ == '__main__':
         waf_rebuild()
     if not args.noconf:
         create_conf()
+    if not args.noprotoc:
+        create_protoc_pb()
