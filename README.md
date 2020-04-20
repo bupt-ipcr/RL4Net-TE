@@ -1,7 +1,7 @@
 <!--
  * @author: Jiawei Wu
  * @create time: 2020-03-19 20:58
- * @edit time: 2020-04-03 12:20
+ * @edit time: 2020-04-20 21:16
  * @FilePath: /README.md
  -->
 # RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
@@ -46,6 +46,8 @@ RL4Net is composed of two functional blocks:
 - <b>./RLAgent</b>: Files of agents
 
 ## 2. Installation  
+
+**Attention:** Switch to user root before installation is strongly recommended.  
 
 ### 2.1 Download RL4Net
 
