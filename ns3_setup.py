@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-3-10 19:56
-@edit time: 2020-04-06 11:52
+@edit time: 2020-04-20 20:59
 """
 import argparse
 import json
@@ -43,8 +43,8 @@ def exec_env_setup():
 
 if __name__ == '__main__':
     if not args.noaddon:
-        print("\n\033[1;34;40mExecuting addon_setup\033[0m\n")
+        print("\n\033[1;36;49mExecuting addon_setup\033[0m\n")
         exec_addon_setup()
     if not args.noenv:
-        print("\n\033[1;34;40mExecuting env_setup\033[0m\n")
+        print("\n\033[1;36;49mExecuting env_setup\033[0m\n")
         exec_env_setup()

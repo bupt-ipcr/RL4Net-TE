@@ -3,7 +3,7 @@
 """
 @author: Jiawei Wu
 @create time: 2020-02-18 19:56
-@edit time: 2020-04-06 11:55
+@edit time: 2020-04-20 21:13
 @desc: 将addon的源码安装到原ns3的代码中
 """
 
@@ -32,17 +32,32 @@ dir_dict = {
     'metric-extractor': 'flow-monitor'
 }
 
+def error(msg):
+    return f"\033[1;31;49m{msg}\033[0m"
+
+def warning(msg):
+    return f"\033[0;33;49m{msg}\033[0m"
+    
+def modend(msg):
+    return f"\033[0;32;49m{msg}\033[0m"
+
+def modstart(msg):
+    return f"\033[1;34;49m{msg}\033[0m"
+
+def info(msg):
+    return f"\033[1;37;49m{msg}\033[0m"
 
 def env_confirm():
     """检查安装环境"""
     # 确保安装目录存在
-    print(f"\033[1;37;40mchecking if dir {ns3_path.resolve()} exists\033[0m")
+    print(modstart(f'Checking if dir {ns3_path.resolve()} exists.\n'))
     if not ns3_path.exists():
         raise TypeError(f"{ns3_path.resolve()} not exists!")
 
 
 def file_copy():
     """进行文件复制操作"""
+    print(modstart(f"Copy files to ns3 path.\n"))
     # 将rapidjson复制到ns3文件夹下
     print(f"cp -r rapidjson/ {ns3_path.resolve()}")
     os.system(f"cp -r rapidjson/ {ns3_path.resolve()}")
@@ -53,7 +68,7 @@ def file_copy():
 
     for module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         # 每个module都要被复制到 ns3_path/src 下的对应目录
-        print(f"\033[1;37;40mcopy module {dir_dict[module_path.parts[-1]]}\033[0m")
+        print(info(f"copy module {dir_dict[module_path.parts[-1]]}"))
         # 创建文件夹
         mapped_path = ns3src_path / dir_dict[module_path.parts[-1]]
         os.system(f'cp -r {module_path.resolve()} {mapped_path.resolve()}')
@@ -113,6 +128,7 @@ def wscript_rewrite():
     将新增的文件写入wscript的编译列表，保证新增文件被编译
     """
 
+    print(modstart(f"Rewrite all wscripts.\n"))
     # 遍历ns3-src下的module，修改对应的wafscript
     src_path = ns3_path / 'src'
     ns3src_path = cur_path / 'ns3-src'
@@ -120,7 +136,7 @@ def wscript_rewrite():
     for addon_module_path in ns3src_path.iterdir():   # 遍历ns3src下的目录
         module_name = dir_dict[addon_module_path.parts[-1]]         # 获取module的相对路径，即module名称
         wscript_path = src_path / module_name / 'wscript'     # 获取wscript在ns3_path下的对应路径
-        print(f"\033[1;37;40mrewrite wcsript of module {module_name}\033[0m")
+        print(info(f"rewrite wcsript of module {module_name}"))
         # 先读取这个文件的内容
         waf_script = (wscript_path.read_text())
         # 添加编译信息，获取新的scrpte字符串
@@ -135,7 +151,7 @@ def waf_reconf():
     waf_path = ns3_path / 'waf'
     os.chdir(ns3_path.resolve())
     # 执行指令
-    print(f'\n{waf_path} -d debug --enable-tests configure\n')
+    print(info(f'\n{waf_path} -d debug --enable-tests configure\n'))
     os.system(f'{waf_path} -d debug --enable-tests configure')
 
 
@@ -145,7 +161,7 @@ def waf_rebuild():
     waf_path = ns3_path / 'waf'
     os.chdir(ns3_path.resolve())
     # 执行指令
-    print(f'\n\n{waf_path} build\n\n')
+    print(info(f'\n\n{waf_path} build\n\n'))
     os.system(f'{waf_path} build')
 
 
@@ -168,7 +184,7 @@ def install():
         waf_reconf()
     if not args.norebuild:
         waf_rebuild()
-    print('Addon files install finished.')
+    print("\033[1;36;49mAddon files install finished.\033[0m\n")
 
 
 if __name__ == '__main__':
