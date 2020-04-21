@@ -4,14 +4,31 @@ import argparse
 import time
 import json
 import numpy as np
+from pathlib import Path
 from pprint import pprint
 import random
 import re
+import sys
 from typing import List
 from pyns3 import ns3env
 from torch.utils.tensorboard import SummaryWriter
-from RLAgent import DDPG
 from utils import create_adjacencymatrix_from_map, create_tms, save_tms, get_reachablematrix
+
+# 确保跨文件夹的搜索成功
+cwd = Path.cwd()
+print(f'cwd: {cwd}')
+# ！注意：rlagent_path 应当是RLAgent module 的父文件夹，如'/RL4Net'
+rlagent_path = None
+for parent in cwd.parents:
+    if 'RLAgent' in (p.name for p in parent.iterdir()):
+        rlagent_path = str(parent)
+        break   # break to reduce searching
+    
+if rlagent_path is not None and rlagent_path not in sys.path:
+    print(f'rlagent path is {rlagent_path} and is not in sys.path')
+    sys.path.append(rlagent_path)
+    
+from RLAgent import DDPG
 
 parser = argparse.ArgumentParser(description='Start simulation script on/off')
 parser.add_argument('--start',
