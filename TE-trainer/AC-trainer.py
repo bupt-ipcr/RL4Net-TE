@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import time
 import argparse
-import random
-import numpy as np
+import time
 import json
+import numpy as np
 from pprint import pprint
+import random
 import re
 from typing import List
-from RLAgent import DDPG
 from pyns3 import ns3env
 from torch.utils.tensorboard import SummaryWriter
+from RLAgent import DDPG
 from utils import create_adjacencymatrix_from_map, create_tms, save_tms, get_reachablematrix
 
 parser = argparse.ArgumentParser(description='Start simulation script on/off')
