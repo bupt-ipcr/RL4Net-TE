@@ -19,10 +19,13 @@ cwd = Path.cwd()
 print(f'cwd: {cwd}')
 # ！注意：rlagent_path 应当是RLAgent module 的父文件夹，如'/RL4Net'
 rlagent_path = None
-for parent in cwd.parents:
-    if 'RLAgent' in (p.name for p in parent.iterdir()):
-        rlagent_path = str(parent)
-        break   # break to reduce searching
+if 'RLAgent' in (p.name for p in cwd.iterdir()):
+    rlagent_path = str(cwd)
+else:
+    for parent in cwd.parents:
+        if 'RLAgent' in (p.name for p in parent.iterdir()):
+            rlagent_path = str(parent)
+            break   # break to reduce searching
     
 if rlagent_path is not None and rlagent_path not in sys.path:
     print(f'rlagent path is {rlagent_path} and is not in sys.path')
