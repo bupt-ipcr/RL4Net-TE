@@ -97,15 +97,10 @@ Here we have requirements for python:
 
   which `NAME` means your environment name and valid `VERSION` for this project is `3.6` and `3.7`.  
 
-- (Optional) install pytorch with conda
-  Conda provides costumized pytorch version and is claimed to be faster.  
-  You can install pytorch by conda if prefer:  
-
-  ```bash
-  conda install pytorch
-  ```
-
-  The recommended version is 1.4.0.
+- (Required) Install pytorch and cuda using appropriate instructions  
+  You can checkout the install command in https://pytorch.org/  
+  It will help you manage pytorch and cuda.  
+  The recommended pytorch version is 1.4.0.
 
 ### 2.4 Install ns3  
 
