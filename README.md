@@ -4,17 +4,17 @@
  * @edit time: 2020-04-20 21:16
  * @FilePath: /README.md
  -->
-# RL4Net Simulator - A simulator for research of Reinforcement Learning based Networking algorithm
+# RL4Net: A Packet-Level Network Simulator for Reinforcement Learning Based Cognitive Routing
 
 ## 1. Introduction
 
 ### 1.1 Motivation
 
-Implementing a reinforcement learning environment and algorithms for networking from scratch is a difficult task. Inspired by the work of [ns3-gym](https://github.com/tkn-tub/ns3-gym), we developed RL4Net (<b>R</b>einforcement <b>L</b>earning for <b>Net</b>working) to facilitate the research and simulator of reinforcement learning for networking. 
+The RL4Net simulator is developed based on the OpenAI Gym and ns-3, which specializes in facilitating the training of reinforcement learning based algorithms for cognitive routing problems.
 
 ### 1.2 Architecture
 
-Below figure shows the architecture of RL4Net:
+The general architecture of the RL4Net is illustrated below:
 
 <p align="center">
 <img src="doc/RL4Net_architecture.png" alt="drawing" width="600"/>
